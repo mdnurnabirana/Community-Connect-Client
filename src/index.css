@@ -1,7 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
-@plugin "daisyui";
+
+@theme {
+  --color-primary:   #0D9488;
+  --color-secondary: #F43F5E;
+  --color-accent:    #FBBF24;
+  --color-base-100:  #F8FAFC;
+  --color-base-200:  #E2E8F0;
+  --color-base-300:  #CBD5E1;
+  --color-neutral:   #1E293B;
+  --color-success:   #10B981;
+  --color-error:     #EF4444;
+}
 
 * {
   font-family: "Montserrat", sans-serif;
+}
+
+body {
+  background: url("./assets/texture1.png") repeat;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("./assets/texture1.png") repeat;
+  background-attachment: fixed;
+  pointer-events: none;
+  z-index: -1;
 }

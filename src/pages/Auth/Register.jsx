@@ -3,15 +3,21 @@ import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { FiCamera, FiEye, FiEyeOff, FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { TbFidgetSpinner } from "react-icons/tb";
+import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { imageUploadCloudinary } from "../../utils";
+import axios from "axios";
 
 const Register = () => {
-  const { createUser, updateUserProfile, loading, logOut } =
-    useAuth();
+  const {
+    createUser,
+    updateUserProfile,
+    setUser,
+    loading,
+    signInWithGoogle,
+  } = useAuth();
   const navigate = useNavigate();
+  const [photoFile, setPhotoFile] = useState(null);
 
   const [photoPreview, setPhotoPreview] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +31,7 @@ const Register = () => {
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
+    setPhotoFile(file);
     if (!file) return;
 
     if (file.size > 3 * 1024 * 1024) {
@@ -32,7 +39,7 @@ const Register = () => {
       return;
     }
 
-    setValue("photo", file); 
+    setValue("photo", file);
     const reader = new FileReader();
     reader.onloadend = () => setPhotoPreview(reader.result);
     reader.readAsDataURL(file);
@@ -44,33 +51,66 @@ const Register = () => {
     setValue("photo", null);
   };
 
+  const saveUserToBackend = async (userObj) => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/user`, userObj);
+    } catch (err) {
+      toast.error("Failed to save user");
+      throw err;
+    }
+  };
+
   const onSubmit = async (data) => {
     const { name, email, password } = data;
 
     try {
-      const photo = data?.photo?.[0];
-      let imageURL = "https://avatar.iran.liara.run/public/11"; 
-
-      if (photo) {
-        imageURL = await imageUploadCloudinary(photo);
-      }
+      let imageURL = "https://avatar.iran.liara.run/public/11";
+      if (photoFile) imageURL = await imageUploadCloudinary(photoFile);
 
       await createUser(email, password);
-      await updateUserProfile(name, imageURL || null);
-      await logOut();
-      toast.success("Signup Successful. Please log in.");
-      navigate("/login");
+      await updateUserProfile(name, imageURL);
+
+      const unifiedUser = {
+        name,
+        email,
+        image: imageURL,
+      };
+
+      await saveUserToBackend(unifiedUser);
+
+      setUser(unifiedUser);
+
+      toast.success("Signup successful!");
+      navigate("/");
     } catch (err) {
-      console.error(err);
-      toast.error("Image upload failed. Please check file type & size.");
+      toast.error(err.message || "Signup failed");
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithGoogle();
+
+      const unifiedUser = {
+        name: result.user.displayName,
+        email: result.user.email,
+        image:
+          result.user.photoURL || "https://avatar.iran.liara.run/public/11",
+      };
+
+      await saveUserToBackend(unifiedUser);
+      setUser(unifiedUser);
+
+      toast.success("Signed in with Google!");
+      navigate("/");
+    } catch (err) {
+      toast.error(err.message || "Google sign-in failed");
+    }
+  };
   return (
     <section className="min-h-screen py-8">
       <div className="max-w-xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl border border-base-200 p-8">
-          {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-primary">Join ClubSphere</h1>
             <p className="text-neutral mt-2">
@@ -79,6 +119,7 @@ const Register = () => {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Profile Photo */}
             <div className="flex justify-center">
               <div className="relative group">
                 {photoPreview ? (
@@ -186,15 +227,25 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md flex justify-center items-center"
+              className="w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md"
             >
-              {loading ? (
-                <TbFidgetSpinner className="animate-spin" />
-              ) : (
-                "Create Account"
-              )}
+              {loading ? "Processing..." : "Create Account"}
             </button>
           </form>
+
+          <div className="flex items-center my-6">
+            <div className="flex-1 h-px bg-base-300"></div>
+            <span className="px-4 text-sm text-neutral">OR</span>
+            <div className="flex-1 h-px bg-base-300"></div>
+          </div>
+
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full flex items-center justify-center gap-3 border border-base-300 hover:border-primary text-neutral font-medium py-3 mt-4 rounded-lg transition-all"
+          >
+            <FcGoogle className="text-2xl" />
+            Continue with Google
+          </button>
 
           <p className="text-center mt-6 text-neutral">
             Already have an account?{" "}

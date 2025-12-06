@@ -22,20 +22,16 @@ const Register = () => {
   };
 
   return (
-    <section className="min-h-screen bg-base-100 py-8">
+    <section className="min-h-screen py-8">
       <Container>
         <div className="max-w-lg mx-auto">
           <div className="bg-white rounded-2xl shadow-xl border border-base-200 p-8">
-
-            {/* Header */}
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-primary">Join ClubSphere</h1>
               <p className="text-neutral mt-2">Create your account and discover local clubs</p>
             </div>
 
             <form className="space-y-6">
-
-              {/* Photo Upload - Click Circle Only */}
               <div className="flex justify-center">
                 <label htmlFor="photo" className="cursor-pointer">
                   <input
@@ -79,7 +75,6 @@ const Register = () => {
                 JPG, PNG • Max 5MB
               </p>
 
-              {/* Full Name */}
               <div>
                 <label className="block text-sm font-medium text-neutral mb-1">Full Name</label>
                 <input
@@ -90,7 +85,6 @@ const Register = () => {
                 />
               </div>
 
-              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-neutral mb-1">Email Address</label>
                 <input
@@ -101,7 +95,6 @@ const Register = () => {
                 />
               </div>
 
-              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-neutral mb-1">Password</label>
                 <input
@@ -112,7 +105,6 @@ const Register = () => {
                 />
               </div>
 
-              {/* Confirm Password */}
               <div>
                 <label className="block text-sm font-medium text-neutral mb-1">Confirm Password</label>
                 <input
@@ -123,7 +115,6 @@ const Register = () => {
                 />
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 className="w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md"
@@ -131,21 +122,17 @@ const Register = () => {
                 Create Account
               </button>
             </form>
-
-            {/* Divider */}
             <div className="flex items-center my-6">
               <div className="flex-1 h-px bg-base-300"></div>
               <span className="px-4 text-sm text-neutral">OR</span>
               <div className="flex-1 h-px bg-base-300"></div>
             </div>
 
-            {/* Google */}
             <button className="w-full flex items-center justify-center gap-3 border border-base-300 hover:border-primary text-neutral font-medium py-3 rounded-lg transition-all">
               <FcGoogle className="text-2xl" />
               Continue with Google
             </button>
 
-            {/* Login Link */}
             <p className="text-center mt-6 text-neutral">
               Already have an account?{' '}
               <Link to="/login" className="text-primary font-semibold hover:underline">

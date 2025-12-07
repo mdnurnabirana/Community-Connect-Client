@@ -10,7 +10,8 @@ const userNav = [
 
 const managerNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
-  { name: "Create Club", path: "/dashboard/create-club", icon: <FaHome />}
+  { name: "Create Club", path: "/dashboard/create-club", icon: <FaHome />},
+  { name: "Manage Club", path: "/dashboard/manage-club", icon: <FaHome />}
 ];
 
 const adminNav = [

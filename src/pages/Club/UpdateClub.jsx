@@ -3,7 +3,7 @@ import React from 'react';
 const UpdateClub = () => {
     return (
         <div>
-            Update Club
+            update
         </div>
     );
 };

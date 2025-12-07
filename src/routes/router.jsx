@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import ManageUser from "../pages/ManageUser/ManageUser";
 import CreateClub from "../pages/Club/CreateClub";
+import ManageClub from "../pages/Club/ManageClub";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <CreateClub />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manage-club",
+        element: (
+          <PrivateRoute>
+            <ManageClub />
           </PrivateRoute>
         ),
       },

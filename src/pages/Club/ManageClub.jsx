@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../../shared/Loading";
 import toast from "react-hot-toast";
+import { Link } from "react-router";
 
 const ManageClub = () => {
   const axiosSecure = useAxiosSecure();
@@ -56,15 +57,14 @@ const ManageClub = () => {
     </div>
   );
 
-  // Actions column (Edit & Delete)
   const actionBodyTemplate = (row) => (
     <div className="flex gap-3">
-      <button
+      <Link
+        to={`/dashboard/manage-club/${row._id}`}
         className="text-blue-500 hover:text-blue-700"
-        onClick={() => toast("Edit functionality not implemented yet")}
       >
         <FiEdit size={18} />
-      </button>
+      </Link>
 
       <button
         className="text-red-500 hover:text-red-700"
@@ -137,7 +137,9 @@ const ManageClub = () => {
           sortable
           headerClassName="text-neutral font-bold px-5 py-4"
           bodyClassName="px-5 py-4 text-sm"
-          body={(row) => (row.membershipFee === 0 ? "Free" : `$${row.membershipFee}`)}
+          body={(row) =>
+            row.membershipFee === 0 ? "Free" : `$${row.membershipFee}`
+          }
         />
         <Column
           header="Created At"

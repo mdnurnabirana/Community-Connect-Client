@@ -10,13 +10,8 @@ import axios from "axios";
 import Loading from "../../shared/Loading";
 
 const Register = () => {
-  const {
-    createUser,
-    updateUserProfile,
-    setUser,
-    loading,
-    signInWithGoogle,
-  } = useAuth();
+  const { createUser, updateUserProfile, setUser, loading, signInWithGoogle } =
+    useAuth();
   const navigate = useNavigate();
   const [photoFile, setPhotoFile] = useState(null);
 
@@ -37,6 +32,10 @@ const Register = () => {
 
     if (file.size > 3 * 1024 * 1024) {
       toast.error("Image must be less than 3MB");
+      setPhotoFile(null);
+      setPhotoPreview(null);
+      setValue("photo", null);
+
       return;
     }
 
@@ -68,18 +67,18 @@ const Register = () => {
       let imageURL = "https://avatar.iran.liara.run/public/11";
       if (photoFile) imageURL = await imageUploadCloudinary(photoFile);
 
-      await createUser(email, password);
+      const result = await createUser(email, password);
       await updateUserProfile(name, imageURL);
 
-      const unifiedUser = {
+      const userData = {
         name,
         email,
         image: imageURL,
       };
 
-      await saveUserToBackend(unifiedUser);
+      await saveUserToBackend(userData);
 
-      setUser(unifiedUser);
+      setUser(result.user);
 
       toast.success("Signup successful!");
       navigate("/");
@@ -92,15 +91,15 @@ const Register = () => {
     try {
       const result = await signInWithGoogle();
 
-      const unifiedUser = {
+      const userData = {
         name: result.user.displayName,
         email: result.user.email,
         image:
           result.user.photoURL || "https://avatar.iran.liara.run/public/11",
       };
 
-      await saveUserToBackend(unifiedUser);
-      setUser(unifiedUser);
+      await saveUserToBackend(userData);
+      setUser(result.user);
 
       toast.success("Signed in with Google!");
       navigate("/");
@@ -230,7 +229,11 @@ const Register = () => {
               type="submit"
               className="flex justify-center items-center w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md"
             >
-              {loading ? <Loading height={32} width={32} color="#F43F5E"/> : "Create Account"}
+              {loading ? (
+                <Loading height={32} width={32} color="#F43F5E" />
+              ) : (
+                "Create Account"
+              )}
             </button>
           </form>
 

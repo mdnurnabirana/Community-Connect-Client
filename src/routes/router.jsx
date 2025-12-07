@@ -4,6 +4,8 @@ import Home from "../pages/Home";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import DashboardLayout from "../layouts/DashboardLayout";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +28,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
     children: [
       {
         index: true,
@@ -34,7 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "abcd",
-        element: <h1>System Two</h1>,
+        element: <AdminRoute><h1>System Two</h1></AdminRoute>,
       },
     ],
   },

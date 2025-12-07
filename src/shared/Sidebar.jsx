@@ -1,40 +1,64 @@
-import { NavLink } from "react-router";
-import { FaHome, FaUserCog, FaChartBar } from "react-icons/fa";
+import { Link, NavLink } from "react-router";
+import { FaHome, FaUserCog } from "react-icons/fa";
+import useRole from "../hooks/useRole";
+import Loading from "./Loading";
 
-const menuItems = [
+const userNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
-  { name: "Analytics", path: "/dashboard/analytics", icon: <FaChartBar /> },
-  { name: "Settings", path: "/dashboard/settings", icon: <FaUserCog /> },
+  { name: "My Clubs", path: "/", icon: <FaHome /> },
+];
+
+const managerNav = [
+  { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
+];
+
+const adminNav = [
+  { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
+  { name: "Manage User", path: "/manage-user", icon: <FaUserCog /> },
 ];
 
 const Sidebar = ({ isOpen }) => {
+  const [role, isRoleLoading] = useRole();
+
+  const navItems =
+    role === "admin"
+      ? adminNav
+      : role === "manager"
+      ? managerNav
+      : userNav;
+
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen text-white bg-neutral
-      transition-all duration-300
-      ${isOpen ? "w-64" : "w-20"}`}
+      className={`
+        fixed top-0 left-0 h-screen text-white bg-neutral
+        transition-all duration-300
+        ${isOpen ? "w-64" : "w-20"}
+      `}
     >
-      {/* Logo */}
       <div className="h-16 flex items-center justify-center font-bold text-lg border-b border-base-300">
-        {isOpen ? "My Dashboard" : "MD"}
+        <Link to="/">{isOpen ? "My Dashboard" : "MD"}</Link>
       </div>
 
       <ul className="mt-4 space-y-1">
-        {menuItems.map((item, index) => (
-          <li key={index}>
-            <NavLink
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center gap-4 px-4 py-3 rounded-lg transition
-                hover:bg-base-300/10
-                ${isActive ? "bg-primary text-white" : ""}`
-              }
-            >
-              <span className="text-xl">{item.icon}</span>
-              {isOpen && <span>{item.name}</span>}
-            </NavLink>
-          </li>
-        ))}
+        {isRoleLoading ? (
+          <Loading />
+        ) : (
+          navItems.map((item, index) => (
+            <li key={index}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-4 px-4 py-3 rounded-lg transition
+                  hover:bg-base-300/10
+                  ${isActive ? "bg-primary text-white" : ""}`
+                }
+              >
+                <span className="text-xl">{item.icon}</span>
+                {isOpen && <span>{item.name}</span>}
+              </NavLink>
+            </li>
+          ))
+        )}
       </ul>
     </aside>
   );

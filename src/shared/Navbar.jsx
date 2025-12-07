@@ -75,9 +75,8 @@ const Navbar = () => {
 
             {!loading && user && (
               <div className="relative">
-                {console.log(user)}
                 <img
-                  src={user.image}
+                  src={user.photoURL}
                   alt="User"
                   className="w-10 h-10 rounded-full border-2 border-primary cursor-pointer object-cover"
                   onClick={() => setProfileOpen(!profileOpen)}
@@ -86,7 +85,7 @@ const Navbar = () => {
                 {profileOpen && (
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg p-3 flex flex-col gap-2 z-50">
                     <div className="border-b border-base-300 pb-2">
-                      <p className="font-semibold">{user.name}</p>
+                      <p className="font-semibold">{user.displayName}</p>
                       <p className="text-sm text-neutral">{user.email}</p>
                     </div>
 

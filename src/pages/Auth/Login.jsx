@@ -7,6 +7,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import Loading from "../../shared/Loading";
+import axios from "axios";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +19,15 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const saveUserToBackend = async (userObj) => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/user`, userObj);
+    } catch (err) {
+      toast.error("Failed to save user");
+      throw err;
+    }
+  };
 
   const onSubmit = async (data) => {
     const { email, password } = data;
@@ -44,16 +54,17 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithGoogle();
-      const firebaseUser = result.user;
 
-      const unifiedUser = {
-        name: firebaseUser.displayName || "User",
-        email: firebaseUser.email,
+      const userData = {
+        name: result.user.displayName,
+        email: result.user.email,
         image:
-          firebaseUser.photoURL || "https://avatar.iran.liara.run/public/11",
+          result.user.photoURL || "https://avatar.iran.liara.run/public/11",
       };
 
-      setUser(unifiedUser);
+      await saveUserToBackend(userData);
+      setUser(result.user);
+
       toast.success("Signed in with Google!");
       navigate("/");
     } catch (err) {
@@ -122,7 +133,11 @@ const Login = () => {
                 disabled={loading}
                 className="flex justify-center items-center w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md disabled:opacity-70"
               >
-                {loading ? <Loading height={32} width={32} color="#F43F5E"/> : "Log In"}
+                {loading ? (
+                  <Loading height={32} width={32} color="#F43F5E" />
+                ) : (
+                  "Log In"
+                )}
               </button>
             </form>
 

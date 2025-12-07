@@ -14,7 +14,7 @@ const managerNav = [
 
 const adminNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
-  { name: "Manage User", path: "/manage-user", icon: <FaUserCog /> },
+  { name: "Manage User", path: "/dashboard/manage-user", icon: <FaUserCog /> },
 ];
 
 const Sidebar = ({ isOpen }) => {
@@ -50,7 +50,7 @@ const Sidebar = ({ isOpen }) => {
                 className={({ isActive }) =>
                   `flex items-center gap-4 px-4 py-3 rounded-lg transition
                   hover:bg-base-300/10
-                  ${isActive ? "bg-primary text-white" : ""}`
+                  ${isActive ? "text-white" : ""}`
                 }
               >
                 <span className="text-xl">{item.icon}</span>

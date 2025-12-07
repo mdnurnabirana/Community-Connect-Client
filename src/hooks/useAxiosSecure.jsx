@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 });
 
 const useAxiosSecure = () => {
-  const { user, logOut, loading } = useAuth();
+  const { user, setUser, logOut, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const useAxiosSecure = () => {
           if (err?.response?.status === 401 || err?.response?.status === 403) {
             logOut()
               .then(() => {
+                setUser(null);
                 toast.success("Logged out successfully.");
               })
               .catch(console.error);
@@ -41,7 +42,7 @@ const useAxiosSecure = () => {
         axiosInstance.interceptors.response.eject(responseInterceptor);
       };
     }
-  }, [user, loading, logOut, navigate]);
+  }, [user, setUser, loading, logOut, navigate]);
 
   return axiosInstance;
 };

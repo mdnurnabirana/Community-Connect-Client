@@ -17,7 +17,7 @@ const navMenus = [
 const Navbar = () => {
   const { user, loading, logOut } = useAuth();
   const [profileOpen, setProfileOpen] = useState(false);
-
+  // console.log("From nav",user);
   const handleLogout = () => {
     logOut()
       .then(() => {
@@ -76,8 +76,9 @@ const Navbar = () => {
             {!loading && user && (
               <div className="relative">
                 <img
-                  src={user.photoURL}
-                  alt="User"
+                  src={user?.photoURL}
+                  alt={user?.displayName}
+                  referrerPolicy="no-referrer"
                   className="w-10 h-10 rounded-full border-2 border-primary cursor-pointer object-cover"
                   onClick={() => setProfileOpen(!profileOpen)}
                 />

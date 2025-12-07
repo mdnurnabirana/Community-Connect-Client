@@ -6,6 +6,7 @@ import Register from "../pages/Auth/Register";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import ManageUser from "../pages/ManageUser/ManageUser";
 
 export const router = createBrowserRouter([
   {
@@ -35,8 +36,8 @@ export const router = createBrowserRouter([
         element: <h1>System One</h1>,
       },
       {
-        path: "abcd",
-        element: <AdminRoute><h1>System Two</h1></AdminRoute>,
+        path: "manage-user",
+        element: <AdminRoute><ManageUser /></AdminRoute>,
       },
     ],
   },

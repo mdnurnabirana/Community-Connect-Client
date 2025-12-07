@@ -55,6 +55,9 @@ const Register = () => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/user`, userObj);
     } catch (err) {
+      if (err.response?.status === 409) {
+        return;
+      }
       toast.error("Failed to save user");
       throw err;
     }

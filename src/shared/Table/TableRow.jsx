@@ -1,27 +1,25 @@
-const TableRow = ({ row, columns, onRowAction }) => {
+const TableRow = ({ row, columns, onRowAction, isSelected, toggleSelectRow }) => {
   return (
-    <tr>
-      {/* Checkbox */}
+    <tr className={isSelected ? "bg-gray-100" : ""}>
       <th>
-        <label>
-          <input type="checkbox" className="checkbox" />
-        </label>
+        <input
+          type="checkbox"
+          className="checkbox"
+          checked={isSelected}
+          onChange={() => toggleSelectRow(row.id)}
+        />
       </th>
-
-      {/* Dynamic cells */}
       {columns.map((col, index) => (
         <td key={index}>
           {col.render ? col.render(row) : row[col.key]}
         </td>
       ))}
-
-      {/* Action button */}
       <th>
         <button
-          className="btn btn-ghost btn-xs"
+          className="btn btn-sm btn-ghost"
           onClick={() => onRowAction?.(row)}
         >
-          details
+          Details
         </button>
       </th>
     </tr>

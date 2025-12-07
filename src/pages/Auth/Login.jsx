@@ -24,8 +24,10 @@ const Login = () => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/user`, userObj);
     } catch (err) {
+      if (err.response?.status === 409) {
+        return;
+      }
       toast.error("Failed to save user");
-      throw err;
     }
   };
 
@@ -33,17 +35,7 @@ const Login = () => {
     const { email, password } = data;
     try {
       const result = await signIn(email, password);
-
-      const firebaseUser = result.user;
-
-      const unifiedUser = {
-        name: firebaseUser.displayName || "User",
-        email: firebaseUser.email,
-        image:
-          firebaseUser.photoURL || "https://avatar.iran.liara.run/public/11",
-      };
-
-      setUser(unifiedUser);
+      setUser(result.user);
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (err) {
@@ -54,18 +46,17 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithGoogle();
-
       const userData = {
         name: result.user.displayName,
-        email: result.user.email,
+        email: result.user?.email,
         image:
-          result.user.photoURL || "https://avatar.iran.liara.run/public/11",
+          result.user?.photoURL || "https://avatar.iran.liara.run/public/11",
       };
 
       await saveUserToBackend(userData);
       setUser(result.user);
 
-      toast.success("Signed in with Google!");
+      toast.success("Logged in Successfully!");
       navigate("/");
     } catch (err) {
       toast.error(err.message || "Google sign-in failed");

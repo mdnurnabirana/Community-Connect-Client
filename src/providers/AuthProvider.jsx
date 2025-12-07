@@ -70,10 +70,27 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+  //     setUser(currentUser);
+  //     setLoading(false);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
   useEffect(() => {
-    setLoading(true);
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        setUser({
+          name: currentUser.displayName,
+          email: currentUser.email,
+          image: currentUser.photoURL,
+        });
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
 
@@ -92,7 +109,9 @@ const AuthProvider = ({ children }) => {
     updateUserProfile,
   };
 
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

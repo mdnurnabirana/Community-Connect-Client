@@ -15,17 +15,17 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
     ],
   },
   {
-    path: "/",
+    path: "/dashboard",
     element: <DashboardLayout />,
     children: [
       {
@@ -33,9 +33,9 @@ export const router = createBrowserRouter([
         element: <h1>System One</h1>,
       },
       {
-        path: "/option",
-        element: <h1>System two</h1>,
+        path: "abcd",
+        element: <h1>System Two</h1>,
       },
-    ]
+    ],
   },
 ]);

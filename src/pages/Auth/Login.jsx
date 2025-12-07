@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
+import Loading from "../../shared/Loading";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -119,9 +120,9 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md disabled:opacity-70"
+                className="flex justify-center items-center w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md disabled:opacity-70"
               >
-                {loading ? "Logging in..." : "Log In"}
+                {loading ? <Loading height={32} width={32} color="#F43F5E"/> : "Log In"}
               </button>
             </form>
 

@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { imageUploadCloudinary } from "../../utils";
 import axios from "axios";
+import Loading from "../../shared/Loading";
 
 const Register = () => {
   const {
@@ -227,9 +228,9 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md"
+              className="flex justify-center items-center w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md"
             >
-              {loading ? "Processing..." : "Create Account"}
+              {loading ? <Loading height={32} width={32} color="#F43F5E"/> : "Create Account"}
             </button>
           </form>
 

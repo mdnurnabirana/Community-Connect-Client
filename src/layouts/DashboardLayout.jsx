@@ -17,7 +17,7 @@ const DashboardLayout = () => {
         <Topbar setIsSidebarOpen={setIsSidebarOpen} />
 
         <main className="p-6">
-          <div className="min-h-[calc(100vh-64px)] bg-base-100/80 rounded-xl p-6">
+          <div className="min-h-[calc(100vh-64px) rounded-xl p-6">
             <Outlet />
           </div>
         </main>

@@ -5,11 +5,12 @@ import Loading from "./Loading";
 
 const userNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
-  { name: "My Clubs", path: "/", icon: <FaHome /> },
+  { name: "My Club", path: "/dashboard/my-club", icon: <FaHome /> },
 ];
 
 const managerNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
+  { name: "Create Club", path: "/dashboard/create-club", icon: <FaHome />}
 ];
 
 const adminNav = [
@@ -39,7 +40,7 @@ const Sidebar = ({ isOpen }) => {
         <Link to="/">{isOpen ? "My Dashboard" : "MD"}</Link>
       </div>
 
-      <ul className="mt-4 space-y-1">
+      <ul className="mt-4 space-y-2">
         {isRoleLoading ? (
           <Loading />
         ) : (

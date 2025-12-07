@@ -7,6 +7,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import ManageUser from "../pages/ManageUser/ManageUser";
+import CreateClub from "../pages/Club/CreateClub";
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +30,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
@@ -37,7 +42,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "manage-user",
-        element: <AdminRoute><ManageUser /></AdminRoute>,
+        element: (
+          <AdminRoute>
+            <ManageUser />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "create-club",
+        element: (
+          <PrivateRoute>
+            <CreateClub />
+          </PrivateRoute>
+        ),
       },
     ],
   },

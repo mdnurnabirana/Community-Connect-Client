@@ -1,9 +1,9 @@
-import React from 'react';
-
 const Home = () => {
     return (
         <>
-            Home Page Elements
+            <div className='min-h-screen'>
+                Hello Hunny Bunny
+            </div>
         </>
     );
 };

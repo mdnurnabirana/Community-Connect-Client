@@ -1,21 +1,32 @@
 import { useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../../shared/Loading";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const ManageUser = () => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
   const dt = useRef(null);
   const [globalFilter, setGlobalFilter] = useState("");
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["users"],
-    queryFn: async () => {
-      const result = await axiosSecure.get("/users"); 
-      return result.data;
+    queryFn: async () => (await axiosSecure.get("/users")).data,
+  });
+
+  const roleMutation = useMutation({
+    mutationFn: ({ id, role }) =>
+      axiosSecure.patch(`/users/${id}/role`, { role }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users"]);
+      toast.success("Role updated successfully!");
     },
   });
 
@@ -27,73 +38,92 @@ const ManageUser = () => {
     );
   }
 
-  const createdAtBodyTemplate = (row) => (
-    <span className="text-neutral">{new Date(row.createdAt).toLocaleString()}</span>
-  );
-
-  const actionBodyTemplate = (row) => (
-    <button
-      className="bg-primary hover:bg-primary/80 text-white px-3 py-1 rounded text-sm"
-      onClick={() => console.log("User details:", row)}
-    >
-      Details
-    </button>
-  );
-
-  const roleBodyTemplate = (row) => {
-    const roleColors = {
-      admin: "bg-primary",
-      user: "bg-secondary",
-      manager: "bg-accent",
-    };
-    const colorClass = roleColors[row.role?.toLowerCase()] || "bg-base-300";
-    return (
-      <span className={`${colorClass} text-neutral px-2 py-1 rounded text-sm`}>
-        {row.role}
-      </span>
-    );
-  };
-
   const header = (
-    <div className="flex justify-between items-center mb-2">
-      <h2 className="text-2xl font-bold text-neutral">Manage Users</h2>
-      <span className="p-input-icon-left">
-        <i className="pi pi-search text-neutral" />
-        <InputText
-          type="search"
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Search users..."
-          className="p-2 rounded border border-base-300 bg-base-100 text-neutral"
-        />
-      </span>
+    <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
+      <h2 className="text-2xl font-extrabold text-neutral tracking-tight">
+        Manage Users
+      </h2>
+
+      <InputText
+        placeholder="Search users..."
+        value={globalFilter}
+        onChange={(e) => setGlobalFilter(e.target.value)}
+        className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary transition"
+      />
     </div>
   );
 
+  const roleEditor = (row) => {
+    const isSelf = row.email === user?.email;
+
+    return (
+      <select
+        defaultValue={row.role}
+        disabled={isSelf && row.role === "admin"}
+        className="w-full max-w-[140px] px-3 py-2 rounded-lg bg-base-100 border border-base-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary transition"
+        onChange={(e) =>
+          roleMutation.mutate({ id: row._id, role: e.target.value })
+        }
+      >
+        <option value="member">Member</option>
+        <option value="manager" disabled={isSelf}>
+          Manager
+        </option>
+        <option value="admin">Admin</option>
+      </select>
+    );
+  };
+
+  const dateTemplate = (row) => (
+    <span className="text-sm font-medium text-neutral whitespace-nowrap">
+      {new Date(row.createdAt).toLocaleString()}
+    </span>
+  );
+
   return (
-    <div className="p-4 bg-base-100 rounded-lg shadow-xl">
+    <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
       <DataTable
         ref={dt}
         value={users}
-        dataKey="id"
+        dataKey="_id"
         paginator
         rows={10}
-        rowsPerPageOptions={[5, 10, 25]}
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
         globalFilter={globalFilter}
         header={header}
-        responsiveLayout="scroll"
         className="text-neutral"
-        rowClassName={(rowData) =>
-          rowData.role?.toLowerCase() === "admin" ? "bg-base-200" : "bg-base-300"
+        rowClassName={(_, i) =>
+          i % 2 === 0 ? "bg-base-100" : "bg-base-200"
         }
+        stripedRows
+        showGridlines
       >
-        <Column field="name" header="Name" sortable className="px-4 py-2"></Column>
-        <Column field="email" header="Email" sortable className="px-4 py-2"></Column>
-        <Column field="role" header="Role" body={roleBodyTemplate} sortable className="px-4 py-2"></Column>
-        <Column field="createdAt" header="Created At" body={createdAtBodyTemplate} sortable className="px-4 py-2"></Column>
-        <Column body={actionBodyTemplate} header="Actions" className="px-4 py-2"></Column>
+        <Column
+          field="name"
+          header="Name"
+          sortable
+          headerClassName="text-neutral font-bold px-5 py-4"
+          bodyClassName="px-5 py-4 font-medium"
+        />
+        <Column
+          field="email"
+          header="Email"
+          sortable
+          headerClassName="text-neutral font-bold px-5 py-4"
+          bodyClassName="px-5 py-4 text-sm break-all"
+        />
+        <Column
+          header="Role"
+          body={roleEditor}
+          headerClassName="text-neutral font-bold px-5 py-4"
+          bodyClassName="px-5 py-4"
+        />
+        <Column
+          header="Created At"
+          body={dateTemplate}
+          sortable
+          headerClassName="text-neutral font-bold px-5 py-4"
+          bodyClassName="px-5 py-4 text-sm"
+        />
       </DataTable>
     </div>
   );

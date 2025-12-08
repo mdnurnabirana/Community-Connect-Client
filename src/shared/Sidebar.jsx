@@ -5,7 +5,7 @@ import Loading from "./Loading";
 
 const userNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
-  { name: "My Club", path: "/dashboard/my-club", icon: <FaHome /> },
+  { name: "Joined Club", path: "/dashboard/member/joined-club", icon: <FaHome /> },
 ];
 
 const managerNav = [

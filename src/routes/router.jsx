@@ -15,7 +15,8 @@ import UpdateClub from "../pages/Manager/Club/UpdateClub";
 import ManageClubAdmin from "../pages/Admin/Club/ManageClubAdmin";
 import Club from "../pages/Public/Club/Club";
 import ClubDetails from "../pages/Public/Club/ClubDetails";
-import PaymentSuccess from "../pages/Public/Payment/PaymentSuccess";
+import JoinedClub from "../pages/User/Club/JoinedClub";
+import PaymentSuccess from "../pages/User/Payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -45,8 +46,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "payment-success",
-        element: <PaymentSuccess />,
-      },
+        element: <PrivateRoute><PaymentSuccess /></PrivateRoute>,
+      }
     ],
   },
   {
@@ -101,6 +102,11 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      {
+        path: "member/joined-club",
+        element: <PrivateRoute><JoinedClub /></PrivateRoute>
+      }
+
     ],
   },
   {

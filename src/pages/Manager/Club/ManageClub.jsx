@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiEye, FiTrash2 } from "react-icons/fi";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
@@ -145,6 +145,12 @@ const ManageClub = () => {
                       >
                         <FiTrash2 size={18} />
                       </button>
+                      <Link
+                        to={`/dashboard/manageclubuser/${club._id}`}
+                        className="text-primary hover:text-accent"
+                      >
+                        <FiEye size={18} />
+                      </Link>
                     </div>
                   </td>
                 </tr>

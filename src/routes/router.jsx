@@ -17,6 +17,7 @@ import Club from "../pages/Public/Club/Club";
 import ClubDetails from "../pages/Public/Club/ClubDetails";
 import JoinedClub from "../pages/User/Club/JoinedClub";
 import PaymentSuccess from "../pages/User/Payment/PaymentSuccess";
+import ManageClubMember from "../pages/Manager/ClubMember/ManageClubMember";
 
 export const router = createBrowserRouter([
   {
@@ -105,8 +106,11 @@ export const router = createBrowserRouter([
       {
         path: "member/joined-club",
         element: <PrivateRoute><JoinedClub /></PrivateRoute>
+      },
+      {
+        path: "manageclubuser/:id",
+        element: <ManagerRoute><ManageClubMember /></ManagerRoute>
       }
-
     ],
   },
   {

@@ -6,9 +6,11 @@ import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useRole from "../../../hooks/useRole";
 
 const ClubDetails = () => {
   const { user } = useAuth();
+  const [role] = useRole();
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
 
@@ -27,7 +29,26 @@ const ClubDetails = () => {
 
   const handleJoinClub = async () => {
     if (!user) {
-      toast.error("Please Login First!");
+      toast.error("Please login first!");
+      return;
+    }
+
+    if (role !== "member") {
+      toast.error("Only users can join clubs");
+      return;
+    }
+
+    try {
+      const { data } = await axiosSecure.post(`/clubs/${id}/join`);
+
+      if (data.free) {
+        toast.success("Joined successfully!");
+        return;
+      }
+
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to join club");
     }
   };
 
@@ -90,9 +111,9 @@ const ClubDetails = () => {
           <div className="pt-4">
             <button
               onClick={handleJoinClub}
-              className="w-full sm:w-auto px-10 py-3 bg-primary text-white rounded-lg text-lg font-semibold shadow-md"
+              className="w-full sm:w-auto px-10 py-3 bg-primary text-white rounded-lg text-lg font-semibold shadow-md disabled:opacity-50"
             >
-              Join Club
+              {club.membershipFee === 0 ? "Join Club" : "Join & Pay"}
             </button>
           </div>
         </div>

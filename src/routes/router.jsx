@@ -15,6 +15,7 @@ import UpdateClub from "../pages/Manager/Club/UpdateClub";
 import ManageClubAdmin from "../pages/Admin/Club/ManageClubAdmin";
 import Club from "../pages/Public/Club/Club";
 import ClubDetails from "../pages/Public/Club/ClubDetails";
+import PaymentSuccess from "../pages/Public/Payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -36,12 +37,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "clubs",
-        element: <Club />
+        element: <Club />,
       },
       {
         path: "club/:id",
-        element: <ClubDetails />
-      }
+        element: <ClubDetails />,
+      },
+      {
+        path: "payment-success",
+        element: <PaymentSuccess />,
+      },
     ],
   },
   {

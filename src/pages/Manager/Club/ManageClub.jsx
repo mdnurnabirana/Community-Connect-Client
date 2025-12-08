@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Loading from "../../shared/Loading";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../shared/Loading";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
 
@@ -35,12 +35,19 @@ const ManageClub = () => {
           Approved
         </span>
       );
+    } else if (status === "rejected") {
+      return (
+        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+          Rejected
+        </span>
+      );
+    } else {
+      return (
+        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
+          Pending
+        </span>
+      );
     }
-    return (
-      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
-        Pending
-      </span>
-    );
   };
 
   if (isLoading) {

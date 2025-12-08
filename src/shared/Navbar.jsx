@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import Container from "./Container";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
@@ -41,13 +41,13 @@ const Navbar = () => {
             <ul className="flex gap-8">
               {navMenus.map((item) => (
                 <li key={item.id}>
-                  <a
-                    href={item.link}
+                  <NavLink
+                    to={item.link}
                     className="text-neutral font-medium text-md hover:text-primary transition-colors duration-200 relative group"
                   >
                     {item.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>

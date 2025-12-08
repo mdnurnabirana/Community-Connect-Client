@@ -7,16 +7,19 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import ManagerRoute from "./ManagerRoute";
 import AdminRoute from "./AdminRoute";
-import ManageUser from "../pages/ManageUser/ManageUser";
-import CreateClub from "../pages/Club/CreateClub";
-import ManageClub from "../pages/Club/ManageClub";
-import UpdateClub from "../pages/Club/UpdateClub";
-import ManageClubAdmin from "../pages/Club/ManageClubAdmin";
+import ErrorPage from "../components/ErrorPage";
+import ManageUser from "../pages/Admin/ManageUser/ManageUser";
+import CreateClub from "../pages/Manager/Club/CreateClub";
+import ManageClub from "../pages/Manager/Club/ManageClub";
+import UpdateClub from "../pages/Manager/Club/UpdateClub";
+import ManageClubAdmin from "../pages/Admin/Club/ManageClubAdmin";
+import Club from "../pages/Public/Club/Club";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -30,6 +33,10 @@ export const router = createBrowserRouter([
         path: "register",
         element: <Register />,
       },
+      {
+        path: "clubs",
+        element: <Club />
+      }
     ],
   },
   {
@@ -83,7 +90,11 @@ export const router = createBrowserRouter([
             <ManageClubAdmin />
           </AdminRoute>
         ),
-      }
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);

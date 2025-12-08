@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Loading from "../../shared/Loading";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../shared/Loading";
 import toast from "react-hot-toast";
 
 const ManageClubAdmin = () => {

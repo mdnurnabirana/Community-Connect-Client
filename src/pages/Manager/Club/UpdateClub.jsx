@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Loading from "../../shared/Loading";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../shared/Loading";
 import toast from "react-hot-toast";
 import { FiCamera, FiX } from "react-icons/fi";
-import { imageUploadCloudinary } from "../../utils";
+import { imageUploadCloudinary } from "../../../utils";
 
 const UpdateClub = () => {
   const { id } = useParams();

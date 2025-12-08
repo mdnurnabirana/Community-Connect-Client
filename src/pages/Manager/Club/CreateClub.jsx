@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { FiCamera, FiX } from "react-icons/fi";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useAuth from "../../hooks/useAuth";
-import { imageUploadCloudinary } from "../../utils";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import { imageUploadCloudinary } from "../../../utils";
 import toast from "react-hot-toast";
-import Loading from "../../shared/Loading";
+import Loading from "../../../shared/Loading";
 
 const CreateClub = () => {
   const { user } = useAuth();

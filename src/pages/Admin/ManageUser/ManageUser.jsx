@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Loading from "../../shared/Loading";
-import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../shared/Loading";
+import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const ManageUser = () => {

@@ -14,6 +14,7 @@ import ManageClub from "../pages/Manager/Club/ManageClub";
 import UpdateClub from "../pages/Manager/Club/UpdateClub";
 import ManageClubAdmin from "../pages/Admin/Club/ManageClubAdmin";
 import Club from "../pages/Public/Club/Club";
+import ClubDetails from "../pages/Public/Club/ClubDetails";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "clubs",
         element: <Club />
+      },
+      {
+        path: "club/:id",
+        element: <ClubDetails />
       }
     ],
   },

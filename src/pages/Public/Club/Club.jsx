@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "../../../shared/Loading";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Container from "../../../shared/Container";
+import { Link } from "react-router";
 
 const Club = () => {
   const axiosSecure = useAxiosSecure();
@@ -70,9 +71,9 @@ const Club = () => {
                 </div>
 
                 {/* Button */}
-                <button className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl transition-colors shadow-md">
+                <Link to={`/club/${club._id}`} className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl transition-colors shadow-md text-center">
                   View Details
-                </button>
+                </Link>
               </div>
             </div>
           ))

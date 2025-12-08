@@ -17,6 +17,7 @@ const managerNav = [
 const adminNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
   { name: "Manage User", path: "/dashboard/manage-user", icon: <FaUserCog /> },
+  { name: "Manage Club", path: "/dashboard/admin/manage-club", icon: <FaHome />}
 ];
 
 const Sidebar = ({ isOpen }) => {

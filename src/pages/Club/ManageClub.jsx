@@ -1,8 +1,5 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -13,18 +10,15 @@ import { Link } from "react-router";
 const ManageClub = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
-  const dt = useRef(null);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [search, setSearch] = useState("");
 
-  // Fetch clubs
   const { data: clubs = [], isLoading } = useQuery({
     queryKey: ["clubs"],
-    queryFn: async () => (await axiosSecure.get("/clubs")).data,
+    queryFn: async () => (await axiosSecure.get("/manager/clubs")).data,
   });
 
-  // Delete club mutation
   const deleteMutation = useMutation({
-    mutationFn: (id) => axiosSecure.delete(`/clubs/${id}`),
+    mutationFn: (id) => axiosSecure.delete(`/manager/clubs/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["clubs"]);
       toast.success("Club deleted successfully!");
@@ -34,6 +28,21 @@ const ManageClub = () => {
     },
   });
 
+  const statusBadge = (status) => {
+    if (status === "approved") {
+      return (
+        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+          Approved
+        </span>
+      );
+    }
+    return (
+      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
+        Pending
+      </span>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -42,119 +51,101 @@ const ManageClub = () => {
     );
   }
 
-  const header = (
-    <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
-      <h2 className="text-2xl font-extrabold text-neutral tracking-tight">
-        Manage Clubs
-      </h2>
-
-      <InputText
-        placeholder="Search clubs..."
-        value={globalFilter}
-        onChange={(e) => setGlobalFilter(e.target.value)}
-        className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary transition"
-      />
-    </div>
-  );
-
-  const actionBodyTemplate = (row) => (
-    <div className="flex gap-3">
-      <Link
-        to={`/dashboard/manage-club/${row._id}`}
-        className="text-blue-500 hover:text-blue-700"
-      >
-        <FiEdit size={18} />
-      </Link>
-
-      <button
-        className="text-red-500 hover:text-red-700"
-        onClick={async () => {
-          const result = await Swal.fire({
-            title: "Are you sure?",
-            text: "This action cannot be undone!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#F43F5E",
-            cancelButtonColor: "#6B7280",
-            confirmButtonText: "Yes, delete it!",
-          });
-
-          if (result.isConfirmed) {
-            deleteMutation.mutate(row._id);
-          }
-        }}
-      >
-        <FiTrash2 size={18} />
-      </button>
-    </div>
-  );
-
-  const dateTemplate = (row) => (
-    <span className="text-sm font-medium text-neutral whitespace-nowrap">
-      {new Date(row.createdAt).toLocaleString()}
-    </span>
+  const filteredClubs = clubs.filter((club) =>
+    club.clubName?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
-      <DataTable
-        ref={dt}
-        value={clubs}
-        dataKey="_id"
-        paginator
-        rows={10}
-        globalFilter={globalFilter}
-        header={header}
-        className="text-neutral"
-        rowClassName={(_, i) => (i % 2 === 0 ? "bg-base-100" : "bg-base-200")}
-        stripedRows
-        showGridlines
-      >
-        <Column
-          field="clubName"
-          header="Club Name"
-          sortable
-          headerClassName="text-neutral font-bold px-5 py-4"
-          bodyClassName="px-5 py-4 font-medium"
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
+        <h2 className="text-2xl font-extrabold text-neutral">Manage Clubs</h2>
+
+        <input
+          type="text"
+          placeholder="Search clubs..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
         />
-        <Column
-          field="category"
-          header="Category"
-          sortable
-          headerClassName="text-neutral font-bold px-5 py-4"
-          bodyClassName="px-5 py-4 text-sm"
-        />
-        <Column
-          field="location"
-          header="Location"
-          sortable
-          headerClassName="text-neutral font-bold px-5 py-4"
-          bodyClassName="px-5 py-4 text-sm"
-        />
-        <Column
-          field="membershipFee"
-          header="Fee"
-          sortable
-          headerClassName="text-neutral font-bold px-5 py-4"
-          bodyClassName="px-5 py-4 text-sm"
-          body={(row) =>
-            row.membershipFee === 0 ? "Free" : `$${row.membershipFee}`
-          }
-        />
-        <Column
-          header="Created At"
-          body={dateTemplate}
-          sortable
-          headerClassName="text-neutral font-bold px-5 py-4"
-          bodyClassName="px-5 py-4 text-sm"
-        />
-        <Column
-          header="Actions"
-          body={actionBodyTemplate}
-          headerClassName="text-neutral font-bold px-5 py-4"
-          bodyClassName="px-5 py-4"
-        />
-      </DataTable>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full border border-base-300 rounded-lg">
+          <thead className="bg-base-200">
+            <tr>
+              <th className="p-3 text-left border-b">Club Name</th>
+              <th className="p-3 text-left border-b">Category</th>
+              <th className="p-3 text-left border-b">Location</th>
+              <th className="p-3 text-left border-b">Fee</th>
+              <th className="p-3 text-left border-b">Status</th>
+              <th className="p-3 text-left border-b">Created At</th>
+              <th className="p-3 text-left border-b">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredClubs.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center p-6 text-gray-500">
+                  No clubs found
+                </td>
+              </tr>
+            ) : (
+              filteredClubs.map((club, index) => (
+                <tr
+                  key={club._id}
+                  className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                >
+                  <td className="p-3 border-b font-medium">{club.clubName}</td>
+                  <td className="p-3 border-b">{club.category}</td>
+                  <td className="p-3 border-b">{club.location}</td>
+                  <td className="p-3 border-b">
+                    {club.membershipFee === 0
+                      ? "Free"
+                      : `$${club.membershipFee}`}
+                  </td>
+                  <td className="p-3 border-b">{statusBadge(club.status)}</td>
+                  <td className="p-3 border-b text-sm">
+                    {new Date(club.createdAt).toLocaleString()}
+                  </td>
+                  <td className="p-3 border-b">
+                    <div className="flex gap-3">
+                      <Link
+                        to={`/dashboard/manage-club/${club._id}`}
+                        className="text-blue-500 hover:text-blue-700"
+                      >
+                        <FiEdit size={18} />
+                      </Link>
+
+                      <button
+                        className="text-red-500 hover:text-red-700"
+                        onClick={async () => {
+                          const result = await Swal.fire({
+                            title: "Are you sure?",
+                            text: "This action cannot be undone!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#F43F5E",
+                            cancelButtonColor: "#6B7280",
+                            confirmButtonText: "Yes, delete it!",
+                          });
+
+                          if (result.isConfirmed) {
+                            deleteMutation.mutate(club._id);
+                          }
+                        }}
+                      >
+                        <FiTrash2 size={18} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

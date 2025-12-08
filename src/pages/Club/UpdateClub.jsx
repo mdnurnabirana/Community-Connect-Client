@@ -34,7 +34,7 @@ const UpdateClub = () => {
 
   const { data: club, isLoading } = useQuery({
     queryKey: ["club", id],
-    queryFn: async () => (await axiosSecure.get(`/clubs/${id}`)).data,
+    queryFn: async () => (await axiosSecure.get(`/manager/clubs/${id}`)).data,
   });
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const UpdateClub = () => {
   }, [club, reset]);
 
   const updateMutation = useMutation({
-    mutationFn: (clubData) => axiosSecure.patch(`/clubs/${id}`, clubData),
+    mutationFn: (clubData) => axiosSecure.patch(`/manager/clubs/${id}`, clubData),
     onSuccess: () => {
       toast.success("Club updated successfully!");
       queryClient.invalidateQueries(["club", id]);

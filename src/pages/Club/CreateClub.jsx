@@ -25,7 +25,7 @@ const CreateClub = () => {
   } = useForm();
 
   const { mutateAsync } = useMutation({
-    mutationFn: (clubData) => axiosSecure.post("/clubs", clubData),
+    mutationFn: (clubData) => axiosSecure.post("/manager/clubs", clubData),
     onSuccess: () => {
       toast.success("Club created! Awaiting approval");
       reset();

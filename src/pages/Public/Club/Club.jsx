@@ -1,15 +1,14 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../../shared/Loading";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Container from "../../../shared/Container";
 import { Link } from "react-router";
+import axios from "axios";
 
 const Club = () => {
-  const axiosSecure = useAxiosSecure();
   const { data: clubs = [], isLoading } = useQuery({
     queryKey: ["approved-clubs"],
-    queryFn: async () => (await axiosSecure.get("/clubs/approved")).data,
+    queryFn: async () => (await axios.get(`${import.meta.env.VITE_API_URL}/clubs/approved`)).data,
   });
 
   if (isLoading) {

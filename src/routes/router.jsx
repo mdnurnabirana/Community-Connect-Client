@@ -21,6 +21,8 @@ import ManageClubMember from "../pages/Manager/ClubMember/ManageClubMember";
 import CreateEvent from "../pages/Manager/Event/CreateEvent";
 import ManageEvent from "../pages/Manager/Event/ManageEvent";
 import UpdateEvent from "../pages/Manager/Event/UpdateEvent";
+import Event from "../pages/Public/Event/Event";
+import EventDetail from "../pages/Public/Event/EventDetail";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +53,14 @@ export const router = createBrowserRouter([
       {
         path: "payment-success",
         element: <PrivateRoute><PaymentSuccess /></PrivateRoute>,
+      },
+      {
+        path: "events",
+        element: <Event />,
+      },
+      {
+        path: "events/:id",
+        element: <EventDetail />,
       }
     ],
   },

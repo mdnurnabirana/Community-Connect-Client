@@ -18,7 +18,6 @@ const ManageEvent = () => {
     queryFn: async () => (await axiosSecure.get("/manager/events")).data,
   });
 
-  // Delete event mutation
   const deleteMutation = useMutation({
     mutationFn: (id) => axiosSecure.delete(`/events/${id}`),
     onSuccess: () => {
@@ -36,7 +35,6 @@ const ManageEvent = () => {
     );
   }
 
-  // Filter events by search term (event title or club name)
   const filteredEvents = events.filter(
     (event) =>
       event.title?.toLowerCase().includes(search.toLowerCase()) ||
@@ -95,7 +93,7 @@ const ManageEvent = () => {
                   <td className="p-3 border-b">
                     <div className="flex gap-3">
                       <Link
-                        to={`/dashboard/manage-event/${event._id}`}
+                        to={`/dashboard/event/${event._id}`}
                         className="text-blue-500 hover:text-blue-700"
                       >
                         <FiEdit size={18} />

@@ -123,7 +123,7 @@ export const router = createBrowserRouter([
         element: <ManagerRoute><ManageEvent /></ManagerRoute>
       },
       {
-        path: "events/:id",
+        path: "event/:id",
         element: <ManagerRoute><UpdateEvent /></ManagerRoute>
       }
     ],

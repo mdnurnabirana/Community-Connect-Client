@@ -23,6 +23,7 @@ import ManageEvent from "../pages/Manager/Event/ManageEvent";
 import UpdateEvent from "../pages/Manager/Event/UpdateEvent";
 import Event from "../pages/Public/Event/Event";
 import EventDetail from "../pages/Public/Event/EventDetail";
+import EventPaymentSuccess from "../pages/User/Payment/EventPaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-success",
         element: <PrivateRoute><PaymentSuccess /></PrivateRoute>,
+      },
+      {
+        path: "event-payment-success",
+        element: <PrivateRoute><EventPaymentSuccess /></PrivateRoute>,
       },
       {
         path: "events",

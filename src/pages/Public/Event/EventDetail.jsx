@@ -2,13 +2,20 @@ import React from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
+import toast from "react-hot-toast";
 
 const EventDetails = () => {
   const { id } = useParams();
+  const axiosSecure = useAxiosSecure();
 
-  const { data: event, isLoading } = useQuery({
+  const {
+    data: event,
+    isLoading,
+    refetch
+  } = useQuery({
     queryKey: ["event-details", id],
     queryFn: async () => {
       const res = await axios.get(
@@ -17,6 +24,24 @@ const EventDetails = () => {
       return res.data;
     },
   });
+
+  const handleRegister = async () => {
+    try {
+      const res = await axiosSecure.post(`/event-payment/${id}/register`);
+
+      if (res.data.free) {
+        toast.success(" Successfully registered!");
+        refetch();
+        return;
+      }
+
+      if (res.data.checkoutUrl) {
+        window.location.href = res.data.checkoutUrl;
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Registration failed");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -60,7 +85,10 @@ const EventDetails = () => {
           {event.description}
         </p>
 
-        <button className="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-primary/80 transition">
+        <button
+          onClick={handleRegister}
+          className="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-primary/80 transition"
+        >
           Register for Event
         </button>
       </div>

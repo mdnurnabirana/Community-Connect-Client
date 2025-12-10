@@ -17,7 +17,7 @@ const PaymentSuccess = () => {
     if (sessionId) {
       verifyPayment();
     }
-  }, [sessionId]);
+  }, [sessionId, axiosSecure]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

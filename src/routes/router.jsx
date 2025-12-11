@@ -28,6 +28,7 @@ import MyEvent from "../pages/User/Event/MyEvent";
 import MyPayments from "../pages/User/Payment/MyPayments";
 import EventMember from "../pages/Manager/EventMembers/EventMember";
 import Payments from "../pages/Admin/Payment/Payments";
+import DashboardHome from "../pages/Dashboard/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -91,7 +92,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>System One</h1>,
+        element: <DashboardHome />,
       },
       {
         path: "manage-user",

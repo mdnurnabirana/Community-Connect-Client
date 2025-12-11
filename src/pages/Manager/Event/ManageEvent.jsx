@@ -100,7 +100,7 @@ const ManageEvent = () => {
                       </Link>
 
                       <Link
-                        to={`/dashboard/events/${event._id}`}
+                        to={`/dashboard/event-registration/${event._id}`}
                         className="text-primary hover:text-accent"
                       >
                         <FiEye size={18} />

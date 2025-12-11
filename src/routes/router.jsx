@@ -25,6 +25,7 @@ import Event from "../pages/Public/Event/Event";
 import EventDetail from "../pages/Public/Event/EventDetail";
 import EventPaymentSuccess from "../pages/User/Payment/EventPaymentSuccess";
 import MyEvent from "../pages/User/Event/MyEvent";
+import MyPayments from "../pages/User/Payment/MyPayments";
 
 export const router = createBrowserRouter([
   {
@@ -175,6 +176,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyEvent />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-payments",
+        element: (
+          <PrivateRoute>
+            <MyPayments />
           </PrivateRoute>
         ),
       },

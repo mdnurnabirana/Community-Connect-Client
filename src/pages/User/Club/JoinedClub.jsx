@@ -36,7 +36,6 @@ const JoinedClub = () => {
       </Container>
     );
   }
-  console.log(memberships)
 
   return (
     <Container>

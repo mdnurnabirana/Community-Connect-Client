@@ -27,7 +27,7 @@ const JoinedClub = () => {
     );
   }
 
-  if (!memberships.length) {
+  if (memberships.length == 0) {
     return (
       <Container>
         <div className="mt-12 text-center text-gray-500">
@@ -36,6 +36,7 @@ const JoinedClub = () => {
       </Container>
     );
   }
+  console.log(memberships)
 
   return (
     <Container>

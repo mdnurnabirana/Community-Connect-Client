@@ -6,6 +6,7 @@ import Loading from "./Loading";
 const userNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
   { name: "Joined Club", path: "/dashboard/member/joined-club", icon: <FaHome /> },
+  { name: "My Events", path: "/dashboard/my-events", icon: <FaHome />}
 ];
 
 const managerNav = [

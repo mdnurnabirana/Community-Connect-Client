@@ -24,6 +24,7 @@ import UpdateEvent from "../pages/Manager/Event/UpdateEvent";
 import Event from "../pages/Public/Event/Event";
 import EventDetail from "../pages/Public/Event/EventDetail";
 import EventPaymentSuccess from "../pages/User/Payment/EventPaymentSuccess";
+import MyEvent from "../pages/User/Event/MyEvent";
 
 export const router = createBrowserRouter([
   {
@@ -53,11 +54,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "payment-success",
-        element: <PrivateRoute><PaymentSuccess /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess />
+          </PrivateRoute>
+        ),
       },
       {
         path: "event-payment-success",
-        element: <PrivateRoute><EventPaymentSuccess /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <EventPaymentSuccess />
+          </PrivateRoute>
+        ),
       },
       {
         path: "events",
@@ -66,7 +75,7 @@ export const router = createBrowserRouter([
       {
         path: "events/:id",
         element: <EventDetail />,
-      }
+      },
     ],
   },
   {
@@ -123,24 +132,52 @@ export const router = createBrowserRouter([
       },
       {
         path: "member/joined-club",
-        element: <PrivateRoute><JoinedClub /></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <JoinedClub />
+          </PrivateRoute>
+        ),
       },
       {
         path: "manageclubuser/:id",
-        element: <ManagerRoute><ManageClubMember /></ManagerRoute>
+        element: (
+          <ManagerRoute>
+            <ManageClubMember />
+          </ManagerRoute>
+        ),
       },
       {
         path: "create-event",
-        element: <ManagerRoute><CreateEvent /></ManagerRoute>
+        element: (
+          <ManagerRoute>
+            <CreateEvent />
+          </ManagerRoute>
+        ),
       },
       {
         path: "manage-event",
-        element: <ManagerRoute><ManageEvent /></ManagerRoute>
+        element: (
+          <ManagerRoute>
+            <ManageEvent />
+          </ManagerRoute>
+        ),
       },
       {
         path: "event/:id",
-        element: <ManagerRoute><UpdateEvent /></ManagerRoute>
-      }
+        element: (
+          <ManagerRoute>
+            <UpdateEvent />
+          </ManagerRoute>
+        ),
+      },
+      {
+        path: "my-events",
+        element: (
+          <PrivateRoute>
+            <MyEvent />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {

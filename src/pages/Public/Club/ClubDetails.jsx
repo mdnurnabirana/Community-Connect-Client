@@ -54,9 +54,7 @@ const ClubDetails = () => {
 
   return (
     <Container>
-      {/* Top spacing */}
-      <div className="pt-12 pb-16">
-        {/* Banner */}
+      <div className="py-12">
         <div className="max-w-5xl mx-auto rounded-xl overflow-hidden shadow-sm">
           <img
             src={club.bannerImage}
@@ -65,9 +63,7 @@ const ClubDetails = () => {
           />
         </div>
 
-        {/* Content */}
-        <div className="max-w-4xl mx-auto mt-10 px-4 sm:px-0">
-          {/* Title */}
+        <div className="max-w-4xl mx-auto mt-10 px-4 lg:px-0">
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-neutral-800">
             {club.clubName}
           </h1>

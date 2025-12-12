@@ -1,82 +1,150 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { FiSearch, FiChevronDown } from "react-icons/fi";
 import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
 import { Link } from "react-router";
 import axios from "axios";
 
 const Club = () => {
-  const { data: clubs = [], isLoading } = useQuery({
-    queryKey: ["approved-clubs"],
-    queryFn: async () => (await axios.get(`${import.meta.env.VITE_API_URL}/clubs/approved`)).data,
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+
+  const {
+    data: clubs = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["approved-clubs", search, category],
+    queryFn: async () => {
+      const params = {};
+      if (search) params.search = search;
+      if (category) params.category = category;
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/clubs/approved`,
+        { params }
+      );
+      return res.data;
+    },
   });
 
-  if (isLoading) {
+  const handleSearch = () => refetch();
+
+  if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-screen">
         <Loading />
       </div>
     );
-  }
 
   return (
     <Container>
-      <div className="my-12 text-center">
-        <h1 className="text-3xl font-extrabold text-neutral mb-2">
+      <div className="my-12">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral text-center mb-3">
           Explore Our Clubs
         </h1>
-        <p className="text-neutral/90">
+        <p className="text-neutral/80 text-center mb-10 text-sm sm:text-base">
           Join communities that inspire learning, fun, and networking.
         </p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {clubs.length === 0 ? (
-          <p className="text-center text-gray-500 col-span-full">
-            No clubs available at the moment.
-          </p>
-        ) : (
-          clubs.map((club) => (
-            <div className="group relative bg-base-100 rounded-xl shadow-xl overflow-hidden h-full flex flex-col">
-              {/* Image */}
-              <div className="relative aspect-4/3 overflow-hidden">
-                <img
-                  src={club.bannerImage}
-                  alt={club.clubName}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
-              </div>
 
-              {/* Content */}
-              <div className="p-4 flex flex-col flex-1">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {club.clubName}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-6 flex-1">
-                  {club.description}
-                </p>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10 p-5 lg:p-0">
+          <div className="flex items-center w-full sm:w-auto bg-base-100 border border-base-300 rounded-lg shadow-sm overflow-hidden">
+            <FiSearch className="mx-3 text-neutral/60" size={20} />
+            <input
+              type="text"
+              placeholder="Search clubs..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="w-full sm:w-64 md:w-80 px-2 py-3 focus:outline-none text-neutral"
+            />
+            <button
+              onClick={handleSearch}
+              className="px-4 py-3 bg-primary text-white hover:bg-primary/90 transition-colors"
+            >
+              Search
+            </button>
+          </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-3 mb-6">
-                  <span className="px-4 py-1.5 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
-                    {club.category}
-                  </span>
-                  <span className="px-4 py-1.5 text-sm font-semibold text-amber-700 bg-amber-100 rounded-full">
-                    {club.membershipFee === 0
-                      ? "Free"
-                      : `$${club.membershipFee}`}
-                  </span>
+          <div className="relative w-full sm:w-60">
+            <select
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                refetch();
+              }}
+              className="w-full px-4 py-3 border border-base-300 rounded-lg bg-base-100 text-neutral appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="">All Categories</option>
+              <option value="Sports">Sports</option>
+              <option value="Arts">Arts</option>
+              <option value="Music">Music</option>
+              <option value="Tech">Tech</option>
+            </select>
+
+            <FiChevronDown
+              size={20}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral/60 pointer-events-none"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 lg:p-0">
+          {clubs.length === 0 ? (
+            <p className="text-center text-gray-500 col-span-full">
+              No clubs available at the moment.
+            </p>
+          ) : (
+            clubs.map((club) => (
+              <div
+                key={club._id}
+                className="group bg-base-100 rounded-xl shadow-lg hover:shadow-xl transition-shadow overflow-hidden flex flex-col"
+              >
+                {/* Banner Image */}
+                <div className="relative aspect-4/3 overflow-hidden">
+                  <img
+                    src={club.bannerImage}
+                    alt={club.clubName}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
                 </div>
 
-                {/* Button */}
-                <Link to={`/club/${club._id}`} className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl transition-colors shadow-md text-center">
-                  View Details
-                </Link>
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-1">
+                  <h3 className="text-xl font-bold text-neutral mb-2">
+                    {club.clubName}
+                  </h3>
+
+                  <p className="text-neutral/80 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">
+                    {club.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-3 mb-5">
+                    <span className="px-3 py-1 text-sm font-medium text-primary bg-primary/10 rounded-full">
+                      {club.category}
+                    </span>
+
+                    <span className="px-3 py-1 text-sm font-semibold text-accent bg-accent/10 rounded-full">
+                      {club.membershipFee === 0
+                        ? "Free"
+                        : `$${club.membershipFee}`}
+                    </span>
+                  </div>
+
+                  <Link
+                    to={`/club/${club._id}`}
+                    className="w-full py-3 bg-primary hover:bg-primary/90 text-white text-center rounded-xl font-semibold transition-colors shadow"
+                  >
+                    View Details
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
     </Container>
   );

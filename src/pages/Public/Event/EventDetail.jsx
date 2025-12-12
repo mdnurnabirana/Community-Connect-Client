@@ -14,7 +14,7 @@ const EventDetails = () => {
   const {
     data: event,
     isLoading,
-    refetch
+    refetch,
   } = useQuery({
     queryKey: ["event-details", id],
     queryFn: async () => {
@@ -61,7 +61,7 @@ const EventDetails = () => {
 
   return (
     <Container>
-      <div className="max-w-3xl mx-auto mt-12 bg-base-100 border border-base-300 rounded-2xl p-8 shadow-sm">
+      <div className="max-w-3xl mx-4 sm:mx-auto mt-12 bg-base-100 border border-base-300 rounded-2xl p-5 shadow-sm">
         <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
 
         <div className="space-y-2 text-gray-600 mb-6">
@@ -76,9 +76,7 @@ const EventDetails = () => {
             <p className="text-green-600 font-semibold">🎉 Free Event</p>
           )}
 
-          {event.maxAttendees && (
-            <p>👥 Max attendees: {event.maxAttendees}</p>
-          )}
+          {event.maxAttendees && <p>👥 Max attendees: {event.maxAttendees}</p>}
         </div>
 
         <p className="text-gray-700 leading-relaxed mb-8">

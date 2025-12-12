@@ -4,7 +4,7 @@ import Sidebar from "../shared/Sidebar";
 import Topbar from "../shared/Topbar";
 
 const DashboardLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
     <div className="flex min-h-screen w-full bg-base-200">
@@ -18,7 +18,7 @@ const DashboardLayout = () => {
         <Topbar setIsSidebarOpen={setIsSidebarOpen} />
 
         <main className="p-4 sm:p-6">
-          <div className="min-h-[calc(100vh-64px)] rounded-xl bg-base-100 p-4 shadow-sm">
+          <div className="min-h-[calc(100vh-64px)]">
             <Outlet />
           </div>
         </main>

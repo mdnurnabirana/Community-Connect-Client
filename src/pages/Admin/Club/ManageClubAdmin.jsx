@@ -10,13 +10,11 @@ const ManageClubAdmin = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
 
-  // Fetch all clubs
   const { data: clubs = [], isLoading } = useQuery({
     queryKey: ["admin-clubs"],
     queryFn: async () => (await axiosSecure.get("/admin/clubs")).data,
   });
 
-  // Update club status mutation
   const statusMutation = useMutation({
     mutationFn: ({ id, status }) =>
       axiosSecure.patch(`/admin/clubs/${id}/status`, { status }),
@@ -27,9 +25,8 @@ const ManageClubAdmin = () => {
     onError: () => toast.error("Failed to update status"),
   });
 
-  // Fetch stats for a club
   const fetchStats = async () => {
-    toast.success("Stats button Clicked")
+    toast.success("Stats button clicked");
   };
 
   if (isLoading) {
@@ -40,12 +37,10 @@ const ManageClubAdmin = () => {
     );
   }
 
-  // Filter clubs based on search
   const filteredClubs = clubs.filter((club) =>
     club.clubName?.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Handle status change
   const handleStatusChange = async (id, status) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -64,8 +59,7 @@ const ManageClubAdmin = () => {
     <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
-        <h2 className="text-2xl font-extrabold text-neutral">Manage Clubs (Admin)</h2>
-
+        <h2 className="text-2xl font-extrabold text-neutral">All Clubs</h2>
         <input
           type="text"
           placeholder="Search clubs..."
@@ -75,8 +69,8 @@ const ManageClubAdmin = () => {
         />
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Desktop / Tablet Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">
             <tr>
@@ -87,7 +81,6 @@ const ManageClubAdmin = () => {
               <th className="p-3 text-left border-b">Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {filteredClubs.length === 0 ? (
               <tr>
@@ -115,8 +108,7 @@ const ManageClubAdmin = () => {
                   </td>
                   <td className="p-3 border-b">{club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}</td>
                   <td className="p-3 border-b text-center">
-                    <div className="flex gap-2 justify-center">
-                      {/* Show Approve/Reject only if pending */}
+                    <div className="flex gap-2 justify-center flex-wrap">
                       {club.status === "pending" && (
                         <>
                           <button
@@ -146,6 +138,61 @@ const ManageClubAdmin = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden flex flex-col gap-4">
+        {filteredClubs.length === 0 ? (
+          <p className="text-center text-gray-500 py-6">No clubs found</p>
+        ) : (
+          filteredClubs.map((club) => (
+            <div key={club._id} className="p-4 rounded-xl border border-base-300 shadow-sm">
+              <p className="font-semibold">{club.clubName}</p>
+              <p className="text-sm text-neutral mt-1">Manager: {club.managerEmail}</p>
+              <p className="text-sm mt-1">
+                Status:{" "}
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                    club.status === "approved"
+                      ? "bg-green-100 text-green-700"
+                      : club.status === "rejected"
+                      ? "bg-red-100 text-red-700"
+                      : "bg-yellow-100 text-yellow-700"
+                  }`}
+                >
+                  {club.status}
+                </span>
+              </p>
+              <p className="text-sm mt-1">
+                Fee: {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
+              </p>
+              <div className="flex gap-2 mt-2 flex-wrap">
+                {club.status === "pending" && (
+                  <>
+                    <button
+                      onClick={() => handleStatusChange(club._id, "approved")}
+                      className="px-3 py-1 bg-green-500 text-white rounded text-sm flex-1"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleStatusChange(club._id, "rejected")}
+                      className="px-3 py-1 bg-red-500 text-white rounded text-sm flex-1"
+                    >
+                      Reject
+                    </button>
+                  </>
+                )}
+                <button
+                  onClick={() => fetchStats()}
+                  className="px-3 py-1 bg-blue-500 text-white rounded text-sm flex-1"
+                >
+                  View Stats
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

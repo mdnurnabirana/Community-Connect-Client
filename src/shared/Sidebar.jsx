@@ -10,6 +10,7 @@ import {
 import useRole from "../hooks/useRole";
 import Loading from "./Loading";
 import { FiX } from "react-icons/fi";
+import Logo from "./Logo";
 
 const userNav = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome />, end: true },
@@ -69,59 +70,92 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
 
   return (
     <>
-      {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/40 z-30"
+          className="fixed inset-0 bg-black/40 z-40 sm:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-full bg-neutral text-white shadow-xl z-40
-          transition-all duration-300
-          ${isOpen ? "w-64" : "w-0 lg:w-20"}
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-neutral text-white shadow-xl transform transition-transform duration-300 sm:hidden
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
-        {/* Top section */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-base-300">
-          <Link to="/" className="font-bold text-xl truncate">
-            {isOpen ? "My Dashboard" : "MD"}
-          </Link>
-
-          <button
-            className="lg:hidden text-xl"
+          <Link
+            to="/"
+            className="font-bold text-lg truncate"
             onClick={() => setIsSidebarOpen(false)}
           >
+            <Logo height={40} width={40} />
+          </Link>
+
+          <button className="text-xl" onClick={() => setIsSidebarOpen(false)}>
             <FiX />
           </button>
         </div>
 
-        {/* Nav links */}
-        <ul className="mt-4 space-y-2 px-2">
+        <nav className="mt-3 px-2">
           {isRoleLoading ? (
             <Loading />
           ) : (
-            navItems.map((item, index) => (
-              <li key={index}>
-                <NavLink
-                  to={item.path}
-                  end={item.end}
-                  className={({ isActive }) =>
-                    `flex items-center gap-4 px-4 py-3 rounded-lg transition-all
-                      hover:bg-base-300/20
-                      ${isActive ? "bg-base-300/30 text-primary" : ""}
-                    `
-                  }
-                >
-                  <span className="text-xl">{item.icon}</span>
-                  {isOpen && <span>{item.name}</span>}
-                </NavLink>
-              </li>
+            navItems.map((item, idx) => (
+              <NavLink
+                key={idx}
+                to={item.path}
+                end={item.end}
+                onClick={() => setIsSidebarOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-3 rounded-md transition-colors hover:bg-base-300/20 ${
+                    isActive ? "bg-base-300/30 text-primary" : ""
+                  }`
+                }
+              >
+                <span className="text-xl">{item.icon}</span>
+                <span>{item.name}</span>
+              </NavLink>
             ))
           )}
-        </ul>
+        </nav>
+      </aside>
+
+      <aside
+        className={`hidden sm:flex sm:flex-col sm:fixed sm:inset-y-0 sm:left-0 sm:z-40 bg-neutral text-white transition-all duration-300
+          ${isOpen ? "sm:w-64" : "sm:w-20"}
+        `}
+      >
+        <div className="h-16 flex items-center px-3 border-b border-base-300">
+          <Link to="/" className="font-bold text-lg truncate">
+            {isOpen ? (
+              <Logo height={48} width={48} />
+            ) : (
+              <Logo height={36} width={36} showText={false} />
+            )}
+          </Link>
+        </div>
+
+        <nav className="mt-4 px-2 flex-1 overflow-auto">
+          {isRoleLoading ? (
+            <Loading />
+          ) : (
+            navItems.map((item, idx) => (
+              <NavLink
+                key={idx}
+                to={item.path}
+                end={item.end}
+                className={({ isActive }) =>
+                  `flex items-center gap-4 px-3 py-3 rounded-lg transition-all hover:bg-base-300/20 ${
+                    isActive ? "bg-base-300/30 text-primary" : ""
+                  }`
+                }
+              >
+                <span className="text-xl">{item.icon}</span>
+                {isOpen && <span>{item.name}</span>}
+              </NavLink>
+            ))
+          )}
+        </nav>
       </aside>
     </>
   );

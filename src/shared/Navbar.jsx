@@ -5,6 +5,7 @@ import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import Loading from "./Loading";
 import { FiMenu, FiX, FiUser, FiHome, FiLogOut } from "react-icons/fi";
+import Logo from "./Logo";
 
 const navMenus = [
   { id: 1, name: "Home", link: "/" },
@@ -17,41 +18,46 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  const handleLogout = () => {
-    logOut()
-      .then(() => {
-        toast.success("Logged out successfully");
-        setProfileOpen(false);
-        setMobileMenuOpen(false);
-      })
-      .catch((err) => console.error(err));
-  };
-
   const closeMenus = () => {
     setMobileMenuOpen(false);
     setProfileOpen(false);
   };
 
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logged out successfully");
+        closeMenus();
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <header className="mt-5">
       <Container>
-        {/* Main Navbar */}
-        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4 bg-base-100 rounded-full shadow-xl border border-base-200">
+        {/* Navbar Wrapper */}
+        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4 bg-base-100 rounded-full shadow-xl border border-base-200 relative">
           {/* Logo */}
-          <Link to="/" className="text-2xl sm:text-3xl font-bold text-primary">
-            ClubSphere
+          <Link to="/" className="lg:hidden">
+            <Logo height={50} width={50} showText={false} />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center">
+          <Link to="/" className="hidden lg:block">
+            <Logo height={50} width={50} showText={true} />
+          </Link>
+
+          {/* Desktop Menu */}
+          <nav className="hidden lg:flex ml-10">
             <ul className="flex gap-10">
               {navMenus.map((item) => (
                 <li key={item.id}>
                   <NavLink
                     to={item.link}
                     className={({ isActive }) =>
-                      `text-lg font-medium transition-colors relative group ${
-                        isActive ? "text-primary" : "text-neutral hover:text-primary"
+                      `text-lg font-medium relative group transition-colors ${
+                        isActive
+                          ? "text-primary"
+                          : "text-neutral hover:text-primary"
                       }`
                     }
                   >
@@ -63,11 +69,11 @@ const Navbar = () => {
             </ul>
           </nav>
 
-          {/* Right Side: Auth / Profile */}
+          {/* Right: Auth / Profile */}
           <div className="flex items-center gap-4">
             {loading && <Loading height={32} width={32} />}
 
-            {/* Guest Buttons (Desktop) */}
+            {/* Desktop Guest Links */}
             {!loading && !user && (
               <div className="hidden md:flex items-center gap-4">
                 <Link
@@ -85,12 +91,12 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Logged-in User Avatar */}
+            {/* Logged-in profile */}
             {!loading && user && (
               <div className="relative">
                 <button
-                  onClick={() => setProfileOpen(!profileOpen)}
-                  className="w-11 h-11 rounded-full border-3 border-primary overflow-hidden focus:outline-none ring-4 ring-transparent hover:ring-primary/20 transition"
+                  onClick={() => setProfileOpen((prev) => !prev)}
+                  className="w-11 h-11 rounded-full border-2 border-primary overflow-hidden focus:outline-none ring-4 ring-transparent hover:ring-primary/20 transition"
                 >
                   <img
                     src={user?.photoURL || "/default-avatar.png"}
@@ -102,11 +108,16 @@ const Navbar = () => {
 
                 {/* Profile Dropdown */}
                 {profileOpen && (
-                  <div className="absolute right-0 mt-4 w-72 bg-base-100 rounded-2xl shadow-2xl border border-base-200 overflow-hidden z-50">
+                  <div className="absolute right-0 mt-3 w-72 bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden z-999 animate-fadeIn">
                     <div className="p-5 border-b border-base-200">
-                      <p className="font-bold text-lg truncate">{user.displayName}</p>
-                      <p className="text-sm text-neutral truncate">{user.email}</p>
+                      <p className="font-bold text-lg truncate">
+                        {user.displayName}
+                      </p>
+                      <p className="text-sm text-neutral truncate">
+                        {user.email}
+                      </p>
                     </div>
+
                     <div className="py-3">
                       <Link
                         to="/profile"
@@ -116,6 +127,7 @@ const Navbar = () => {
                         <FiUser className="text-xl" />
                         <span>My Profile</span>
                       </Link>
+
                       <Link
                         to="/dashboard"
                         onClick={closeMenus}
@@ -124,6 +136,7 @@ const Navbar = () => {
                         <FiHome className="text-xl" />
                         <span>Dashboard</span>
                       </Link>
+
                       <button
                         onClick={handleLogout}
                         className="flex items-center gap-4 w-full px-5 py-3 text-red-600 hover:bg-red-50 transition"
@@ -139,8 +152,8 @@ const Navbar = () => {
 
             {/* Mobile Menu Toggle */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden text-3xl text-neutral"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
             >
               {mobileMenuOpen ? <FiX /> : <FiMenu />}
             </button>
@@ -149,7 +162,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden">
+          <div className="lg:hidden mt-3 bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden animate-slideDown z-999">
             <nav className="py-4">
               <ul>
                 {navMenus.map((item) => (
@@ -159,7 +172,9 @@ const Navbar = () => {
                       onClick={closeMenus}
                       className={({ isActive }) =>
                         `block px-8 py-4 text-lg font-medium transition ${
-                          isActive ? "text-primary bg-base-200" : "text-neutral hover:bg-base-200"
+                          isActive
+                            ? "bg-base-200 text-primary"
+                            : "text-neutral hover:bg-base-200"
                         }`
                       }
                     >
@@ -170,8 +185,7 @@ const Navbar = () => {
               </ul>
             </nav>
 
-            {/* Mobile Auth Buttons */}
-            {!loading && !user && (
+            {!user && !loading && (
               <div className="px-6 pb-6 flex flex-col gap-4">
                 <Link
                   to="/login"
@@ -180,6 +194,7 @@ const Navbar = () => {
                 >
                   Login
                 </Link>
+
                 <Link
                   to="/register"
                   onClick={closeMenus}

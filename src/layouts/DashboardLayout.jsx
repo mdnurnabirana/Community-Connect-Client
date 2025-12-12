@@ -4,17 +4,15 @@ import Sidebar from "../shared/Sidebar";
 import Topbar from "../shared/Topbar";
 
 const DashboardLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // mobile default closed
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen w-full bg-base-200">
-      {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
-      {/* Main Content */}
       <div
         className={`flex flex-col flex-1 transition-all duration-300 ${
-          isSidebarOpen ? "lg:ml-64" : "lg:ml-20"
+          isSidebarOpen ? "sm:ml-64" : "sm:ml-20"
         }`}
       >
         <Topbar setIsSidebarOpen={setIsSidebarOpen} />

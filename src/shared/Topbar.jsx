@@ -8,54 +8,58 @@ const Topbar = ({ setIsSidebarOpen }) => {
   const { user, logOut } = useAuth();
   const [open, setOpen] = useState(false);
 
-  const handleLogout = () => logOut();
+  const handleLogout = () => {
+    // you can handle redirect or toast in your logOut implementation
+    logOut();
+    setOpen(false);
+  };
 
   return (
-    <header className="h-16 bg-base-100 border-b border-base-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
+    <header className="h-16 bg-base-100 border-b border-base-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
+      {/* Hamburger: visible on all sizes; toggles sidebar */}
       <button
         onClick={() => setIsSidebarOpen((prev) => !prev)}
-        className="text-xl text-neutral lg:hidden"
+        className="text-xl text-neutral"
+        aria-label="Toggle sidebar"
       >
         <FaBars />
       </button>
 
-      {/* Left side (desktop) */}
-      <button
-        onClick={() => setIsSidebarOpen((prev) => !prev)}
-        className="hidden lg:block text-xl text-neutral"
-      >
-        <FaBars />
-      </button>
+      {/* You can put page title or breadcrumbs here */}
+      <div className="flex-1 px-4">
+        {/* keep empty or add breadcrumbs/title */}
+      </div>
 
-      {/* Right side */}
+      {/* Profile / dropdown */}
       <div className="relative">
         <button
-          onClick={() => setOpen(!open)}
-          className="flex items-center gap-2"
+          onClick={() => setOpen((s) => !s)}
+          className="flex items-center gap-2 sm:gap-3"
         >
           {user?.photoURL ? (
             <img
               src={user.photoURL}
-              alt="Profile"
+              alt={user?.displayName || "User"}
               className="w-10 h-10 rounded-full object-cover border border-base-300"
             />
           ) : (
             <FaUserCircle className="text-3xl text-primary" />
           )}
 
-          <span className="hidden sm:block font-medium text-neutral">
+          <span className="hidden md:block font-medium text-neutral">
             {user?.displayName || "User"}
           </span>
         </button>
 
         {open && (
           <div className="absolute right-0 mt-3 w-64 bg-base-100 shadow-xl rounded-xl border border-base-200 p-3 z-50">
-            <p className="font-semibold">{user?.displayName}</p>
-            <p className="text-sm text-neutral mb-3">{user?.email}</p>
+            <p className="font-semibold truncate">{user?.displayName}</p>
+            <p className="text-sm text-neutral truncate mb-3">{user?.email}</p>
 
             <Link
               to="/profile"
               className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base-200"
+              onClick={() => setOpen(false)}
             >
               <FiUser /> Profile
             </Link>
@@ -63,6 +67,7 @@ const Topbar = ({ setIsSidebarOpen }) => {
             <Link
               to="/"
               className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base-200"
+              onClick={() => setOpen(false)}
             >
               <FiHome /> Home
             </Link>

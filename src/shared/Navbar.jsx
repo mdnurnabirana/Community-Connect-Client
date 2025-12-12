@@ -4,120 +4,193 @@ import Container from "./Container";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import Loading from "./Loading";
-import { FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiUser, FiHome, FiLogOut } from "react-icons/fi";
 
 const navMenus = [
   { id: 1, name: "Home", link: "/" },
   { id: 2, name: "Clubs", link: "/clubs" },
   { id: 3, name: "Events", link: "/events" },
-  { id: 4, name: "About", link: "/about" },
-  { id: 5, name: "Contact", link: "/contact" },
 ];
 
 const Navbar = () => {
   const { user, loading, logOut } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  // console.log("From nav",user);
+
   const handleLogout = () => {
     logOut()
       .then(() => {
-        setProfileOpen(false);
         toast.success("Logged out successfully");
+        setProfileOpen(false);
+        setMobileMenuOpen(false);
       })
       .catch((err) => console.error(err));
+  };
+
+  const closeMenus = () => {
+    setMobileMenuOpen(false);
+    setProfileOpen(false);
   };
 
   return (
     <header className="mt-5">
       <Container>
-        <div className="flex justify-between items-center px-10 py-5 bg-base-100 rounded-full shadow-xl border border-base-200 backdrop-blur-md">
+        {/* Main Navbar */}
+        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4 bg-base-100 rounded-full shadow-xl border border-base-200">
           {/* Logo */}
-          <h1 className="text-3xl font-bold text-primary tracking-tight">
+          <Link to="/" className="text-2xl sm:text-3xl font-bold text-primary">
             ClubSphere
-          </h1>
+          </Link>
 
-          {/* Nav Menu */}
-          <nav>
-            <ul className="flex gap-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center">
+            <ul className="flex gap-10">
               {navMenus.map((item) => (
                 <li key={item.id}>
                   <NavLink
                     to={item.link}
-                    className={({isActive}) => `${isActive && "text-primary"} text-neutral font-medium text-md hover:text-primary transition-colors duration-200 relative group`}
+                    className={({ isActive }) =>
+                      `text-lg font-medium transition-colors relative group ${
+                        isActive ? "text-primary" : "text-neutral hover:text-primary"
+                      }`
+                    }
                   >
                     {item.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                   </NavLink>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <div className="flex items-center gap-5 text-md font-medium relative">
-            {loading && <Loading height={30} width={30} />}
+          {/* Right Side: Auth / Profile */}
+          <div className="flex items-center gap-4">
+            {loading && <Loading height={32} width={32} />}
 
+            {/* Guest Buttons (Desktop) */}
             {!loading && !user && (
-              <>
+              <div className="hidden md:flex items-center gap-4">
                 <Link
                   to="/login"
-                  className="bg-base-200 px-4 py-2 rounded-xl text-primary shadow-lg"
+                  className="px-6 py-2.5 rounded-full bg-base-200 text-primary font-medium hover:bg-base-300 transition"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-base-300 px-4 py-2 rounded-xl text-primary shadow-lg"
+                  className="px-6 py-2.5 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition"
                 >
                   Sign Up
                 </Link>
-              </>
+              </div>
             )}
 
+            {/* Logged-in User Avatar */}
             {!loading && user && (
               <div className="relative">
-                <img
-                  src={user?.photoURL}
-                  alt={user?.displayName}
-                  referrerPolicy="no-referrer"
-                  className="w-10 h-10 rounded-full border-2 border-primary cursor-pointer object-cover"
+                <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                />
+                  className="w-11 h-11 rounded-full border-3 border-primary overflow-hidden focus:outline-none ring-4 ring-transparent hover:ring-primary/20 transition"
+                >
+                  <img
+                    src={user?.photoURL || "/default-avatar.png"}
+                    alt={user?.displayName}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </button>
 
+                {/* Profile Dropdown */}
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-70 bg-base-200 rounded-lg shadow-lg p-3 flex flex-col gap-2 z-50">
-                    <div className="border-b border-base-300 pb-2">
-                      <p className="font-semibold">{user.displayName}</p>
-                      <p className="text-sm text-neutral">{user.email}</p>
+                  <div className="absolute right-0 mt-4 w-72 bg-base-100 rounded-2xl shadow-2xl border border-base-200 overflow-hidden z-50">
+                    <div className="p-5 border-b border-base-200">
+                      <p className="font-bold text-lg truncate">{user.displayName}</p>
+                      <p className="text-sm text-neutral truncate">{user.email}</p>
                     </div>
-
-                    <Link
-                      to="/profile"
-                      onClick={() => setProfileOpen(false)}
-                      className="px-2 py-2 rounded hover:bg-base-100 transition"
-                    >
-                      My Profile
-                    </Link>
-
-                    <Link
-                      to="/dashboard"
-                      onClick={() => setProfileOpen(false)}
-                      className="px-2 py-2 rounded hover:bg-base-200 transition"
-                    >
-                      Dashboard
-                    </Link>
-
-                    <button
-                      onClick={handleLogout}
-                      className="px-2 py-2 rounded flex items-center gap-2 font-semibold text-red-600 hover:bg-red-500/20"
-                    >
-                      <FiX /> Logout
-                    </button>
+                    <div className="py-3">
+                      <Link
+                        to="/profile"
+                        onClick={closeMenus}
+                        className="flex items-center gap-4 px-5 py-3 hover:bg-base-200 transition"
+                      >
+                        <FiUser className="text-xl" />
+                        <span>My Profile</span>
+                      </Link>
+                      <Link
+                        to="/dashboard"
+                        onClick={closeMenus}
+                        className="flex items-center gap-4 px-5 py-3 hover:bg-base-200 transition"
+                      >
+                        <FiHome className="text-xl" />
+                        <span>Dashboard</span>
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-4 w-full px-5 py-3 text-red-600 hover:bg-red-50 transition"
+                      >
+                        <FiLogOut className="text-xl" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
             )}
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden text-3xl text-neutral"
+            >
+              {mobileMenuOpen ? <FiX /> : <FiMenu />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden">
+            <nav className="py-4">
+              <ul>
+                {navMenus.map((item) => (
+                  <li key={item.id}>
+                    <NavLink
+                      to={item.link}
+                      onClick={closeMenus}
+                      className={({ isActive }) =>
+                        `block px-8 py-4 text-lg font-medium transition ${
+                          isActive ? "text-primary bg-base-200" : "text-neutral hover:bg-base-200"
+                        }`
+                      }
+                    >
+                      {item.name}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Mobile Auth Buttons */}
+            {!loading && !user && (
+              <div className="px-6 pb-6 flex flex-col gap-4">
+                <Link
+                  to="/login"
+                  onClick={closeMenus}
+                  className="block text-center py-3.5 rounded-full bg-base-200 text-primary font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={closeMenus}
+                  className="block text-center py-3.5 rounded-full bg-primary text-white font-medium"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </Container>
     </header>
   );

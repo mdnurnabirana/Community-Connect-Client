@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -6,6 +7,7 @@ import Loading from "../../../shared/Loading";
 const EventMember = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const [search, setSearch] = useState("");
 
   const { data: registrations = [], isLoading } = useQuery({
     queryKey: ["event-registrations", id],
@@ -23,13 +25,29 @@ const EventMember = () => {
     );
   }
 
+  const filteredRegs = registrations.filter((reg) =>
+    reg.userEmail.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
       <h2 className="text-2xl font-extrabold text-neutral mb-6">
         Event Registrations
       </h2>
 
-      <div className="overflow-x-auto">
+      {/* Search Bar */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search by user email..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">
             <tr>
@@ -40,14 +58,14 @@ const EventMember = () => {
             </tr>
           </thead>
           <tbody>
-            {registrations.length === 0 ? (
+            {filteredRegs.length === 0 ? (
               <tr>
                 <td colSpan="4" className="text-center p-6 text-gray-500">
-                  No registrations yet
+                  No registrations found
                 </td>
               </tr>
             ) : (
-              registrations.map((reg, index) => (
+              filteredRegs.map((reg, index) => (
                 <tr
                   key={reg._id}
                   className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
@@ -73,6 +91,41 @@ const EventMember = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden flex flex-col gap-4">
+        {filteredRegs.length === 0 ? (
+          <p className="text-center text-gray-500">No registrations found</p>
+        ) : (
+          filteredRegs.map((reg, index) => (
+            <div
+              key={reg._id}
+              className="border border-base-300 rounded-xl p-4 bg-base-200 shadow-sm"
+            >
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-medium text-neutral">#{index + 1}</span>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                    reg.status === "registered"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-gray-100 text-gray-700"
+                  }`}
+                >
+                  {reg.status}
+                </span>
+              </div>
+
+              <p className="mb-1">
+                <span className="font-medium">User Email:</span> {reg.userEmail}
+              </p>
+              <p>
+                <span className="font-medium">Registered At:</span>{" "}
+                {new Date(reg.registeredAt).toLocaleString()}
+              </p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

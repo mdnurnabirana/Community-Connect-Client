@@ -29,25 +29,17 @@ const ManageClub = () => {
   });
 
   const statusBadge = (status) => {
-    if (status === "approved") {
-      return (
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-          Approved
-        </span>
-      );
-    } else if (status === "rejected") {
-      return (
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
-          Rejected
-        </span>
-      );
-    } else {
-      return (
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
-          Pending
-        </span>
-      );
-    }
+    const styles = {
+      approved: "bg-green-100 text-green-700",
+      rejected: "bg-red-100 text-red-700",
+      pending: "bg-yellow-100 text-yellow-700",
+    };
+
+    return (
+      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${styles[status] || styles.pending}`}>
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </span>
+    );
   };
 
   if (isLoading) {
@@ -63,9 +55,9 @@ const ManageClub = () => {
   );
 
   return (
-    <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
+    <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-4 md:p-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 className="text-2xl font-extrabold text-neutral">Manage Clubs</h2>
 
         <input
@@ -77,7 +69,8 @@ const ManageClub = () => {
         />
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">
             <tr>
@@ -94,7 +87,7 @@ const ManageClub = () => {
           <tbody>
             {filteredClubs.length === 0 ? (
               <tr>
-                <td colSpan="6" className="text-center p-6 text-gray-500">
+                <td colSpan="7" className="text-center p-6 text-gray-500">
                   No clubs found
                 </td>
               </tr>
@@ -108,16 +101,14 @@ const ManageClub = () => {
                   <td className="p-3 border-b">{club.category}</td>
                   <td className="p-3 border-b">{club.location}</td>
                   <td className="p-3 border-b">
-                    {club.membershipFee === 0
-                      ? "Free"
-                      : `$${club.membershipFee}`}
+                    {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
                   </td>
                   <td className="p-3 border-b">{statusBadge(club.status)}</td>
                   <td className="p-3 border-b text-sm">
-                    {new Date(club.createdAt).toLocaleString()}
+                    {new Date(club.createdAt).toLocaleDateString()}
                   </td>
                   <td className="p-3 border-b">
-                    <div className="flex gap-3">
+                    <div className="flex gap-4">
                       <Link
                         to={`/dashboard/manage-club/${club._id}`}
                         className="text-blue-500 hover:text-blue-700"
@@ -145,6 +136,7 @@ const ManageClub = () => {
                       >
                         <FiTrash2 size={18} />
                       </button>
+
                       <Link
                         to={`/dashboard/manageclubuser/${club._id}`}
                         className="text-primary hover:text-accent"
@@ -158,6 +150,71 @@ const ManageClub = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="md:hidden space-y-4">
+        {filteredClubs.length === 0 ? (
+          <p className="text-center text-gray-500">No clubs found</p>
+        ) : (
+          filteredClubs.map((club) => (
+            <div
+              key={club._id}
+              className="bg-base-100 border border-base-300 rounded-lg p-4 shadow-sm"
+            >
+              <h3 className="font-bold text-lg">{club.clubName}</h3>
+              <p className="text-sm text-neutral/70">{club.category}</p>
+
+              <div className="mt-3 space-y-1 text-sm">
+                <p><strong>Location:</strong> {club.location}</p>
+                <p>
+                  <strong>Fee:</strong>{" "}
+                  {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
+                </p>
+                <p><strong>Status:</strong> {statusBadge(club.status)}</p>
+                <p>
+                  <strong>Created:</strong>{" "}
+                  {new Date(club.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-6 mt-4">
+                <Link
+                  to={`/dashboard/manage-club/${club._id}`}
+                  className="text-blue-500 hover:text-blue-700"
+                >
+                  <FiEdit size={20} />
+                </Link>
+
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={async () => {
+                    const result = await Swal.fire({
+                      title: "Are you sure?",
+                      text: "This action cannot be undone!",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#F43F5E",
+                      cancelButtonColor: "#6B7280",
+                      confirmButtonText: "Delete",
+                    });
+                    if (result.isConfirmed) deleteMutation.mutate(club._id);
+                  }}
+                >
+                  <FiTrash2 size={20} />
+                </button>
+
+                <Link
+                  to={`/dashboard/manageclubuser/${club._id}`}
+                  className="text-primary hover:text-accent"
+                >
+                  <FiEye size={20} />
+                </Link>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

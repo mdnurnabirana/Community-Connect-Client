@@ -55,7 +55,8 @@ const ManageEvent = () => {
         />
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">
             <tr>
@@ -133,6 +134,72 @@ const ManageEvent = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden flex flex-col gap-4">
+        {filteredEvents.map((event) => (
+          <div
+            key={event._id}
+            className="border border-base-300 rounded-xl p-4 bg-base-200 shadow-sm"
+          >
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-lg font-bold">{event.title}</h3>
+              <span className="text-sm text-primary font-semibold">
+                {event.isPaid ? `$${event.eventFee}` : "Free"}
+              </span>
+            </div>
+
+            <p>
+              <span className="font-medium">Club:</span> {event.clubName}
+            </p>
+            <p>
+              <span className="font-medium">Date:</span>{" "}
+              {new Date(event.eventDate).toLocaleDateString()}
+            </p>
+            <p>
+              <span className="font-medium">Location:</span> {event.location}
+            </p>
+
+            {/* Actions */}
+            <div className="flex justify-end gap-4 mt-4">
+              <Link
+                to={`/dashboard/event/${event._id}`}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                <FiEdit size={20} />
+              </Link>
+
+              <Link
+                to={`/dashboard/event-registration/${event._id}`}
+                className="text-primary hover:text-accent"
+              >
+                <FiEye size={20} />
+              </Link>
+
+              <button
+                className="text-red-500 hover:text-red-700"
+                onClick={async () => {
+                  const result = await Swal.fire({
+                    title: "Are you sure?",
+                    text: "This action cannot be undone!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#F43F5E",
+                    cancelButtonColor: "#6B7280",
+                    confirmButtonText: "Yes, delete it!",
+                  });
+
+                  if (result.isConfirmed) {
+                    deleteMutation.mutate(event._id);
+                  }
+                }}
+              >
+                <FiTrash2 size={20} />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

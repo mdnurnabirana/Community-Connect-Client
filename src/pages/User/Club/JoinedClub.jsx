@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
+import { FaMapMarkerAlt, FaArrowRight } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Loading from "../../../shared/Loading";
@@ -21,64 +22,80 @@ const JoinedClub = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-[70vh]">
         <Loading />
       </div>
     );
   }
 
-  if (memberships.length == 0) {
-    return (
-      <Container>
-        <div className="mt-12 text-center text-gray-500">
-          You have not joined any clubs yet.
-        </div>
-      </Container>
-    );
-  }
-
   return (
     <Container>
-      <h1 className="text-center text-neutral text-3xl">My Joined Clubs</h1>
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {memberships.map((m) => (
-          <div
-            key={m._id}
-            className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col min-h-[400px]"
-          >
-            {/* Banner */}
-            <div className="h-44 w-full overflow-hidden">
-              <img
-                src={m.bannerImage}
-                alt={m.clubName}
-                className="h-full w-full object-cover"
-              />
-            </div>
-
-            {/* Info */}
-            <div className="p-5 flex flex-col flex-1">
-              <h3 className="text-lg font-bold mb-2">{m.clubName}</h3>
-              <p className="text-gray-600 mb-2">Location: {m.location}</p>
-              <p className="text-sm font-medium mb-4">
-                Status:{" "}
-                <span className="text-green-600 font-semibold">{m.status}</span>
-              </p>
-              {m.expiresAt && (
-                <p className="text-sm text-gray-500 mb-4">
-                  Expires: {new Date(m.expiresAt).toLocaleDateString()}
-                </p>
-              )}
-
-              <Link
-                to={`/club/${m.clubId}`}
-                className="mt-auto px-4 py-2 bg-blue-500 text-white rounded text-center"
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
-        ))}
+      {/* Header */}
+      <div className="text-center mb-10">
+        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+          My Joined Clubs
+        </h1>
+        <p className="text-sm text-gray-500 mt-2">
+          Clubs where you currently hold an active membership
+        </p>
       </div>
+
+      {/* Empty State */}
+      {memberships.length === 0 ? (
+        <div className="text-center py-16 text-gray-500">
+          You haven’t joined any clubs yet.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+          {memberships.map((m) => (
+            <div
+              key={m._id}
+              className="group bg-base-100 rounded-2xl border border-base-300 shadow-sm hover:shadow-lg transition overflow-hidden flex flex-col"
+            >
+              {/* Banner */}
+              <div className="h-44 w-full overflow-hidden bg-base-200">
+                <img
+                  src={m.bannerImage || "/placeholder.jpg"}
+                  alt={m.clubName}
+                  className="h-full w-full object-cover group-hover:scale-105 transition duration-300"
+                />
+              </div>
+
+              {/* Content */}
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="text-lg font-bold text-neutral mb-1">
+                  {m.clubName}
+                </h3>
+
+                <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                  <FaMapMarkerAlt className="text-primary" />
+                  <span>{m.location}</span>
+                </div>
+
+                {/* Status */}
+                <span className="inline-block w-fit px-3 py-1 text-xs font-semibold rounded-full bg-success/10 text-success mb-3">
+                  {m.status}
+                </span>
+
+                {m.expiresAt && (
+                  <p className="text-xs text-gray-500 mb-4">
+                    Expires on{" "}
+                    {new Date(m.expiresAt).toLocaleDateString()}
+                  </p>
+                )}
+
+                <Link
+                  to={`/club/${m.clubId}`}
+                  className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition"
+                >
+                  View Details
+                  <FaArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </Container>
   );
 };

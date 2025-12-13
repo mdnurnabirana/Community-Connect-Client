@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { FaUsers, FaCalendarAlt, FaRegClock } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../../shared/Loading";
 
@@ -15,7 +16,7 @@ const MemberDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-[70vh]">
         <Loading />
       </div>
     );
@@ -29,41 +30,67 @@ const MemberDashboard = () => {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold">Welcome back!</h1>
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-base-200 p-6 rounded-xl text-center">
-          <p className="text-lg text-gray-600">Total Clubs Joined</p>
-          <p className="text-4xl font-bold mt-2">{totalClubsJoined}</p>
-        </div>
-
-        <div className="bg-base-200 p-6 rounded-xl text-center">
-          <p className="text-lg text-gray-600">Total Events Registered</p>
-          <p className="text-4xl font-bold mt-2">{totalEventsRegistered}</p>
-        </div>
-
-        <div className="bg-base-200 p-6 rounded-xl text-center">
-          <p className="text-lg text-gray-600">Upcoming Events</p>
-          <p className="text-4xl font-bold mt-2">{upcomingEvents.length}</p>
-        </div>
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+          Welcome back 👋
+        </h1>
+        <p className="text-sm text-gray-500 mt-1">
+          Here’s a quick overview of activities
+        </p>
       </div>
 
-      {/* Upcoming Events List */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Upcoming Events</h2>
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <StatCard
+          icon={<FaUsers />}
+          label="Clubs Joined"
+          value={totalClubsJoined}
+          bg="bg-primary/10"
+          iconColor="text-primary"
+        />
+
+        <StatCard
+          icon={<FaCalendarAlt />}
+          label="Events Registered"
+          value={totalEventsRegistered}
+          bg="bg-secondary/10"
+          iconColor="text-secondary"
+        />
+
+        <StatCard
+          icon={<FaRegClock />}
+          label="Upcoming Events"
+          value={upcomingEvents.length}
+          bg="bg-accent/10"
+          iconColor="text-accent"
+        />
+      </div>
+
+      {/* Upcoming Events */}
+      <div className="bg-base-100 rounded-2xl border border-base-300 p-5 md:p-6 shadow-sm">
+        <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
 
         {upcomingEvents.length === 0 ? (
-          <p className="text-gray-500">No upcoming events at the moment.</p>
+          <div className="text-center py-10 text-gray-500">
+            No upcoming events at the moment
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {upcomingEvents.map((event, i) => (
-              <div key={i} className="bg-base-200 p-5 rounded-lg">
-                <h3 className="font-semibold text-lg">{event.title}</h3>
+              <div
+                key={i}
+                className="p-4 rounded-xl border border-base-300 bg-base-200 hover:shadow transition"
+              >
+                <h3 className="font-semibold text-lg text-neutral">
+                  {event.title}
+                </h3>
+
                 <p className="text-sm text-gray-600 mt-1">
                   {event.clubName} • {event.location}
                 </p>
-                <p className="text-sm mt-2">
+
+                <p className="text-sm mt-3 text-gray-700">
                   {new Date(event.eventDate).toLocaleDateString(undefined, {
                     weekday: "long",
                     year: "numeric",
@@ -75,6 +102,29 @@ const MemberDashboard = () => {
             ))}
           </div>
         )}
+      </div>
+    </div>
+  );
+};
+
+/* ---------- Small Reusable Stat Card ---------- */
+
+const StatCard = ({ icon, label, value, bg, iconColor }) => {
+  return (
+    <div
+      className={`rounded-2xl p-5 border border-base-300 bg-base-100 shadow-sm hover:shadow transition`}
+    >
+      <div className="flex items-center gap-4">
+        <div
+          className={`w-12 h-12 flex items-center justify-center rounded-xl ${bg} ${iconColor} text-xl`}
+        >
+          {icon}
+        </div>
+
+        <div>
+          <p className="text-sm text-gray-500">{label}</p>
+          <p className="text-3xl font-bold text-neutral">{value}</p>
+        </div>
       </div>
     </div>
   );

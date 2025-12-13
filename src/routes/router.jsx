@@ -29,6 +29,7 @@ import MyPayments from "../pages/User/Payment/MyPayments";
 import EventMember from "../pages/Manager/EventMembers/EventMember";
 import Payments from "../pages/Admin/Payment/Payments";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
+import Profile from "../pages/User/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "profile",
+        element: <PrivateRoute><Profile /></PrivateRoute>
       },
       {
         path: "clubs",

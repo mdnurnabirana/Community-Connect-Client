@@ -9,21 +9,25 @@ import axios from "axios";
 const Club = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [sort, setSort] = useState("newest");
 
   const {
     data: clubs = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["approved-clubs", search, category],
+    queryKey: ["approved-clubs", search, category, sort],
     queryFn: async () => {
       const params = {};
       if (search) params.search = search;
       if (category) params.category = category;
+      if (sort) params.sort = sort;
 
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/clubs/approved`,
-        { params }
+        {
+          params,
+        }
       );
       return res.data;
     },
@@ -48,7 +52,9 @@ const Club = () => {
           Join communities that inspire learning, fun, and networking.
         </p>
 
+        {/* Search + Category + Sort */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10 p-5 lg:p-0">
+          {/* Search */}
           <div className="flex items-center w-full sm:w-auto bg-base-100 border border-base-300 rounded-lg shadow-sm overflow-hidden">
             <FiSearch className="mx-3 text-neutral/60" size={20} />
             <input
@@ -57,7 +63,7 @@ const Club = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              className="w-full sm:w-64 md:w-80 px-2 py-3 focus:outline-none text-neutral"
+              className="w-full md:w-40 lg:w-80 px-2 py-3 focus:outline-none text-neutral"
             />
             <button
               onClick={handleSearch}
@@ -67,29 +73,55 @@ const Club = () => {
             </button>
           </div>
 
-          <div className="relative w-full sm:w-60">
-            <select
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                refetch();
-              }}
-              className="w-full px-4 py-3 border border-base-300 rounded-lg bg-base-100 text-neutral appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="">All Categories</option>
-              <option value="Sports">Sports</option>
-              <option value="Arts">Arts</option>
-              <option value="Music">Music</option>
-              <option value="Tech">Tech</option>
-            </select>
+          <div className="flex justify-between gap-4">
+            {/* Category Filter */}
+            <div className="relative w-full sm:w-60">
+              <select
+                value={category}
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                  refetch();
+                }}
+                className="w-full px-4 py-3 border border-base-300 rounded-lg bg-base-100 text-neutral appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="">All Categories</option>
+                <option value="Sports">Sports</option>
+                <option value="Arts">Arts</option>
+                <option value="Music">Music</option>
+                <option value="Tech">Tech</option>
+              </select>
 
-            <FiChevronDown
-              size={20}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral/60 pointer-events-none"
-            />
+              <FiChevronDown
+                size={20}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral/60 pointer-events-none"
+              />
+            </div>
+
+            {/* Sort */}
+            <div className="relative w-full sm:w-60">
+              <select
+                value={sort}
+                onChange={(e) => {
+                  setSort(e.target.value);
+                  refetch();
+                }}
+                className="w-full px-4 py-3 border border-base-300 rounded-lg bg-base-100 text-neutral appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="highestFee">Highest Fee</option>
+                <option value="lowestFee">Lowest Fee</option>
+              </select>
+
+              <FiChevronDown
+                size={20}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral/60 pointer-events-none"
+              />
+            </div>
           </div>
         </div>
 
+        {/* Clubs Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 lg:p-0">
           {clubs.length === 0 ? (
             <p className="text-center text-gray-500 col-span-full">

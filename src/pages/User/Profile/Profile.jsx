@@ -55,18 +55,17 @@ const Profile = () => {
       await updateUserProfile(name, imageURL);
       const token = await user.getIdToken(true);
       setUser((prev) => ({ ...prev, accessToken: token }));
-      toast.success("Firebase profile updated!");
       const res = await axiosSecure.patch("/user/profile", {
         name,
         image: imageURL,
       });
       if (res.data.success) {
-        toast.success("Profile updated successfully on server!");
+        toast.success("Profile updated successfully!");
       } else {
         toast.error("Backend update failed!");
       }
     } catch (err) {
-      toast.error(`${err} || Failed to update profile`);
+      toast.error(`Failed to update profile`);
     } finally {
       setUpdating(false);
     }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import Container from "../../shared/Container";
 import { FcGoogle } from "react-icons/fc";
@@ -11,6 +11,9 @@ import axios from "axios";
 import getAuthErrorMessage from "../../utils/firebaseError";
 
 const Login = () => {
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, signInWithGoogle, loading, setUser } = useAuth();
   const navigate = useNavigate();
@@ -38,7 +41,7 @@ const Login = () => {
       const result = await signIn(email, password);
       setUser(result.user);
       toast.success("Logged in successfully!");
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       toast.error(getAuthErrorMessage(err));
     }
@@ -58,7 +61,7 @@ const Login = () => {
       setUser(result.user);
 
       toast.success("Logged in Successfully!");
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       toast.error(getAuthErrorMessage(err));
     }

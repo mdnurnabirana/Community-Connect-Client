@@ -30,6 +30,7 @@ import EventMember from "../pages/Manager/EventMembers/EventMember";
 import Payments from "../pages/Admin/Payment/Payments";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
 import Profile from "../pages/User/Profile/Profile";
+import About from "../pages/Public/About";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "about",
+        element: <About />
       },
       {
         path: "profile",

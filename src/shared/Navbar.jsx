@@ -11,6 +11,7 @@ const navMenus = [
   { id: 1, name: "Home", link: "/" },
   { id: 2, name: "Clubs", link: "/clubs" },
   { id: 3, name: "Events", link: "/events" },
+  { id: 4, name: "About", link: "/about"}
 ];
 
 const Navbar = () => {

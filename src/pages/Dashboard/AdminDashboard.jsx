@@ -21,19 +21,16 @@ import {
 const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
 
-  // Overview stats
   const { data: stats = {}, isLoading: statsLoading } = useQuery({
     queryKey: ["admin-overview"],
     queryFn: async () => (await axiosSecure.get("/admin/overview")).data,
   });
 
-  // Users over time
   const { data: usersData = [], isLoading: usersLoading } = useQuery({
     queryKey: ["users-over-time"],
     queryFn: async () => (await axiosSecure.get("/admin/users-over-time")).data,
   });
 
-  // Revenue over time
   const { data: revenueData = [], isLoading: revenueLoading } = useQuery({
     queryKey: ["revenue-over-time"],
     queryFn: async () =>
@@ -49,7 +46,6 @@ const AdminDashboard = () => {
       </div>
     );
 
-  // Safe destructuring
   const {
     totalUsers = 0,
     clubs = {},
@@ -60,9 +56,9 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-8">
+      <title>Admin - Dashboard</title>
       <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
-      {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         <div className="bg-base-100 p-6 rounded-xl text-center shadow">
           <FiUsers className="mx-auto text-5xl text-primary mb-4" />

@@ -54,114 +54,112 @@ const ManageClubAdmin = () => {
   );
 
   return (
-    <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-5">
-        <h2 className="text-2xl font-extrabold text-neutral">All Clubs</h2>
-        <input
-          type="text"
-          placeholder="Search clubs..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-      </div>
+    <>
+      <title>Admin - Club Management</title>
+      <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-5">
+          <h2 className="text-2xl font-extrabold text-neutral">All Clubs</h2>
+          <input
+            type="text"
+            placeholder="Search clubs..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
 
-      {/* TABLE VIEW */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full border border-base-300 rounded-lg">
-          <thead className="bg-base-200">
-            <tr>
-              <th className="p-3 text-left border-b">Club</th>
-              <th className="p-3 text-left border-b">Manager</th>
-              <th className="p-3 text-left border-b">Members</th>
-              <th className="p-3 text-left border-b">Events</th>
-              <th className="p-3 text-left border-b">Fee</th>
-              <th className="p-3 text-left border-b">Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredClubs.length === 0 ? (
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full border border-base-300 rounded-lg">
+            <thead className="bg-base-200">
               <tr>
-                <td colSpan="6" className="text-center p-6 text-gray-500">
-                  No clubs found
-                </td>
+                <th className="p-3 text-left border-b">Club</th>
+                <th className="p-3 text-left border-b">Manager</th>
+                <th className="p-3 text-left border-b">Members</th>
+                <th className="p-3 text-left border-b">Events</th>
+                <th className="p-3 text-left border-b">Fee</th>
+                <th className="p-3 text-left border-b">Status</th>
               </tr>
-            ) : (
-              filteredClubs.map((club, index) => (
-                <tr
-                  key={club._id}
-                  className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
-                >
-                  <td className="p-3 border-b font-medium">
-                    {club.clubName}
-                  </td>
-                  <td className="p-3 border-b">{club.managerEmail}</td>
-                  <td className="p-3 border-b font-semibold">
-                    {club.membersCount}
-                  </td>
-                  <td className="p-3 border-b font-semibold">
-                    {club.eventsCount}
-                  </td>
-                  <td className="p-3 border-b">
-                    {club.membershipFee === 0
-                      ? "Free"
-                      : `$${club.membershipFee}`}
-                  </td>
+            </thead>
 
-                  {/* STATUS SELECT */}
-                  <td className="p-3 border-b">
-                    <select
-                      value={club.status}
-                      onChange={(e) =>
-                        handleStatusSelect(club, e.target.value)
-                      }
-                      className="px-3 py-2 rounded border border-base-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
-                      <option value="approved">Approved</option>
-                      <option value="pending">Pending</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
+            <tbody>
+              {filteredClubs.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="text-center p-6 text-gray-500">
+                    No clubs found
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : (
+                filteredClubs.map((club, index) => (
+                  <tr
+                    key={club._id}
+                    className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                  >
+                    <td className="p-3 border-b font-medium">
+                      {club.clubName}
+                    </td>
+                    <td className="p-3 border-b">{club.managerEmail}</td>
+                    <td className="p-3 border-b font-semibold">
+                      {club.membersCount}
+                    </td>
+                    <td className="p-3 border-b font-semibold">
+                      {club.eventsCount}
+                    </td>
+                    <td className="p-3 border-b">
+                      {club.membershipFee === 0
+                        ? "Free"
+                        : `$${club.membershipFee}`}
+                    </td>
 
-      {/* MOBILE VIEW */}
-      <div className="md:hidden flex flex-col gap-4">
-        {filteredClubs.map((club) => (
-          <div
-            key={club._id}
-            className="p-4 rounded-xl border border-base-300 shadow-sm"
-          >
-            <p className="font-semibold">{club.clubName}</p>
-            <p className="text-sm">Manager: {club.managerEmail}</p>
-            <p className="text-sm">Members: {club.membersCount}</p>
-            <p className="text-sm">Events: {club.eventsCount}</p>
-            <p className="text-sm">
-              Fee: {club.membershipFee === 0
-                ? "Free"
-                : `$${club.membershipFee}`}
-            </p>
+                    {/* STATUS SELECT */}
+                    <td className="p-3 border-b">
+                      <select
+                        value={club.status}
+                        onChange={(e) =>
+                          handleStatusSelect(club, e.target.value)
+                        }
+                        className="px-3 py-2 rounded border border-base-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                      >
+                        <option value="approved">Approved</option>
+                        <option value="pending">Pending</option>
+                        <option value="rejected">Rejected</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
 
-            <select
-              value={club.status}
-              onChange={(e) =>
-                handleStatusSelect(club, e.target.value)
-              }
-              className="mt-3 w-full px-3 py-2 rounded border border-base-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+        <div className="md:hidden flex flex-col gap-4">
+          {filteredClubs.map((club) => (
+            <div
+              key={club._id}
+              className="p-4 rounded-xl border border-base-300 shadow-sm"
             >
-              <option value="approved">Approved</option>
-              <option value="pending">Pending</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-        ))}
+              <p className="font-semibold">{club.clubName}</p>
+              <p className="text-sm">Manager: {club.managerEmail}</p>
+              <p className="text-sm">Members: {club.membersCount}</p>
+              <p className="text-sm">Events: {club.eventsCount}</p>
+              <p className="text-sm">
+                Fee:{" "}
+                {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
+              </p>
+
+              <select
+                value={club.status}
+                onChange={(e) => handleStatusSelect(club, e.target.value)}
+                className="mt-3 w-full px-3 py-2 rounded border border-base-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

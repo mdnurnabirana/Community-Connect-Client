@@ -30,7 +30,7 @@ const MemberDashboard = () => {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      <title>User - Dashboard</title>
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-neutral">
           Welcome back 👋
@@ -40,7 +40,6 @@ const MemberDashboard = () => {
         </p>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard
           icon={<FaUsers />}
@@ -67,7 +66,6 @@ const MemberDashboard = () => {
         />
       </div>
 
-      {/* Upcoming Events */}
       <div className="bg-base-100 rounded-2xl border border-base-300 p-5 md:p-6 shadow-sm">
         <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
 
@@ -106,8 +104,6 @@ const MemberDashboard = () => {
     </div>
   );
 };
-
-/* ---------- Small Reusable Stat Card ---------- */
 
 const StatCard = ({ icon, label, value, bg, iconColor }) => {
   return (

@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="mt-5">
+    <header className="pt-5">
       <Container>
         {/* Navbar Wrapper */}
         <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4 bg-base-100 rounded-full shadow-xl border border-base-200 relative">
@@ -79,13 +79,13 @@ const Navbar = () => {
               <div className="hidden md:flex items-center gap-4">
                 <Link
                   to="/login"
-                  className="px-6 py-2.5 rounded-full bg-base-200 text-primary font-medium hover:bg-base-300 transition"
+                  className="px-6 py-2.5 rounded-full bg-primary text-white font-medium hover:bg-primary/70 transition"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="px-6 py-2.5 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition"
+                  className="px-6 py-2.5 rounded-full bg-secondary text-white font-medium hover:bg-secondary/70 transition"
                 >
                   Sign Up
                 </Link>

@@ -41,6 +41,7 @@ const Event = () => {
 
   return (
     <Container>
+      <title>CC - Event</title>
       <div className="my-12">
         {/* Heading */}
         <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral text-center mb-3">

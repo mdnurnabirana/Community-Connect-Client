@@ -31,11 +31,11 @@ const EventMember = () => {
 
   return (
     <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
+      <title>CC - Event Members</title>
       <h2 className="text-2xl font-extrabold text-neutral mb-6">
         Event Registrations
       </h2>
 
-      {/* Search Bar */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
         <input
           type="text"
@@ -46,7 +46,6 @@ const EventMember = () => {
         />
       </div>
 
-      {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">

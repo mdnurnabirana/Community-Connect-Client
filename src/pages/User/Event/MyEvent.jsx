@@ -32,6 +32,7 @@ const MyEvent = () => {
 
   return (
     <Container>
+      <title>CC - My Event</title>
       <div className="bg-base-100 border border-base-300 rounded-2xl shadow-xl p-5 md:p-7 mt-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
@@ -48,7 +49,6 @@ const MyEvent = () => {
           />
         </div>
 
-        {/* Empty State */}
         {filteredEvents.length === 0 ? (
           <p className="text-gray-500 text-center py-12">
             You haven&apos;t registered for any events yet.

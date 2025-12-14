@@ -112,6 +112,7 @@ const Register = () => {
   };
   return (
     <section className="min-h-screen py-8">
+      <title>CC - Register</title>
       <div className="max-w-xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl border border-base-200 p-8">
           <div className="text-center mb-8">

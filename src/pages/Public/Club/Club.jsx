@@ -44,6 +44,7 @@ const Club = () => {
 
   return (
     <Container>
+      <title>CC - All Clubs</title>
       <div className="my-12">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral text-center mb-3">
           Explore Our Clubs

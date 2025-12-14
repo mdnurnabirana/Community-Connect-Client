@@ -5,8 +5,8 @@ import authorImg from "../../assets/author.jpg";
 const About = () => {
   return (
     <Container>
+      <title>CC - About us</title>
       <section className="pt-20 pb-28 p-4">
-        {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral mb-4">
             About Community Connect

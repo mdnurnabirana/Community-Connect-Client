@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { FaBars, FaUserCircle } from "react-icons/fa";
-import useAuth from "../hooks/useAuth";
 import { Link } from "react-router";
 import { FiLogOut, FiUser, FiHome } from "react-icons/fi";
+import useAuth from "../hooks/useAuth";
+import useRole from "../hooks/useRole";
 
 const Topbar = ({ setIsSidebarOpen }) => {
   const { user, logOut } = useAuth();
+  const [role] = useRole();
   const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
-    // you can handle redirect or toast in your logOut implementation
     logOut();
     setOpen(false);
   };
 
   return (
     <header className="h-16 bg-base-100 border-b border-base-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
-      {/* Hamburger: visible on all sizes; toggles sidebar */}
       <button
         onClick={() => setIsSidebarOpen((prev) => !prev)}
         className="text-xl text-neutral"
@@ -25,12 +25,16 @@ const Topbar = ({ setIsSidebarOpen }) => {
         <FaBars />
       </button>
 
-      {/* You can put page title or breadcrumbs here */}
       <div className="flex-1 px-4">
-        {/* keep empty or add breadcrumbs/title */}
+        <h1 className="text-lg font-semibold text-neutral">
+          {role === "user"
+            ? "User Dashboard"
+            : role === "manager"
+            ? "Manager Dashboard"
+            : "Admin Dashboard"}
+        </h1>
       </div>
 
-      {/* Profile / dropdown */}
       <div className="relative">
         <button
           onClick={() => setOpen((s) => !s)}

@@ -90,6 +90,7 @@ const CreateClub = () => {
 
   return (
     <section className="min-h-screen py-10">
+      <title>CC - Create Club</title>
       <div className="max-w-3xl mx-auto bg-base-100 border border-base-300 rounded-2xl shadow-xl p-8">
         <h2 className="text-3xl font-bold text-primary mb-8 text-center">
           Create New Club

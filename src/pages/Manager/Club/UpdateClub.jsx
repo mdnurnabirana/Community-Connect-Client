@@ -39,7 +39,6 @@ const UpdateClub = () => {
 
   useEffect(() => {
     if (club) {
-      // Reset form values
       reset({
         clubName: club.clubName || "",
         description: club.description || "",
@@ -48,7 +47,6 @@ const UpdateClub = () => {
         membershipFee: club.membershipFee || "",
       });
 
-      // Schedule banner preview update after the current render
       setTimeout(() => {
         setBannerPreview(club.bannerImage || null);
       }, 0);
@@ -113,6 +111,7 @@ const UpdateClub = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-base-100 border border-base-300 rounded-2xl shadow-xl">
+      <title>CC - Update Club</title>
       <h2 className="text-3xl font-bold text-primary mb-6 text-center">
         Update Club
       </h2>

@@ -33,6 +33,7 @@ const MyPayments = () => {
 
   return (
     <Container>
+      <title>CC - My Payment History</title>
       <div className="bg-base-100 border border-base-300 rounded-2xl shadow-xl p-5 md:p-7 mt-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">

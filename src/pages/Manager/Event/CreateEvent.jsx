@@ -73,6 +73,7 @@ console.log("Raw clubs from API:", clubs);
 
   return (
     <section className="min-h-screen py-10">
+      <title>CC - Create Event</title>
       <div className="max-w-3xl mx-auto bg-base-100 border border-base-300 rounded-2xl shadow-xl p-8">
         <h2 className="text-3xl font-bold text-primary mb-8 text-center">
           Create New Event
@@ -84,7 +85,7 @@ console.log("Raw clubs from API:", clubs);
           </p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Select Club */}
+
             <div className="relative">
               <select
                 {...register("clubId", { required: true })}

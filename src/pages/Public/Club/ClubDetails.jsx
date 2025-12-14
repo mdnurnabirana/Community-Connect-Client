@@ -54,6 +54,7 @@ const ClubDetails = () => {
 
   return (
     <Container>
+      <title>CC - Club Detail</title>
       <div className="py-12">
         <div className="max-w-5xl mx-auto rounded-xl overflow-hidden shadow-sm">
           <img

@@ -30,7 +30,7 @@ const JoinedClub = () => {
 
   return (
     <Container>
-      {/* Header */}
+      <title>CC - Joined Club</title>
       <div className="text-center mb-10">
         <h1 className="text-2xl md:text-3xl font-bold text-neutral">
           My Joined Clubs

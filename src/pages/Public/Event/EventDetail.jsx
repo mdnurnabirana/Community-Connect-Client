@@ -61,6 +61,7 @@ const EventDetails = () => {
 
   return (
     <Container>
+      <title>CC - Event Details</title>
       <div className="max-w-3xl mx-4 sm:mx-auto mt-12 bg-base-100 border border-base-300 rounded-2xl p-5 shadow-sm">
         <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
 

@@ -56,7 +56,7 @@ const ManageClub = () => {
 
   return (
     <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-4 md:p-6">
-      {/* Header */}
+      <title>CC - Manage Club</title>
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 className="text-2xl font-extrabold text-neutral">Manage Clubs</h2>
 

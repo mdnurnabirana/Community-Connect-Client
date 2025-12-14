@@ -43,7 +43,7 @@ const ManageEvent = () => {
 
   return (
     <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
-      {/* Header */}
+      <title>CC - Manage Event</title>
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
         <h2 className="text-2xl font-extrabold text-neutral">Manage Events</h2>
         <input
@@ -55,7 +55,6 @@ const ManageEvent = () => {
         />
       </div>
 
-      {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">
@@ -136,7 +135,6 @@ const ManageEvent = () => {
         </table>
       </div>
 
-      {/* Mobile Card View */}
       <div className="md:hidden flex flex-col gap-4">
         {filteredEvents.map((event) => (
           <div
@@ -161,7 +159,6 @@ const ManageEvent = () => {
               <span className="font-medium">Location:</span> {event.location}
             </p>
 
-            {/* Actions */}
             <div className="flex justify-end gap-4 mt-4">
               <Link
                 to={`/dashboard/event/${event._id}`}

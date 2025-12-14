@@ -41,6 +41,7 @@ const ManageClubMember = () => {
 
   return (
     <div className="bg-base-100 p-6 rounded-xl shadow">
+      <title>CC - Manage Club Member</title>
       <h2 className="text-2xl font-bold mb-6">Club Members</h2>
 
       {members.length === 0 ? (

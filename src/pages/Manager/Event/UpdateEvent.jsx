@@ -83,6 +83,7 @@ const UpdateEvent = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-base-100 border border-base-300 rounded-2xl shadow-xl">
+      <title>CC - Update Event</title>
       <h2 className="text-3xl font-bold text-primary mb-6 text-center">
         Update Event
       </h2>

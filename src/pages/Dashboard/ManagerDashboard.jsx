@@ -68,6 +68,7 @@ const ManagerDashboard = () => {
 
   return (
     <div className="space-y-10">
+      <title>Manager - Dashboard</title>
       <h1 className="text-3xl font-bold">Manager Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
@@ -103,7 +104,6 @@ const ManagerDashboard = () => {
         />
       </div>
 
-      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-base-100 p-5 rounded-xl shadow">
           <h2 className="text-xl font-semibold mb-4">Membership Growth</h2>

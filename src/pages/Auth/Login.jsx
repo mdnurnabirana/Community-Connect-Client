@@ -65,6 +65,7 @@ const Login = () => {
 
   return (
     <section className="min-h-screen py-8">
+      <title>CC - Login</title>
       <Container>
         <div className="max-w-md mx-auto">
           <div className="bg-white rounded-2xl shadow-xl border border-base-200 p-8">

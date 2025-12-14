@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import Loading from "../../shared/Loading";
 import axios from "axios";
+import getAuthErrorMessage from "../../utils/firebaseError";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +40,7 @@ const Login = () => {
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (err) {
-      toast.error(err.message || "Login failed");
+      toast.error(getAuthErrorMessage(err));
     }
   };
 
@@ -59,7 +60,7 @@ const Login = () => {
       toast.success("Logged in Successfully!");
       navigate("/");
     } catch (err) {
-      toast.error(err.message || "Google sign-in failed");
+      toast.error(getAuthErrorMessage(err));
     }
   };
 

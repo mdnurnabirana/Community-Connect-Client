@@ -27,7 +27,7 @@ const Topbar = ({ setIsSidebarOpen }) => {
 
       <div className="flex-1 px-4">
         <h1 className="text-lg font-semibold text-neutral">
-          {role === "user"
+          {role === "member"
             ? "User Dashboard"
             : role === "manager"
             ? "Manager Dashboard"

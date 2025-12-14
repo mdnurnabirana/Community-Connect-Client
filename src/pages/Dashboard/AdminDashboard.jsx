@@ -17,6 +17,7 @@ import {
   FiCalendar,
   FiDollarSign,
 } from "react-icons/fi";
+import { motion } from "motion/react";
 
 const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -28,7 +29,8 @@ const AdminDashboard = () => {
 
   const { data: usersData = [], isLoading: usersLoading } = useQuery({
     queryKey: ["users-over-time"],
-    queryFn: async () => (await axiosSecure.get("/admin/users-over-time")).data,
+    queryFn: async () =>
+      (await axiosSecure.get("/admin/users-over-time")).data,
   });
 
   const { data: revenueData = [], isLoading: revenueLoading } = useQuery({
@@ -54,60 +56,81 @@ const AdminDashboard = () => {
     totalRevenue = 0,
   } = stats;
 
+  const statCards = [
+    {
+      icon: FiUsers,
+      label: "Total Users",
+      value: totalUsers,
+      color: "text-primary",
+    },
+    {
+      icon: FiHome,
+      label: "Total Clubs",
+      value: clubs.total || 0,
+      color: "text-accent",
+      extra: (
+        <div className="text-sm mt-2">
+          <span className="text-yellow-600">Pending: {clubs.pending || 0}</span>{" "}
+          |{" "}
+          <span className="text-green-600">Approved: {clubs.approved || 0}</span>{" "}
+          | <span className="text-red-600">Rejected: {clubs.rejected || 0}</span>
+        </div>
+      ),
+    },
+    {
+      icon: FiUserCheck,
+      label: "Active Memberships",
+      value: totalMemberships,
+      color: "text-secondary",
+    },
+    {
+      icon: FiCalendar,
+      label: "Total Events",
+      value: totalEvents,
+      color: "text-blue-600",
+    },
+    {
+      icon: FiDollarSign,
+      label: "Total Revenue",
+      value: `$${totalRevenue}`,
+      color: "text-green-600",
+    },
+  ];
+
   return (
     <div className="space-y-8">
       <title>Admin - Dashboard</title>
       <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        <div className="bg-base-100 p-6 rounded-xl text-center shadow">
-          <FiUsers className="mx-auto text-5xl text-primary mb-4" />
-          <p className="text-lg text-gray-600">Total Users</p>
-          <p className="text-3xl font-bold">{totalUsers}</p>
-        </div>
-
-        <div className="bg-base-100 p-6 rounded-xl text-center shadow">
-          <FiHome className="mx-auto text-5xl text-accent mb-4" />
-          <p className="text-lg text-gray-600">Total Clubs</p>
-          <p className="text-3xl font-bold">{clubs.total || 0}</p>
-          <div className="text-sm mt-2">
-            <span className="text-yellow-600">
-              Pending: {clubs.pending || 0}
-            </span>{" "}
-            |{" "}
-            <span className="text-green-600">
-              Approved: {clubs.approved || 0}
-            </span>{" "}
-            |{" "}
-            <span className="text-red-600">
-              Rejected: {clubs.rejected || 0}
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-base-100 p-6 rounded-xl text-center shadow">
-          <FiUserCheck className="mx-auto text-5xl text-secondary mb-4" />
-          <p className="text-lg text-gray-600">Active Memberships</p>
-          <p className="text-3xl font-bold">{totalMemberships}</p>
-        </div>
-
-        <div className="bg-base-100 p-6 rounded-xl text-center shadow">
-          <FiCalendar className="mx-auto text-5xl text-blue-600 mb-4" />
-          <p className="text-lg text-gray-600">Total Events</p>
-          <p className="text-3xl font-bold">{totalEvents}</p>
-        </div>
-
-        <div className="bg-base-100 p-6 rounded-xl text-center shadow">
-          <FiDollarSign className="mx-auto text-5xl text-green-600 mb-4" />
-          <p className="text-lg text-gray-600">Total Revenue</p>
-          <p className="text-3xl font-bold">${totalRevenue}</p>
-        </div>
+        {statCards.map((card, i) => {
+          const Icon = card.icon;
+          return (
+            <motion.div
+              key={i}
+              className="bg-base-100 p-6 rounded-xl text-center shadow"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+            >
+              <Icon className={`mx-auto text-5xl ${card.color} mb-4`} />
+              <p className="text-lg text-gray-600">{card.label}</p>
+              <p className="text-3xl font-bold">{card.value}</p>
+              {card.extra && card.extra}
+            </motion.div>
+          );
+        })}
       </div>
 
-      {/* Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* User Growth */}
-        <div className="bg-base-100 p-5 rounded-xl shadow">
+        <motion.div
+          className="bg-base-100 p-5 rounded-xl shadow"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <h2 className="text-xl font-semibold mb-4">User Growth</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
@@ -124,10 +147,15 @@ const AdminDashboard = () => {
               <Line type="monotone" dataKey="count" stroke="#8884d8" />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
-        {/* Revenue Generation */}
-        <div className="bg-base-100 p-5 rounded-xl shadow">
+        <motion.div
+          className="bg-base-100 p-5 rounded-xl shadow"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <h2 className="text-xl font-semibold mb-4">Revenue Generation</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
@@ -144,7 +172,7 @@ const AdminDashboard = () => {
               <Line type="monotone" dataKey="total" stroke="#82ca9d" />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

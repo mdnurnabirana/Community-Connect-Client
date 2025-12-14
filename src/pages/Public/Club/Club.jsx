@@ -5,6 +5,7 @@ import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
 import { Link } from "react-router";
 import axios from "axios";
+import { motion } from "motion/react";
 
 const Club = () => {
   const [search, setSearch] = useState("");
@@ -53,9 +54,7 @@ const Club = () => {
           Join communities that inspire learning, fun, and networking.
         </p>
 
-        {/* Search + Category + Sort */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10 p-5 lg:p-0">
-          {/* Search */}
           <div className="flex items-center w-full sm:w-auto bg-base-100 border border-base-300 rounded-lg shadow-sm overflow-hidden">
             <FiSearch className="mx-3 text-neutral/60" size={20} />
             <input
@@ -75,7 +74,6 @@ const Club = () => {
           </div>
 
           <div className="flex justify-between gap-4">
-            {/* Category Filter */}
             <div className="relative w-full sm:w-60">
               <select
                 value={category}
@@ -98,7 +96,6 @@ const Club = () => {
               />
             </div>
 
-            {/* Sort */}
             <div className="relative w-full sm:w-60">
               <select
                 value={sort}
@@ -122,19 +119,21 @@ const Club = () => {
           </div>
         </div>
 
-        {/* Clubs Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 lg:p-0">
           {clubs.length === 0 ? (
             <p className="text-center text-gray-500 col-span-full">
               No clubs available at the moment.
             </p>
           ) : (
-            clubs.map((club) => (
-              <div
+            clubs.map((club, index) => (
+              <motion.div
                 key={club._id}
                 className="group bg-base-100 rounded-xl shadow-lg hover:shadow-xl transition-shadow overflow-hidden flex flex-col"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
               >
-                {/* Banner Image */}
                 <div className="relative aspect-4/3 overflow-hidden">
                   <img
                     src={club.bannerImage}
@@ -145,7 +144,6 @@ const Club = () => {
                   <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
                 </div>
 
-                {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="text-xl font-bold text-neutral mb-2">
                     {club.clubName}
@@ -174,7 +172,7 @@ const Club = () => {
                     View Details
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))
           )}
         </div>

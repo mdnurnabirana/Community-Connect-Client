@@ -6,6 +6,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
 import toast from "react-hot-toast";
+import { motion } from "motion/react";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -62,7 +63,13 @@ const EventDetails = () => {
   return (
     <Container>
       <title>CC - Event Details</title>
-      <div className="max-w-3xl mx-4 sm:mx-auto mt-12 bg-base-100 border border-base-300 rounded-2xl p-5 shadow-sm">
+      <motion.div
+        className="max-w-3xl mx-4 sm:mx-auto mt-12 bg-base-100 border border-base-300 rounded-2xl p-5 shadow-sm"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
         <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
 
         <div className="space-y-2 text-gray-600 mb-6">
@@ -80,9 +87,7 @@ const EventDetails = () => {
           {event.maxAttendees && <p>👥 Max attendees: {event.maxAttendees}</p>}
         </div>
 
-        <p className="text-gray-700 leading-relaxed mb-8">
-          {event.description}
-        </p>
+        <p className="text-gray-700 leading-relaxed mb-8">{event.description}</p>
 
         <button
           onClick={handleRegister}
@@ -90,7 +95,7 @@ const EventDetails = () => {
         >
           Register for Event
         </button>
-      </div>
+      </motion.div>
     </Container>
   );
 };

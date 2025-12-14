@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import axios from "axios";
 import Container from "../shared/Container";
 import Loading from "../shared/Loading";
+import { motion } from "motion/react"; 
 
 const FeaturedClubs = () => {
   const { data: clubs = [], isLoading } = useQuery({
@@ -34,10 +35,14 @@ const FeaturedClubs = () => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-          {clubs.map((club) => (
-            <div
+          {clubs.map((club, index) => (
+            <motion.div
               key={club._id}
               className="group bg-base-100 rounded-xl shadow-lg hover:shadow-xl transition-shadow overflow-hidden flex flex-col"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
             >
               <div className="relative aspect-4/3 overflow-hidden">
                 <img
@@ -75,7 +80,7 @@ const FeaturedClubs = () => {
                   View Details
                 </Link>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

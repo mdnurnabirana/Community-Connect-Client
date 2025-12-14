@@ -1,13 +1,20 @@
 import React from "react";
 import Container from "../../shared/Container";
 import authorImg from "../../assets/author.jpg";
+import { motion } from "motion/react";
 
 const About = () => {
   return (
     <Container>
       <title>CC - About us</title>
       <section className="pt-20 pb-28 p-4">
-        <div className="text-center mb-16">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral mb-4">
             About Community Connect
           </h1>
@@ -15,11 +22,16 @@ const About = () => {
             Bringing people together to grow, share, and make a difference in
             communities everywhere.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Our Story */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-          <div className="space-y-4">
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
             <h2 className="text-3xl font-bold text-neutral">Our Story</h2>
             <p className="text-text/80 leading-relaxed">
               Community Connect was founded to create a platform where
@@ -32,9 +44,15 @@ const About = () => {
               thrive while giving people opportunities to learn, network, and
               grow together.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-primary/10 rounded-xl p-8 shadow-lg border border-primary/20">
+          <motion.div
+            className="bg-primary/10 rounded-xl p-8 shadow-lg border border-primary/20"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          >
             <h3 className="text-2xl font-semibold text-neutral mb-3">
               Our Values
             </h3>
@@ -45,11 +63,16 @@ const About = () => {
               <li>💡 Empowerment & Skills</li>
               <li>🌍 Positive Community Impact</li>
             </ul>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Founder Section */}
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
+        >
           <h2 className="text-3xl font-bold text-neutral mb-6">
             Meet the Founder
           </h2>
@@ -60,7 +83,13 @@ const About = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-10">
-            <div className="p-6 rounded-xl shadow border border-primary/20 bg-background text-center w-64">
+            <motion.div
+              className="p-6 rounded-xl shadow border border-primary/20 bg-background text-center w-64"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
+            >
               <div className="w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-primary">
                 <img
                   src={authorImg}
@@ -72,9 +101,9 @@ const About = () => {
                 Md Nurnabi Rana
               </h3>
               <p className="text-text/60">Founder & Developer</p>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
     </Container>
   );

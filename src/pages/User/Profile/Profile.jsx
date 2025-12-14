@@ -61,8 +61,6 @@ const Profile = () => {
       });
       if (res.data.success) {
         toast.success("Profile updated successfully!");
-      } else {
-        toast.error("Backend update failed!");
       }
     } catch (err) {
       toast.error(`Failed to update profile`);

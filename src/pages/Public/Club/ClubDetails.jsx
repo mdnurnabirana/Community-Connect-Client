@@ -7,6 +7,7 @@ import Container from "../../../shared/Container";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import useRole from "../../../hooks/useRole";
+import { motion } from "motion/react";
 
 const ClubDetails = () => {
   const { user } = useAuth();
@@ -56,25 +57,35 @@ const ClubDetails = () => {
     <Container>
       <title>CC - Club Detail</title>
       <div className="py-12">
-        <div className="max-w-5xl mx-auto rounded-xl overflow-hidden shadow-sm">
+        <motion.div
+          className="max-w-5xl mx-auto rounded-xl overflow-hidden shadow-sm"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <img
             src={club.bannerImage}
             alt={club.clubName}
             className="w-full h-[420px] object-cover"
           />
-        </div>
+        </motion.div>
 
-        <div className="max-w-4xl mx-auto mt-10 px-4 lg:px-0">
+        <motion.div
+          className="max-w-4xl mx-auto mt-10 px-4 lg:px-0"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+        >
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-neutral-800">
             {club.clubName}
           </h1>
 
-          {/* Description */}
           <p className="text-gray-600 leading-relaxed mb-8 text-[17px]">
             {club.description}
           </p>
 
-          {/* Info Grid */}
           <div className="grid sm:grid-cols-2 gap-x-12 gap-y-5 mb-10 text-[15px]">
             <p>
               <span className="font-semibold text-gray-700">Category:</span>{" "}
@@ -97,14 +108,11 @@ const ClubDetails = () => {
             </p>
 
             <p>
-              <span className="font-semibold text-gray-700">
-                Membership Fee:
-              </span>{" "}
+              <span className="font-semibold text-gray-700">Membership Fee:</span>{" "}
               {club.membershipFee === 0 ? "Free" : `$ ${club.membershipFee}`}
             </p>
           </div>
 
-          {/* Action Button */}
           <div className="pt-4">
             <button
               onClick={handleJoinClub}
@@ -113,7 +121,7 @@ const ClubDetails = () => {
               {club.membershipFee === 0 ? "Join Club" : "Join & Pay"}
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </Container>
   );

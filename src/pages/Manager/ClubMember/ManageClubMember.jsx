@@ -5,6 +5,7 @@ import Loading from "../../../shared/Loading";
 import { useParams } from "react-router";
 import { MdBlock } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
+import { motion, AnimatePresence } from "motion/react";
 
 const ManageClubMember = () => {
   const { id } = useParams();
@@ -60,54 +61,62 @@ const ManageClubMember = () => {
             </thead>
 
             <tbody>
-              {members.map((m) => (
-                <tr key={m._id}>
-                  <td>{m.userEmail}</td>
+              <AnimatePresence>
+                {members.map((m, index) => (
+                  <motion.tr
+                    key={m._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.25, delay: index * 0.05 }}
+                  >
+                    <td>{m.userEmail}</td>
 
-                  {/* Status Badge */}
-                  <td>
-                    <span
-                      className={`px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 w-fit ${
-                        m.status === "active"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {m.status === "active" ? (
-                        <FaCheckCircle className="text-sm" />
-                      ) : (
-                        <MdBlock className="text-sm" />
-                      )}
-                      {m.status}
-                    </span>
-                  </td>
-
-                  <td>{new Date(m.joinedAt).toLocaleDateString()}</td>
-
-                  <td>
-                    {m.expiresAt
-                      ? new Date(m.expiresAt).toLocaleDateString()
-                      : "N/A"}
-                  </td>
-
-                  {/* Action Column */}
-                  <td>
-                    {m.status === "active" ? (
-                      <button
-                        onClick={() => handleExpire(m._id)}
-                        className="btn btn-xs btn-error flex items-center gap-1"
+                    {/* Status Badge */}
+                    <td>
+                      <span
+                        className={`px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 w-fit ${
+                          m.status === "active"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
                       >
-                        <MdBlock className="text-sm" />
-                        Expire
-                      </button>
-                    ) : (
-                      <span className="text-xs text-gray-400 italic">
-                        Already expired
+                        {m.status === "active" ? (
+                          <FaCheckCircle className="text-sm" />
+                        ) : (
+                          <MdBlock className="text-sm" />
+                        )}
+                        {m.status}
                       </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+                    </td>
+
+                    <td>{new Date(m.joinedAt).toLocaleDateString()}</td>
+
+                    <td>
+                      {m.expiresAt
+                        ? new Date(m.expiresAt).toLocaleDateString()
+                        : "N/A"}
+                    </td>
+
+                    {/* Action Column */}
+                    <td>
+                      {m.status === "active" ? (
+                        <button
+                          onClick={() => handleExpire(m._id)}
+                          className="btn btn-xs btn-error flex items-center gap-1"
+                        >
+                          <MdBlock className="text-sm" />
+                          Expire
+                        </button>
+                      ) : (
+                        <span className="text-xs text-gray-400 italic">
+                          Already expired
+                        </span>
+                      )}
+                    </td>
+                  </motion.tr>
+                ))}
+              </AnimatePresence>
             </tbody>
           </table>
         </div>

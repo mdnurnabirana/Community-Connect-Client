@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
+import { motion } from "motion/react";
 
 const Payments = () => {
   const axiosSecure = useAxiosSecure();
@@ -35,7 +36,13 @@ const Payments = () => {
   return (
     <>
       <title>Admin - Payment History</title>
-      <div className="p-4 md:p-6 lg:p-8 bg-base-100 rounded-xl shadow border border-base-200">
+      <motion.div
+        className="p-4 md:p-6 lg:p-8 bg-base-100 rounded-xl shadow border border-base-200"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
           <h2 className="text-xl md:text-2xl font-bold">
             All Payments / Transactions
@@ -46,8 +53,7 @@ const Payments = () => {
             placeholder="Search by user, club or type"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 
-          focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -58,15 +64,17 @@ const Payments = () => {
             </p>
           ) : (
             filteredPayments.map((p, i) => (
-              <div
+              <motion.div
                 key={i}
                 className="p-4 border border-base-300 rounded-lg bg-base-100 shadow-sm"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-semibold text-lg">#{i + 1}</span>
-                  <span className="text-sm font-medium capitalize">
-                    {p.type}
-                  </span>
+                  <span className="text-sm font-medium capitalize">{p.type}</span>
                 </div>
 
                 <p className="text-sm">
@@ -78,14 +86,13 @@ const Payments = () => {
                 </p>
 
                 <p className="text-sm">
-                  <span className="font-semibold">Club:</span>{" "}
-                  {p.clubName || "-"}
+                  <span className="font-semibold">Club:</span> {p.clubName || "-"}
                 </p>
 
                 <p className="text-xs text-gray-500 mt-3">
                   {new Date(p.date).toLocaleDateString()}
                 </p>
-              </div>
+              </motion.div>
             ))
           )}
         </div>
@@ -112,9 +119,13 @@ const Payments = () => {
                 </tr>
               ) : (
                 filteredPayments.map((p, i) => (
-                  <tr
+                  <motion.tr
                     key={i}
                     className={i % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.03 }}
                   >
                     <td className="p-3 border-b">{i + 1}</td>
                     <td className="p-3 border-b">{p.userEmail}</td>
@@ -124,13 +135,13 @@ const Payments = () => {
                     <td className="p-3 border-b">
                       {new Date(p.date).toLocaleDateString()}
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))
               )}
             </tbody>
           </table>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

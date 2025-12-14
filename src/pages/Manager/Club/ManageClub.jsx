@@ -6,6 +6,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
+import { motion } from "motion/react";
 
 const ManageClub = () => {
   const axiosSecure = useAxiosSecure();
@@ -34,9 +35,12 @@ const ManageClub = () => {
       rejected: "bg-red-100 text-red-700",
       pending: "bg-yellow-100 text-yellow-700",
     };
-
     return (
-      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${styles[status] || styles.pending}`}>
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-semibold ${
+          styles[status] || styles.pending
+        }`}
+      >
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     );
@@ -93,9 +97,12 @@ const ManageClub = () => {
               </tr>
             ) : (
               filteredClubs.map((club, index) => (
-                <tr
+                <motion.tr
                   key={club._id}
                   className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
                 >
                   <td className="p-3 border-b font-medium">{club.clubName}</td>
                   <td className="p-3 border-b">{club.category}</td>
@@ -128,10 +135,7 @@ const ManageClub = () => {
                             cancelButtonColor: "#6B7280",
                             confirmButtonText: "Yes, delete it!",
                           });
-
-                          if (result.isConfirmed) {
-                            deleteMutation.mutate(club._id);
-                          }
+                          if (result.isConfirmed) deleteMutation.mutate(club._id);
                         }}
                       >
                         <FiTrash2 size={18} />
@@ -145,7 +149,7 @@ const ManageClub = () => {
                       </Link>
                     </div>
                   </td>
-                </tr>
+                </motion.tr>
               ))
             )}
           </tbody>
@@ -157,28 +161,34 @@ const ManageClub = () => {
         {filteredClubs.length === 0 ? (
           <p className="text-center text-gray-500">No clubs found</p>
         ) : (
-          filteredClubs.map((club) => (
-            <div
+          filteredClubs.map((club, index) => (
+            <motion.div
               key={club._id}
               className="bg-base-100 border border-base-300 rounded-lg p-4 shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
             >
               <h3 className="font-bold text-lg">{club.clubName}</h3>
               <p className="text-sm text-neutral/70">{club.category}</p>
 
               <div className="mt-3 space-y-1 text-sm">
-                <p><strong>Location:</strong> {club.location}</p>
+                <p>
+                  <strong>Location:</strong> {club.location}
+                </p>
                 <p>
                   <strong>Fee:</strong>{" "}
                   {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
                 </p>
-                <p><strong>Status:</strong> {statusBadge(club.status)}</p>
+                <p>
+                  <strong>Status:</strong> {statusBadge(club.status)}
+                </p>
                 <p>
                   <strong>Created:</strong>{" "}
                   {new Date(club.createdAt).toLocaleDateString()}
                 </p>
               </div>
 
-              {/* Actions */}
               <div className="flex items-center gap-6 mt-4">
                 <Link
                   to={`/dashboard/manage-club/${club._id}`}
@@ -212,7 +222,7 @@ const ManageClub = () => {
                   <FiEye size={20} />
                 </Link>
               </div>
-            </div>
+            </motion.div>
           ))
         )}
       </div>

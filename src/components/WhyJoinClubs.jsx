@@ -1,6 +1,7 @@
 import React from "react";
 import Container from "../shared/Container";
 import { FiUsers, FiBook, FiStar, FiGlobe } from "react-icons/fi";
+import { motion } from "motion/react";
 
 const WhyJoinClubs = () => {
   const benefits = [
@@ -43,16 +44,20 @@ const WhyJoinClubs = () => {
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
-              <div
+              <motion.div
                 key={index}
                 className="flex flex-col items-center p-6 bg-linear-to-br from-base-300 to-base-100 rounded-xl shadow hover:shadow-lg transition"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
               >
                 <Icon size={40} className="text-primary mb-4" />
                 <h3 className="font-semibold text-lg mb-2">{benefit.title}</h3>
                 <p className="text-neutral/70 text-sm text-center">
                   {benefit.description}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>

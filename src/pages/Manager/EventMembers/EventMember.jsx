@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
+import { motion, AnimatePresence } from "motion/react";
 
 const EventMember = () => {
   const { id } = useParams();
@@ -46,6 +47,7 @@ const EventMember = () => {
         />
       </div>
 
+      {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">
@@ -57,74 +59,86 @@ const EventMember = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredRegs.length === 0 ? (
-              <tr>
-                <td colSpan="4" className="text-center p-6 text-gray-500">
-                  No registrations found
-                </td>
-              </tr>
-            ) : (
-              filteredRegs.map((reg, index) => (
-                <tr
-                  key={reg._id}
-                  className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
-                >
-                  <td className="p-3 border-b">{index + 1}</td>
-                  <td className="p-3 border-b">{reg.userEmail}</td>
-                  <td className="p-3 border-b">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        reg.status === "registered"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      {reg.status}
-                    </span>
-                  </td>
-                  <td className="p-3 border-b text-sm">
-                    {new Date(reg.registeredAt).toLocaleString()}
+            <AnimatePresence>
+              {filteredRegs.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="text-center p-6 text-gray-500">
+                    No registrations found
                   </td>
                 </tr>
-              ))
-            )}
+              ) : (
+                filteredRegs.map((reg, index) => (
+                  <motion.tr
+                    key={reg._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2, delay: index * 0.03 }}
+                    className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                  >
+                    <td className="p-3 border-b">{index + 1}</td>
+                    <td className="p-3 border-b">{reg.userEmail}</td>
+                    <td className="p-3 border-b">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center w-fit ${
+                          reg.status === "registered"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-gray-100 text-gray-700"
+                        }`}
+                      >
+                        {reg.status}
+                      </span>
+                    </td>
+                    <td className="p-3 border-b text-sm">
+                      {new Date(reg.registeredAt).toLocaleString()}
+                    </td>
+                  </motion.tr>
+                ))
+              )}
+            </AnimatePresence>
           </tbody>
         </table>
       </div>
 
       {/* Mobile Card View */}
       <div className="md:hidden flex flex-col gap-4">
-        {filteredRegs.length === 0 ? (
-          <p className="text-center text-gray-500">No registrations found</p>
-        ) : (
-          filteredRegs.map((reg, index) => (
-            <div
-              key={reg._id}
-              className="border border-base-300 rounded-xl p-4 bg-base-200 shadow-sm"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-medium text-neutral">#{index + 1}</span>
-                <span
-                  className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                    reg.status === "registered"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-gray-100 text-gray-700"
-                  }`}
-                >
-                  {reg.status}
-                </span>
-              </div>
+        <AnimatePresence>
+          {filteredRegs.length === 0 ? (
+            <p className="text-center text-gray-500">No registrations found</p>
+          ) : (
+            filteredRegs.map((reg, index) => (
+              <motion.div
+                key={reg._id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2, delay: index * 0.03 }}
+                className="border border-base-300 rounded-xl p-4 bg-base-200 shadow-sm"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-medium text-neutral">#{index + 1}</span>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                      reg.status === "registered"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    {reg.status}
+                  </span>
+                </div>
 
-              <p className="mb-1">
-                <span className="font-medium">User Email:</span> {reg.userEmail}
-              </p>
-              <p>
-                <span className="font-medium">Registered At:</span>{" "}
-                {new Date(reg.registeredAt).toLocaleString()}
-              </p>
-            </div>
-          ))
-        )}
+                <p className="mb-1">
+                  <span className="font-medium">User Email:</span> {reg.userEmail}
+                </p>
+                <p>
+                  <span className="font-medium">Registered At:</span>{" "}
+                  {new Date(reg.registeredAt).toLocaleString()}
+                </p>
+              </motion.div>
+            ))
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

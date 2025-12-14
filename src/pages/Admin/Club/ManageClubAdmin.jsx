@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
+import { motion } from "motion/react";
 
 const ManageClubAdmin = () => {
   const axiosSecure = useAxiosSecure();
@@ -56,7 +57,13 @@ const ManageClubAdmin = () => {
   return (
     <>
       <title>Admin - Club Management</title>
-      <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
+      <motion.div
+        className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-5">
           <h2 className="text-2xl font-extrabold text-neutral">All Clubs</h2>
           <input
@@ -90,33 +97,25 @@ const ManageClubAdmin = () => {
                 </tr>
               ) : (
                 filteredClubs.map((club, index) => (
-                  <tr
+                  <motion.tr
                     key={club._id}
                     className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.1 }}
                   >
-                    <td className="p-3 border-b font-medium">
-                      {club.clubName}
-                    </td>
+                    <td className="p-3 border-b font-medium">{club.clubName}</td>
                     <td className="p-3 border-b">{club.managerEmail}</td>
-                    <td className="p-3 border-b font-semibold">
-                      {club.membersCount}
-                    </td>
-                    <td className="p-3 border-b font-semibold">
-                      {club.eventsCount}
-                    </td>
+                    <td className="p-3 border-b font-semibold">{club.membersCount}</td>
+                    <td className="p-3 border-b font-semibold">{club.eventsCount}</td>
                     <td className="p-3 border-b">
-                      {club.membershipFee === 0
-                        ? "Free"
-                        : `$${club.membershipFee}`}
+                      {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
                     </td>
-
-                    {/* STATUS SELECT */}
                     <td className="p-3 border-b">
                       <select
                         value={club.status}
-                        onChange={(e) =>
-                          handleStatusSelect(club, e.target.value)
-                        }
+                        onChange={(e) => handleStatusSelect(club, e.target.value)}
                         className="px-3 py-2 rounded border border-base-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="approved">Approved</option>
@@ -124,7 +123,7 @@ const ManageClubAdmin = () => {
                         <option value="rejected">Rejected</option>
                       </select>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))
               )}
             </tbody>
@@ -132,18 +131,21 @@ const ManageClubAdmin = () => {
         </div>
 
         <div className="md:hidden flex flex-col gap-4">
-          {filteredClubs.map((club) => (
-            <div
+          {filteredClubs.map((club, index) => (
+            <motion.div
               key={club._id}
               className="p-4 rounded-xl border border-base-300 shadow-sm"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.1 }}
             >
               <p className="font-semibold">{club.clubName}</p>
               <p className="text-sm">Manager: {club.managerEmail}</p>
               <p className="text-sm">Members: {club.membersCount}</p>
               <p className="text-sm">Events: {club.eventsCount}</p>
               <p className="text-sm">
-                Fee:{" "}
-                {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
+                Fee: {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
               </p>
 
               <select
@@ -155,10 +157,10 @@ const ManageClubAdmin = () => {
                 <option value="pending">Pending</option>
                 <option value="rejected">Rejected</option>
               </select>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

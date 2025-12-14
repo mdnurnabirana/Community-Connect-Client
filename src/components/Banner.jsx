@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { motion } from "motion/react"; 
 
 const Banner = () => {
   const slides = [
@@ -42,18 +43,39 @@ const Banner = () => {
 
               <div className="relative z-10 flex h-full items-center justify-center px-5 text-center">
                 <div className="max-w-3xl">
-                  <h1
+                  {/* Title */}
+                  <motion.h1
                     className="font-bold text-white drop-shadow-xl
                                  text-2xl xs:text-3xl 
                                  sm:text-4xl lg:text-5xl 
                                  leading-snug sm:leading-tight text-shadow-md"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                   >
                     {slide.title}
-                  </h1>
-                  <p className="mt-5 text-white/90 text-base xs:text-sm sm:text-md lg:text-lg drop-shadow-md">
+                  </motion.h1>
+
+                  {/* Description */}
+                  <motion.p
+                    className="mt-5 text-white/90 text-base xs:text-sm sm:text-md lg:text-lg drop-shadow-md"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                  >
                     {slide.desc}
-                  </p>
-                  <div className="mt-10">
+                  </motion.p>
+
+                  {/* Button */}
+                  <motion.div
+                    className="mt-10"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+                  >
                     <Link
                       to="/clubs"
                       className="rounded-full bg-primary
@@ -64,7 +86,7 @@ const Banner = () => {
                     >
                       Join Club
                     </Link>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>

@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../shared/Loading";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
+import { motion } from "motion/react";
 
 const ManageUser = () => {
   const { user } = useAuth();
@@ -42,7 +43,13 @@ const ManageUser = () => {
   return (
     <>
       <title>Admin - User Management</title>
-      <div className="p-4 md:p-6 lg:p-8 bg-base-100 rounded-xl shadow border border-base-200">
+      <motion.div
+        className="p-4 md:p-6 lg:p-8 bg-base-100 rounded-xl shadow border border-base-200"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
         <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center mb-6">
           <h2 className="text-xl md:text-2xl font-bold">Manage Users</h2>
 
@@ -51,8 +58,7 @@ const ManageUser = () => {
             placeholder="Search users..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-72 px-3 py-2 rounded-lg border border-base-300 
-          focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full md:w-72 px-3 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -60,26 +66,27 @@ const ManageUser = () => {
           {filteredUsers.length === 0 ? (
             <p className="text-center text-gray-500 py-6">No users found</p>
           ) : (
-            filteredUsers.map((row) => {
+            filteredUsers.map((row, index) => {
               const isSelf = row.email === user?.email;
 
               return (
-                <div
+                <motion.div
                   key={row._id}
                   className="p-4 border border-base-300 rounded-lg shadow-sm bg-base-100"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.1 }}
                 >
                   <p className="font-semibold text-lg">{row.name}</p>
                   <p className="text-sm text-gray-600 break-all">{row.email}</p>
 
                   <div className="mt-3">
-                    <label className="text-sm font-medium block mb-1">
-                      Role
-                    </label>
+                    <label className="text-sm font-medium block mb-1">Role</label>
                     <select
                       defaultValue={row.role}
                       disabled={isSelf && row.role === "admin"}
-                      className="w-full px-3 py-2 rounded-lg border border-base-300 text-sm 
-                    focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-3 py-2 rounded-lg border border-base-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                       onChange={(e) =>
                         roleMutation.mutate({
                           id: row._id,
@@ -98,7 +105,7 @@ const ManageUser = () => {
                   <p className="text-xs mt-3 text-gray-500">
                     {new Date(row.createdAt).toLocaleString()}
                   </p>
-                </div>
+                </motion.div>
               );
             })
           )}
@@ -127,24 +134,21 @@ const ManageUser = () => {
                   const isSelf = row.email === user?.email;
 
                   return (
-                    <tr
+                    <motion.tr
                       key={row._id}
-                      className={
-                        index % 2 === 0 ? "bg-base-100" : "bg-base-200"
-                      }
+                      className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.05 }}
                     >
                       <td className="p-3 border-b font-medium">{row.name}</td>
-
-                      <td className="p-3 border-b text-sm break-all">
-                        {row.email}
-                      </td>
-
+                      <td className="p-3 border-b text-sm break-all">{row.email}</td>
                       <td className="p-3 border-b">
                         <select
                           defaultValue={row.role}
                           disabled={isSelf && row.role === "admin"}
-                          className="w-full max-w-[150px] px-3 py-2 rounded-lg border border-base-300 text-sm 
-                        focus:outline-none focus:ring-2 focus:ring-primary"
+                          className="w-full max-w-[150px] px-3 py-2 rounded-lg border border-base-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                           onChange={(e) =>
                             roleMutation.mutate({
                               id: row._id,
@@ -159,18 +163,17 @@ const ManageUser = () => {
                           <option value="admin">Admin</option>
                         </select>
                       </td>
-
                       <td className="p-3 border-b text-sm">
                         {new Date(row.createdAt).toLocaleString()}
                       </td>
-                    </tr>
+                    </motion.tr>
                   );
                 })
               )}
             </tbody>
           </table>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

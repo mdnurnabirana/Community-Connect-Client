@@ -5,6 +5,7 @@ import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
 import { Link } from "react-router";
 import { FiSearch, FiChevronDown } from "react-icons/fi";
+import { motion } from "motion/react";
 
 const Event = () => {
   const [search, setSearch] = useState("");
@@ -43,7 +44,6 @@ const Event = () => {
     <Container>
       <title>CC - Event</title>
       <div className="my-12">
-        {/* Heading */}
         <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral text-center mb-3">
           Explore Upcoming Events
         </h1>
@@ -52,9 +52,7 @@ const Event = () => {
           happening around you.
         </p>
 
-        {/* Search & Filter */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10 p-4 lg:p-0">
-          {/* Search Bar */}
           <div className="flex items-center w-full sm:w-auto bg-base-100 border border-base-300 rounded-lg shadow-sm overflow-hidden">
             <FiSearch className="mx-3 text-neutral/60" size={20} />
             <input
@@ -73,7 +71,6 @@ const Event = () => {
             </button>
           </div>
 
-          {/* Category Filter */}
           <div className="relative w-full sm:w-60">
             <select
               value={category}
@@ -99,29 +96,29 @@ const Event = () => {
           </div>
         </div>
 
-        {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 lg:p-0">
           {events.length === 0 ? (
             <p className="text-center text-gray-500 col-span-full">
               No events available at the moment.
             </p>
           ) : (
-            events.map((event) => (
-              <div
+            events.map((event, index) => (
+              <motion.div
                 key={event._id}
                 className="bg-base-100 border border-base-300 rounded-xl shadow hover:shadow-lg transition p-5 flex flex-col"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
               >
-                {/* TITLE */}
                 <h3 className="text-xl font-bold text-neutral mb-2">
                   {event.title}
                 </h3>
 
-                {/* DESC */}
                 <p className="text-sm text-neutral/70 mb-3 line-clamp-2">
                   {event.description}
                 </p>
 
-                {/* EVENT INFO */}
                 <div className="text-sm text-neutral/80 space-y-1 mb-4">
                   <p>📍 {event.location}</p>
                   <p>📅 {new Date(event.eventDate).toLocaleDateString()}</p>
@@ -135,14 +132,13 @@ const Event = () => {
                   )}
                 </div>
 
-                {/* BUTTON */}
                 <Link
                   to={`/events/${event._id}`}
                   className="mt-auto text-center bg-primary text-white py-2 rounded-lg hover:bg-primary/80 transition"
                 >
                   View Details
                 </Link>
-              </div>
+              </motion.div>
             ))
           )}
         </div>

@@ -119,7 +119,7 @@ const Navbar = () => {
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 mt-3 w-72 bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden z-999 animate-fadeIn">
+                  <div className="text-neutral absolute right-0 mt-3 w-72 bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden z-999 animate-fadeIn">
                     <div className="p-5 border-b border-base-200">
                       <p className="font-bold text-lg truncate">
                         {user.displayName}
@@ -150,7 +150,7 @@ const Navbar = () => {
 
                       <button
                         onClick={handleLogout}
-                        className="flex items-center gap-4 w-full px-5 py-3 text-red-600 hover:bg-red-50 transition"
+                        className="bg-secondary flex items-center gap-4 w-full px-5 py-3 text-white hover:bg-secondary/80 transition"
                       >
                         <FiLogOut className="text-xl" />
                         <span>Logout</span>

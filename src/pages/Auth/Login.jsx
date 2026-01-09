@@ -72,7 +72,7 @@ const Login = () => {
       <title>CC - Login</title>
       <Container>
         <div className="max-w-md mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl border border-base-200 p-8">
+          <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-primary">Welcome Back!</h1>
               <p className="text-neutral mt-2">
@@ -89,10 +89,10 @@ const Login = () => {
                   type="email"
                   placeholder="you@example.com"
                   {...register("email", { required: "Email is required" })}
-                  className="w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                  className="text-neutral w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-error text-sm mt-1">
                     {errors.email.message}
                   </p>
                 )}
@@ -108,7 +108,7 @@ const Login = () => {
                   {...register("password", {
                     required: "Password is required",
                   })}
-                  className="w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                  className="text-neutral w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                 />
                 <button
                   type="button"
@@ -118,7 +118,7 @@ const Login = () => {
                   {showPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
                 {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-error text-sm mt-1">
                     {errors.password.message}
                   </p>
                 )}
@@ -127,7 +127,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex justify-center items-center w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-[#0F766E] transition-all shadow-md disabled:opacity-70"
+                className="flex justify-center items-center w-full bg-primary text-white font-semibold py-3.5 rounded-lg hover:bg-primary/80 transition-all shadow-md disabled:opacity-70"
               >
                 {loading ? (
                   <Loading height={32} width={32} color="#F43F5E" />

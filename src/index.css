@@ -20,7 +20,7 @@
 }
 
 [data-theme="dark"] {
-  --color-primary: #2dd4bf;
+  --color-primary: #0F766E;
   --color-secondary: #fb7185;
   --color-accent: #facc15;
 
@@ -56,7 +56,7 @@ body::before {
 }
 
 [data-theme="dark"] body::before {
-  opacity: 0.000001;
+  opacity: 0.000000000000000000001;
 }
 
 ::selection {

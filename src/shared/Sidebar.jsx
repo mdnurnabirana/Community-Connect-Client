@@ -108,7 +108,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
                 onClick={() => setIsSidebarOpen(false)}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-4 py-3 rounded-md transition-colors hover:bg-base-300/20 ${
-                    isActive ? "bg-base-300/30 text-primary" : ""
+                    isActive ? "bg-primary text-neutral" : ""
                   }`
                 }
               >
@@ -125,7 +125,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
           ${isOpen ? "sm:w-64" : "sm:w-20"}
         `}
       >
-        <div className="h-16 flex items-center px-3 border-b border-base-300">
+        <div className="bg-base-200 h-16 flex items-center px-3 border-b border-base-300">
           <Link to="/" className="font-bold text-lg truncate">
             {isOpen ? (
               <Logo height={48} width={48} />
@@ -135,7 +135,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
           </Link>
         </div>
 
-        <nav className="mt-4 px-2 flex-1 overflow-auto">
+        <nav className="bg-base-200 p-2 flex-1 overflow-auto">
           {isRoleLoading ? (
             <Loading />
           ) : (

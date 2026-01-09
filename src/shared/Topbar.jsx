@@ -56,9 +56,10 @@ const Topbar = ({ setIsSidebarOpen }) => {
         </button>
 
         {open && (
-          <div className="absolute right-0 mt-3 w-64 bg-base-100 shadow-xl rounded-xl border border-base-200 p-3 z-50">
+          <div className="text-neutral absolute right-0 mt-3 w-64 bg-base-100 shadow-xl rounded-xl border border-base-200 p-3 z-50">
             <p className="font-semibold truncate">{user?.displayName}</p>
-            <p className="text-sm text-neutral truncate mb-3">{user?.email}</p>
+            <p className="text-sm truncate mb-3">{user?.email}</p>
+            <hr />
 
             <Link
               to="/profile"
@@ -78,7 +79,7 @@ const Topbar = ({ setIsSidebarOpen }) => {
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-100 rounded-lg w-full"
+              className="bg-secondary flex items-center gap-3 px-3 py-2 text-white hover:bg-secondary/80 rounded-lg w-full"
             >
               <FiLogOut /> Logout
             </button>

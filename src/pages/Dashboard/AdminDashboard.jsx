@@ -100,7 +100,7 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-8">
       <title>Admin - Dashboard</title>
-      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+      <h1 className="text-neutral text-3xl font-bold">Admin Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {statCards.map((card, i) => {
@@ -115,8 +115,8 @@ const AdminDashboard = () => {
               transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
             >
               <Icon className={`mx-auto text-5xl ${card.color} mb-4`} />
-              <p className="text-lg text-gray-600">{card.label}</p>
-              <p className="text-3xl font-bold">{card.value}</p>
+              <p className="text-lg text-neutral">{card.label}</p>
+              <p className="text-3xl font-bold text-neutral">{card.value}</p>
               {card.extra && card.extra}
             </motion.div>
           );
@@ -131,7 +131,7 @@ const AdminDashboard = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <h2 className="text-xl font-semibold mb-4">User Growth</h2>
+          <h2 className="text-neutral text-xl font-semibold mb-4">User Growth</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={
@@ -156,7 +156,7 @@ const AdminDashboard = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <h2 className="text-xl font-semibold mb-4">Revenue Generation</h2>
+          <h2 className="text-neutral text-xl font-semibold mb-4">Revenue Generation</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={

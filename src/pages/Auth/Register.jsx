@@ -114,16 +114,15 @@ const Register = () => {
     <section className="min-h-screen py-8">
       <title>CC - Register</title>
       <div className="max-w-xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl border border-base-200 p-8">
+        <div className="bg-base-100 rounded-2xl shadow-xl border border-base-200 p-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-primary">Join Community Connect</h1>
+            <h1 className="text-4xl font-bold text-neutral">Join Community Connect</h1>
             <p className="text-neutral mt-2">
               Create your account and discover local clubs
             </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Profile Photo */}
             <div className="flex justify-center">
               <div className="relative group">
                 {photoPreview ? (
@@ -136,14 +135,14 @@ const Register = () => {
                     <button
                       type="button"
                       onClick={removePhoto}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 shadow-md hover:bg-red-600"
+                      className="absolute -top-2 -right-2 bg-error text-white rounded-full p-1.5 shadow-md hover:bg-error/90"
                     >
                       <FiX size={16} />
                     </button>
                   </>
                 ) : (
-                  <div className="w-28 h-28 rounded-full bg-base-200 border-4 border-dashed border-base-300 flex flex-col items-center justify-center gap-1">
-                    <FiCamera className="text-3xl text-base-400" />
+                  <div className="w-28 h-28 rounded-full bg-primary border-4 border-dashed border-base-300 flex flex-col items-center justify-center gap-1">
+                    <FiCamera className="text-3xl text-neutral" />
                     <span className="text-xs text-neutral">No photo</span>
                   </div>
                 )}
@@ -159,7 +158,7 @@ const Register = () => {
                 accept="image/*"
                 {...register("photo")}
                 onChange={handlePhotoChange}
-                className="w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                className="text-neutral w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
               />
               <p className="text-xs text-neutral mt-1">JPG, PNG • Max 3MB</p>
             </div>
@@ -172,10 +171,10 @@ const Register = () => {
                 type="text"
                 placeholder="John Doe"
                 {...register("name", { required: "Full name is required" })}
-                className="w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                className="text-neutral w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
               />
               {errors.name && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-error text-sm mt-1">
                   {errors.name.message}
                 </p>
               )}
@@ -189,10 +188,10 @@ const Register = () => {
                 type="email"
                 placeholder="you@example.com"
                 {...register("email", { required: "Email is required" })}
-                className="w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                className="text-neutral w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-error text-sm mt-1">
                   {errors.email.message}
                 </p>
               )}
@@ -213,7 +212,7 @@ const Register = () => {
                     message: "Must contain uppercase & lowercase letters",
                   },
                 })}
-                className="w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                className="text-neutral w-full px-4 py-3 rounded-lg border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
               />
               <button
                 type="button"
@@ -223,7 +222,7 @@ const Register = () => {
                 {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-error text-sm mt-1">
                   {errors.password.message}
                 </p>
               )}

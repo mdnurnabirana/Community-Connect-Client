@@ -26,10 +26,10 @@ const FeaturedClubs = () => {
   return (
     <Container>
       <div className="my-12 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-3">
+        <h2 className="text-neutral text-3xl sm:text-4xl font-bold text-center mb-3">
           Featured Clubs
         </h2>
-        <p className="text-center text-neutral/80 mb-10 max-w-2xl mx-auto">
+        <p className="text-center text-neutral/95 mb-10 max-w-2xl mx-auto">
           Discover some of our highlighted communities and join one that fits
           your interests.
         </p>

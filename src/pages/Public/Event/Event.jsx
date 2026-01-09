@@ -47,7 +47,7 @@ const Event = () => {
         <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral text-center mb-3">
           Explore Upcoming Events
         </h1>
-        <p className="text-neutral/80 text-center mb-10 text-sm sm:text-base">
+        <p className="text-neutral/95 text-center mb-10 text-sm sm:text-base">
           Discover exciting activities, workshops, seminars, and gatherings
           happening around you.
         </p>

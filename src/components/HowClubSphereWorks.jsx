@@ -34,8 +34,8 @@ const HowClubSphereWorks = () => {
   return (
     <Container>
       <div className="my-20 text-center p-4">
-        <h2 className="text-3xl font-bold mb-6">How ClubSphere Works</h2>
-        <p className="text-neutral/80 mb-12 max-w-2xl mx-auto">
+        <h2 className="text-neutral text-3xl font-bold mb-6">How ClubSphere Works</h2>
+        <p className="text-neutral/95 mb-12 max-w-2xl mx-auto">
           Joining and participating in a club is simple. Follow these steps to
           get started.
         </p>
@@ -53,8 +53,8 @@ const HowClubSphereWorks = () => {
                 transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
               >
                 <Icon size={40} className="text-primary mb-4" />
-                <h3 className="font-semibold text-lg mb-2">{step.title}</h3>
-                <p className="text-neutral/70 text-sm text-center">
+                <h3 className="text-neutral font-semibold text-lg mb-2">{step.title}</h3>
+                <p className="text-neutral/80 text-sm text-center">
                   {step.description}
                 </p>
               </motion.div>

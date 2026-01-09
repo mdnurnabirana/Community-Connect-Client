@@ -88,7 +88,7 @@ const EventDetails = () => {
   if (!event)
     return (
       <Container>
-        <p className="text-center text-gray-500 mt-20">Event not found</p>
+        <p className="text-center text-neutral mt-20">Event not found</p>
       </Container>
     );
 
@@ -121,24 +121,24 @@ const EventDetails = () => {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
-        <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
-        <div className="space-y-2 text-gray-600 mb-6">
-          <p>📍 Location: {event.location}</p>
-          <p>📅 Date: {new Date(event.eventDate).toLocaleString()}</p>
+        <h1 className="text-neutral text-3xl font-bold mb-4">{event.title}</h1>
+        <div className="space-y-2 text-neutral/90 mb-6">
+          <p>Location: {event.location}</p>
+          <p>Date: {new Date(event.eventDate).toLocaleString()}</p>
           {event.isPaid ? (
             <p className="text-error font-semibold">
-              💰 Fee: ${event.eventFee}
+              Fee: ${event.eventFee}
             </p>
           ) : (
-            <p className="text-green-600 font-semibold">🎉 Free Event</p>
+            <p className="text-primary font-semibold">Free Event</p>
           )}
           {event.maxAttendees && <p>👥 Max attendees: {event.maxAttendees}</p>}
         </div>
-        <p className="text-gray-700 leading-relaxed mb-8">
+        <p className="text-neutral leading-relaxed mb-8">
           {event.description}
         </p>
         {statusMessage ? (
-          <p className="text-red-500 font-semibold text-center">
+          <p className="text-error font-semibold text-center">
             {statusMessage}
           </p>
         ) : (
@@ -147,7 +147,7 @@ const EventDetails = () => {
             disabled={buttonDisabled}
             className={`w-full py-3 rounded-xl font-semibold transition ${
               buttonDisabled
-                ? "bg-gray-400 cursor-not-allowed"
+                ? "bg-error cursor-not-allowed"
                 : "bg-primary text-white hover:bg-primary/80"
             }`}
           >

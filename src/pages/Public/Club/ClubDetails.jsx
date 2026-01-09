@@ -78,37 +78,37 @@ const ClubDetails = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-neutral-800">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-neutral">
             {club.clubName}
           </h1>
 
-          <p className="text-gray-600 leading-relaxed mb-8 text-[17px]">
+          <p className="text-neutral/95 leading-relaxed mb-8 text-md">
             {club.description}
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-x-12 gap-y-5 mb-10 text-[15px]">
-            <p>
-              <span className="font-semibold text-gray-700">Category:</span>{" "}
+          <div className="grid sm:grid-cols-2 gap-x-12 gap-y-5 mb-10 text-md">
+            <p className="text-neutral/80">
+              <span className="font-semibold text-neutral/90">Category:</span>{" "}
               {club.category}
             </p>
 
-            <p>
-              <span className="font-semibold text-gray-700">Location:</span>{" "}
+            <p className="text-neutral/80">
+              <span className="font-semibold text-neutral/90">Location:</span>{" "}
               {club.location}
             </p>
 
-            <p>
-              <span className="font-semibold text-gray-700">Manager:</span>{" "}
+            <p className="text-neutral/80">
+              <span className="font-semibold text-neutral/90">Manager:</span>{" "}
               {club.managerEmail}
             </p>
 
-            <p>
-              <span className="font-semibold text-gray-700">Created At:</span>{" "}
+            <p className="text-neutral/80">
+              <span className="font-semibold text-neutral/90">Created At:</span>{" "}
               {new Date(club.createdAt).toLocaleDateString()}
             </p>
 
-            <p>
-              <span className="font-semibold text-gray-700">Membership Fee:</span>{" "}
+            <p className="text-neutral/80">
+              <span className="font-semibold text-neutral/90">Membership Fee:</span>{" "}
               {club.membershipFee === 0 ? "Free" : `$ ${club.membershipFee}`}
             </p>
           </div>

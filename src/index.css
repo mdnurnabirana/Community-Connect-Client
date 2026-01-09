@@ -1,19 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes: false;
 }
 
-@theme {
-  --color-primary:   #0D9488;
-  --color-secondary: #F43F5E;
-  --color-accent:    #FBBF24;
-  --color-base-100:  #F8FAFC;
-  --color-base-200:  #E2E8F0;
-  --color-base-300:  #CBD5E1;
-  --color-neutral:   #1E293B;
-  --color-success:   #10B981;
-  --color-error:     #EF4444;
+[data-theme="light"] {
+  --color-primary: #0d9488;
+  --color-secondary: #f43f5e;
+  --color-accent: #fbbf24;
+
+  --color-base-100: #f8fafc;
+  --color-base-200: #e2e8f0;
+  --color-base-300: #cbd5e1;
+  
+  --color-neutral: #1e293b;
+  --color-success: #10b981;
+  --color-error: #ef4444;
+}
+
+[data-theme="dark"] {
+  --color-primary: #2dd4bf;
+  --color-secondary: #fb7185;
+  --color-accent: #facc15;
+
+  --color-base-100: #020617;
+  --color-base-200: #0f172a;
+  --color-base-300: #1e293b;
+
+  --color-neutral: #e5e7eb;
+  --color-success: #34d399;
+  --color-error: #f87171;
 }
 
 * {
@@ -28,9 +45,20 @@ body {
 body::before {
   content: "";
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: url("./assets/texture1.png") repeat;
   background-attachment: fixed;
   pointer-events: none;
   z-index: -1;
+}
+
+[data-theme="dark"] body::before {
+  opacity: 0.000001;
+}
+
+::selection {
+  @apply bg-secondary text-neutral;
 }

@@ -4,17 +4,27 @@ import Container from "./Container";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import Loading from "./Loading";
-import { FiMenu, FiX, FiUser, FiHome, FiLogOut } from "react-icons/fi";
+import {
+  FiMenu,
+  FiX,
+  FiUser,
+  FiHome,
+  FiLogOut,
+  FiSun,
+  FiMoon,
+} from "react-icons/fi";
 import Logo from "./Logo";
+import { useTheme } from "../providers/ThemeContext";
 
 const navMenus = [
   { id: 1, name: "Home", link: "/" },
   { id: 2, name: "Clubs", link: "/clubs" },
   { id: 3, name: "Events", link: "/events" },
-  { id: 4, name: "About", link: "/about"}
+  { id: 4, name: "About", link: "/about" },
 ];
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const { user, loading, logOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -36,9 +46,7 @@ const Navbar = () => {
   return (
     <header className="pt-5">
       <Container>
-        {/* Navbar Wrapper */}
         <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4 bg-base-100 rounded-full shadow-xl border border-base-200 relative">
-          {/* Logo */}
           <Link to="/" className="lg:hidden">
             <Logo height={50} width={50} showText={false} />
           </Link>
@@ -47,7 +55,6 @@ const Navbar = () => {
             <Logo height={50} width={50} showText={true} />
           </Link>
 
-          {/* Desktop Menu */}
           <nav className="hidden lg:flex ml-10">
             <ul className="flex gap-10">
               {navMenus.map((item) => (
@@ -70,11 +77,16 @@ const Navbar = () => {
             </ul>
           </nav>
 
-          {/* Right: Auth / Profile */}
           <div className="flex items-center gap-4">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full border border-primary text-primary hover:bg-base-200 transition text-xl"
+            >
+              {theme === "light" ? <FiMoon /> : <FiSun />}
+            </button>
+
             {loading && <Loading height={32} width={32} />}
 
-            {/* Desktop Guest Links */}
             {!loading && !user && (
               <div className="hidden md:flex items-center gap-4">
                 <Link
@@ -92,7 +104,6 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Logged-in profile */}
             {!loading && user && (
               <div className="relative">
                 <button
@@ -107,7 +118,6 @@ const Navbar = () => {
                   />
                 </button>
 
-                {/* Profile Dropdown */}
                 {profileOpen && (
                   <div className="absolute right-0 mt-3 w-72 bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden z-999 animate-fadeIn">
                     <div className="p-5 border-b border-base-200">
@@ -151,7 +161,6 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Mobile Menu Toggle */}
             <button
               className="lg:hidden text-3xl text-neutral"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -161,7 +170,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden mt-3 bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden animate-slideDown z-999">
             <nav className="py-4">

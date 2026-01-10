@@ -46,7 +46,7 @@ const MyPayments = () => {
             placeholder="Search payments..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="text-neutral w-full md:w-72 px-4 py-2 rounded-lg border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -64,7 +64,7 @@ const MyPayments = () => {
             <>
               <div className="hidden md:block overflow-x-auto">
                 <table className="w-full border border-base-300 rounded-lg">
-                  <thead className="bg-base-200">
+                  <thead className="bg-base-200 text-neutral">
                     <tr>
                       <th className="p-3 text-left border-b">#</th>
                       <th className="p-3 text-left border-b">Amount</th>
@@ -75,7 +75,7 @@ const MyPayments = () => {
                     </tr>
                   </thead>
 
-                  <tbody>
+                  <tbody className="text-neutral/90">
                     {filteredPayments.map((p, i) => (
                       <motion.tr
                         key={i}

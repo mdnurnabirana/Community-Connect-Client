@@ -35,7 +35,7 @@ const MemberDashboard = () => {
         <h1 className="text-2xl md:text-3xl font-bold text-neutral">
           Welcome back 👋
         </h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-sm text-neutral mt-1">
           Here’s a quick overview of activities
         </p>
       </div>
@@ -66,11 +66,11 @@ const MemberDashboard = () => {
         />
       </div>
 
-      <div className="bg-base-100 rounded-2xl border border-base-300 p-5 md:p-6 shadow-sm">
+      <div className="bg-base-100 rounded-2xl border border-base-300 p-5 md:p-6 shadow-sm text-neutral">
         <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
 
         {upcomingEvents.length === 0 ? (
-          <div className="text-center py-10 text-gray-500">
+          <div className="text-center py-10 text-neutral">
             No upcoming events at the moment
           </div>
         ) : (
@@ -84,11 +84,11 @@ const MemberDashboard = () => {
                   {event.title}
                 </h3>
 
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-neutral mt-1">
                   {event.clubName} • {event.location}
                 </p>
 
-                <p className="text-sm mt-3 text-gray-700">
+                <p className="text-sm mt-3 text-neutral">
                   {new Date(event.eventDate).toLocaleDateString(undefined, {
                     weekday: "long",
                     year: "numeric",
@@ -118,7 +118,7 @@ const StatCard = ({ icon, label, value, bg, iconColor }) => {
         </div>
 
         <div>
-          <p className="text-sm text-gray-500">{label}</p>
+          <p className="text-sm text-neutral">{label}</p>
           <p className="text-3xl font-bold text-neutral">{value}</p>
         </div>
       </div>

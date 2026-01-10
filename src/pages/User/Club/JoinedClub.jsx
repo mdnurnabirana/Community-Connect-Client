@@ -32,17 +32,14 @@ const JoinedClub = () => {
   return (
     <Container>
       <title>CC - Joined Club</title>
-      <div className="text-center mb-10">
+      <div className="mb-10">
         <h1 className="text-2xl md:text-3xl font-bold text-neutral">
           My Joined Clubs
         </h1>
-        <p className="text-sm text-gray-500 mt-2">
-          Clubs where you currently hold an active membership
-        </p>
       </div>
 
       {memberships.length === 0 ? (
-        <div className="text-center py-16 text-gray-500">
+        <div className="text-center py-16 text-neutral">
           You haven’t joined any clubs yet.
         </div>
       ) : (

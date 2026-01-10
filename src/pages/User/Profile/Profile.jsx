@@ -72,7 +72,7 @@ const Profile = () => {
   return (
     <div className="max-w-xl mx-auto py-10">
       <title>CC - My Profile</title>
-      <div className="bg-white p-8 rounded-2xl shadow-xl border border-base-200">
+      <div className="bg-base-100 p-8 rounded-2xl shadow-xl border border-base-200 text-neutral">
         <h1 className="text-3xl font-bold text-center mb-6">My Profile</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="flex justify-center">

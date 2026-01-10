@@ -51,20 +51,20 @@ const ManageUser = () => {
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
         <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center mb-6">
-          <h2 className="text-xl md:text-2xl font-bold">Manage Users</h2>
+          <h2 className="text-neutral text-xl md:text-2xl font-bold">Manage Users</h2>
 
           <input
             type="text"
             placeholder="Search users..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-72 px-3 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="text-neutral w-full md:w-72 px-3 py-2 rounded-lg border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
         <div className="md:hidden flex flex-col gap-4">
           {filteredUsers.length === 0 ? (
-            <p className="text-center text-gray-500 py-6">No users found</p>
+            <p className="text-center text-neutral py-6">No users found</p>
           ) : (
             filteredUsers.map((row, index) => {
               const isSelf = row.email === user?.email;
@@ -72,14 +72,14 @@ const ManageUser = () => {
               return (
                 <motion.div
                   key={row._id}
-                  className="p-4 border border-base-300 rounded-lg shadow-sm bg-base-100"
+                  className="text-neutral p-4 border border-base-300 rounded-lg shadow-sm bg-base-100"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.1 }}
                 >
                   <p className="font-semibold text-lg">{row.name}</p>
-                  <p className="text-sm text-gray-600 break-all">{row.email}</p>
+                  <p className="text-sm break-all">{row.email}</p>
 
                   <div className="mt-3">
                     <label className="text-sm font-medium block mb-1">Role</label>
@@ -102,7 +102,7 @@ const ManageUser = () => {
                     </select>
                   </div>
 
-                  <p className="text-xs mt-3 text-gray-500">
+                  <p className="text-xs mt-3 text-neutral/90">
                     {new Date(row.createdAt).toLocaleString()}
                   </p>
                 </motion.div>
@@ -114,7 +114,7 @@ const ManageUser = () => {
         <div className="hidden md:block overflow-x-auto mt-4">
           <table className="w-full border border-base-300 rounded-lg">
             <thead className="bg-base-200 sticky top-0 z-10">
-              <tr>
+              <tr className="text-neutral">
                 <th className="p-3 text-left border-b">Name</th>
                 <th className="p-3 text-left border-b">Email</th>
                 <th className="p-3 text-left border-b">Role</th>
@@ -125,7 +125,7 @@ const ManageUser = () => {
             <tbody>
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="text-center p-6 text-gray-500">
+                  <td colSpan="4" className="text-center p-6 text-neutral/95">
                     No users found
                   </td>
                 </tr>
@@ -136,7 +136,7 @@ const ManageUser = () => {
                   return (
                     <motion.tr
                       key={row._id}
-                      className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                      className={index % 2 === 0 ? "bg-base-100 text-neutral/95" : "bg-base-200 text-neutral/95"}
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, amount: 0.3 }}

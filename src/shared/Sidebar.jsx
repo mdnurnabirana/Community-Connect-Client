@@ -72,7 +72,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 sm:hidden"
+          className="fixed inset-0 bg-primary/50 z-40 sm:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -135,7 +135,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
           </Link>
         </div>
 
-        <nav className="bg-base-200 p-2 flex-1 overflow-auto">
+        <nav className="bg-base-100 p-2 flex-1 overflow-auto">
           {isRoleLoading ? (
             <Loading />
           ) : (
@@ -145,8 +145,8 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
                 to={item.path}
                 end={item.end}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 px-3 py-3 rounded-lg transition-all hover:bg-base-300/20 ${
-                    isActive ? "bg-base-300/30 text-primary" : ""
+                  `text-neutral flex items-center gap-4 px-3 py-3 rounded-lg transition-all hover:bg-base-200 ${
+                    isActive ? "bg-primary" : ""
                   }`
                 }
               >

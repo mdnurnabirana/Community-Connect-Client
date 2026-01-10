@@ -71,14 +71,14 @@ const ManageClubAdmin = () => {
             placeholder="Search clubs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="text-neutral w-full md:w-72 px-4 py-2 rounded-lg border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full border border-base-300 rounded-lg">
             <thead className="bg-base-200">
-              <tr>
+              <tr className="text-neutral">
                 <th className="p-3 text-left border-b">Club</th>
                 <th className="p-3 text-left border-b">Manager</th>
                 <th className="p-3 text-left border-b">Members</th>
@@ -91,7 +91,7 @@ const ManageClubAdmin = () => {
             <tbody>
               {filteredClubs.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center p-6 text-gray-500">
+                  <td colSpan="6" className="text-center p-6 text-neutral/90">
                     No clubs found
                   </td>
                 </tr>
@@ -99,7 +99,7 @@ const ManageClubAdmin = () => {
                 filteredClubs.map((club, index) => (
                   <motion.tr
                     key={club._id}
-                    className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                    className={index % 2 === 0 ? "bg-base-100 text-neutral/95" : "bg-base-200 text-neutral/95"}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
@@ -116,7 +116,7 @@ const ManageClubAdmin = () => {
                       <select
                         value={club.status}
                         onChange={(e) => handleStatusSelect(club, e.target.value)}
-                        className="px-3 py-2 rounded border border-base-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="px-3 py-2 rounded border border-base-300 bg-primary focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="approved">Approved</option>
                         <option value="pending">Pending</option>
@@ -134,7 +134,7 @@ const ManageClubAdmin = () => {
           {filteredClubs.map((club, index) => (
             <motion.div
               key={club._id}
-              className="p-4 rounded-xl border border-base-300 shadow-sm"
+              className="p-4 rounded-xl border border-base-300 shadow-sm text-neutral/95"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
@@ -151,7 +151,7 @@ const ManageClubAdmin = () => {
               <select
                 value={club.status}
                 onChange={(e) => handleStatusSelect(club, e.target.value)}
-                className="mt-3 w-full px-3 py-2 rounded border border-base-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                className="mt-3 w-full px-3 py-2 rounded border border-base-300 bg-primary focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="approved">Approved</option>
                 <option value="pending">Pending</option>

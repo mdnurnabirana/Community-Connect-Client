@@ -44,7 +44,7 @@ const Payments = () => {
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-          <h2 className="text-xl md:text-2xl font-bold">
+          <h2 className="text-neutral text-xl md:text-2xl font-bold">
             All Payments / Transactions
           </h2>
 
@@ -53,20 +53,20 @@ const Payments = () => {
             placeholder="Search by user, club or type"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="text-neutral w-full md:w-72 px-4 py-2 rounded-lg border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
         <div className="md:hidden flex flex-col gap-4">
           {filteredPayments.length === 0 ? (
-            <p className="text-center text-gray-500 py-6">
+            <p className="text-center text-neutral/95 py-6">
               No transactions found
             </p>
           ) : (
             filteredPayments.map((p, i) => (
               <motion.div
                 key={i}
-                className="p-4 border border-base-300 rounded-lg bg-base-100 shadow-sm"
+                className="p-4 border border-base-300 rounded-lg bg-base-100 shadow-sm text-neutral"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -89,7 +89,7 @@ const Payments = () => {
                   <span className="font-semibold">Club:</span> {p.clubName || "-"}
                 </p>
 
-                <p className="text-xs text-gray-500 mt-3">
+                <p className="text-xs text-neutral/95 mt-3">
                   {new Date(p.date).toLocaleDateString()}
                 </p>
               </motion.div>
@@ -100,7 +100,7 @@ const Payments = () => {
         <div className="hidden md:block overflow-x-auto mt-4">
           <table className="w-full border border-base-300 rounded-lg">
             <thead className="bg-base-200 sticky top-0 z-10">
-              <tr>
+              <tr className="text-neutral">
                 <th className="p-3 text-left border-b">#</th>
                 <th className="p-3 text-left border-b">User Email</th>
                 <th className="p-3 text-left border-b">Amount</th>
@@ -113,7 +113,7 @@ const Payments = () => {
             <tbody>
               {filteredPayments.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center p-6 text-gray-500">
+                  <td colSpan="6" className="text-center p-6 text-neutral/95">
                     No transactions found
                   </td>
                 </tr>
@@ -121,7 +121,7 @@ const Payments = () => {
                 filteredPayments.map((p, i) => (
                   <motion.tr
                     key={i}
-                    className={i % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                    className={i % 2 === 0 ? "bg-base-100 text-neutral/95" : "bg-base-200 text-neutral/95"}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}

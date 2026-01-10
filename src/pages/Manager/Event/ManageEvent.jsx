@@ -65,13 +65,12 @@ const ManageEvent = () => {
           placeholder="Search events..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="text-neutral w-full md:w-72 px-4 py-2 rounded-lg border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
 
-      {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
-        <table className="w-full border border-base-300 rounded-lg">
+        <table className="w-full border border-base-300 rounded-lg text-neutral">
           <thead className="bg-base-200">
             <tr>
               <th className="p-3 text-left border-b">Event Title</th>
@@ -83,7 +82,7 @@ const ManageEvent = () => {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="text-neutral/90">
             <AnimatePresence>
               {filteredEvents.length === 0 ? (
                 <tr>
@@ -142,8 +141,7 @@ const ManageEvent = () => {
         </table>
       </div>
 
-      {/* Mobile Cards */}
-      <div className="md:hidden flex flex-col gap-4">
+      <div className="md:hidden flex flex-col gap-4 text-neutral">
         <AnimatePresence>
           {filteredEvents.map((event, index) => (
             <motion.div

@@ -84,12 +84,11 @@ const UpdateEvent = () => {
   return (
     <div className="max-w-3xl mx-auto p-6 bg-base-100 border border-base-300 rounded-2xl shadow-xl">
       <title>CC - Update Event</title>
-      <h2 className="text-3xl font-bold text-primary mb-6 text-center">
+      <h2 className="text-neutral text-3xl font-bold mb-6">
         Update Event
       </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Club */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-neutral">
         <div>
           <label className="block mb-1 font-medium">Club</label>
           <input
@@ -100,7 +99,6 @@ const UpdateEvent = () => {
           />
         </div>
 
-        {/* Title */}
         <div>
           <label className="block mb-1 font-medium">Event Title</label>
           <input
@@ -113,7 +111,6 @@ const UpdateEvent = () => {
           )}
         </div>
 
-        {/* Description */}
         <div>
           <label className="block mb-1 font-medium">Description</label>
           <textarea
@@ -127,7 +124,6 @@ const UpdateEvent = () => {
           )}
         </div>
 
-        {/* Date */}
         <div>
           <label className="block mb-1 font-medium">Event Date</label>
           <DatePicker
@@ -138,7 +134,6 @@ const UpdateEvent = () => {
           />
         </div>
 
-        {/* Location */}
         <div>
           <label className="block mb-1 font-medium">Location</label>
           <input
@@ -151,7 +146,6 @@ const UpdateEvent = () => {
           )}
         </div>
 
-        {/* Is Paid */}
         <div>
           <label className="block mb-1 font-medium">Is Paid Event?</label>
           <select
@@ -163,7 +157,6 @@ const UpdateEvent = () => {
           </select>
         </div>
 
-        {/* Event Fee */}
         {isPaid === "true" && (
           <div>
             <label className="block mb-1 font-medium">Event Fee</label>
@@ -179,7 +172,6 @@ const UpdateEvent = () => {
           </div>
         )}
 
-        {/* Max Attendees */}
         <div>
           <label className="block mb-1 font-medium">Max Attendees (Optional)</label>
           <input
@@ -190,7 +182,6 @@ const UpdateEvent = () => {
           />
         </div>
 
-        {/* Submit */}
         <button
           type="submit"
           disabled={updateMutation.isLoading}

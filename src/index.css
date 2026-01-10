@@ -62,3 +62,37 @@ body::before {
 ::selection {
   @apply bg-secondary text-neutral;
 }
+
+.react-calendar {
+  background: var(--color-primary) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 1rem !important;
+  padding: 1rem !important;
+  margin-bottom: 2px;
+}
+
+.react-calendar__month-view__days {
+  background: transparent !important;
+}
+
+.react-calendar__month-view__weekdays {
+  background: transparent !important;
+}
+
+.react-calendar__navigation {
+  background: #0b7b70 !important;
+  border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+
+.custom-date-picker .react-date-picker__wrapper {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+}
+
+.custom-date-picker .react-date-picker__inputGroup input {
+  background: transparent !important;
+  color: white !important;
+}

@@ -25,8 +25,8 @@ const StatCard = ({ icon, label, value, accentBg = "bg-primary/10", iconColor = 
       <div className={`${iconColor} text-2xl`}>{icon}</div>
     </div>
     <div>
-      <p className="text-sm text-neutral/70">{label}</p>
-      <p className="text-2xl font-bold">{value}</p>
+      <p className="text-sm text-neutral/90">{label}</p>
+      <p className="text-2xl font-bold text-neutral/90">{value}</p>
     </div>
   </motion.div>
 );
@@ -63,7 +63,7 @@ const ManagerDashboard = () => {
   return (
     <div className="space-y-10">
       <title>Manager - Dashboard</title>
-      <h1 className="text-3xl font-bold">Manager Dashboard</h1>
+      <h1 className="text-neutral text-3xl font-bold">Manager Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard icon={<FiHome />} label="Clubs Managed" value={totalClubs} accentBg="bg-accent/10" iconColor="text-accent" />
@@ -74,13 +74,13 @@ const ManagerDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <motion.div
-          className="bg-base-100 p-5 rounded-xl shadow"
+          className="text-neutral bg-base-100 p-5 rounded-xl shadow"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-xl font-semibold mb-4">Membership Growth</h2>
+          <h2 className="text-neutral text-xl font-semibold mb-4">Membership Growth</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={Array.isArray(membersData) ? membersData.map(d => ({ month: d._id, count: d.count })) : []}
@@ -101,7 +101,7 @@ const ManagerDashboard = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-xl font-semibold mb-4">Revenue Growth</h2>
+          <h2 className="text-neutral text-xl font-semibold mb-4">Revenue Growth</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={Array.isArray(revenueData) ? revenueData.map(d => ({ month: d._id, total: d.total })) : []}

@@ -69,15 +69,14 @@ const ManageClub = () => {
           placeholder="Search clubs..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="text-neutral w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="text-neutral w-full md:w-72 px-4 py-2 rounded-lg border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
 
-      {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
           <thead className="bg-base-200">
-            <tr>
+            <tr className="text-neutral">
               <th className="p-3 text-left border-b">Club Name</th>
               <th className="p-3 text-left border-b">Category</th>
               <th className="p-3 text-left border-b">Location</th>
@@ -91,7 +90,7 @@ const ManageClub = () => {
           <tbody>
             {filteredClubs.length === 0 ? (
               <tr>
-                <td colSpan="7" className="text-center p-6 text-gray-500">
+                <td colSpan="7" className="text-center p-6 text-neutral/95">
                   No clubs found
                 </td>
               </tr>
@@ -99,7 +98,7 @@ const ManageClub = () => {
               filteredClubs.map((club, index) => (
                 <motion.tr
                   key={club._id}
-                  className={index % 2 === 0 ? "bg-base-100" : "bg-base-200"}
+                  className={index % 2 === 0 ? "bg-base-100 text-neutral/90" : "bg-base-200 text-neutral/90"}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -118,13 +117,13 @@ const ManageClub = () => {
                     <div className="flex gap-4">
                       <Link
                         to={`/dashboard/manage-club/${club._id}`}
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-primary hover:text-primary/90"
                       >
                         <FiEdit size={18} />
                       </Link>
 
                       <button
-                        className="text-red-500 hover:text-red-700"
+                        className="text-error hover:text-error/90"
                         onClick={async () => {
                           const result = await Swal.fire({
                             title: "Are you sure?",
@@ -156,15 +155,14 @@ const ManageClub = () => {
         </table>
       </div>
 
-      {/* Mobile Cards */}
       <div className="md:hidden space-y-4">
         {filteredClubs.length === 0 ? (
-          <p className="text-center text-gray-500">No clubs found</p>
+          <p className="text-center text-neutral/90">No clubs found</p>
         ) : (
           filteredClubs.map((club, index) => (
             <motion.div
               key={club._id}
-              className="bg-base-100 border border-base-300 rounded-lg p-4 shadow-sm"
+              className="text-neutral bg-base-100 border border-base-300 rounded-lg p-4 shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}

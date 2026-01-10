@@ -72,10 +72,10 @@ console.log("Raw clubs from API:", clubs);
   }
 
   return (
-    <section className="min-h-screen py-10">
+    <section className="min-h-screen py-10 text-neutral">
       <title>CC - Create Event</title>
       <div className="max-w-3xl mx-auto bg-base-100 border border-base-300 rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-primary mb-8 text-center">
+        <h2 className="text-3xl font-bold mb-8">
           Create New Event
         </h2>
 
@@ -106,7 +106,6 @@ console.log("Raw clubs from API:", clubs);
               )}
             </div>
 
-            {/* Title */}
             <input
               {...register("title", { required: true })}
               placeholder="Event Title"
@@ -116,7 +115,6 @@ console.log("Raw clubs from API:", clubs);
               <p className="text-error text-sm">Title is required</p>
             )}
 
-            {/* Description */}
             <textarea
               {...register("description", { required: true })}
               placeholder="Event Description"
@@ -127,7 +125,6 @@ console.log("Raw clubs from API:", clubs);
               <p className="text-error text-sm">Description is required</p>
             )}
 
-            {/* Event Date */}
             <div className="flex flex-col gap-2">
               <label className="font-medium text-sm">Event Date</label>
               <div className="custom-date-picker">
@@ -141,7 +138,6 @@ console.log("Raw clubs from API:", clubs);
               </div>
             </div>
 
-            {/* Location */}
             <input
               {...register("location", { required: true })}
               placeholder="Event Location"

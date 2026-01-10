@@ -33,24 +33,23 @@ const EventMember = () => {
   return (
     <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 md:p-7">
       <title>CC - Event Members</title>
-      <h2 className="text-2xl font-extrabold text-neutral mb-6">
-        Event Registrations
-      </h2>
 
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
+        <h2 className="text-2xl font-extrabold text-neutral">
+          Event Registrations
+        </h2>
         <input
           type="text"
           placeholder="Search by user email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full md:w-72 px-4 py-2 rounded-lg border border-base-300 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="text-neutral w-full md:w-72 px-4 py-2 rounded-lg border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
 
-      {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-base-300 rounded-lg">
-          <thead className="bg-base-200">
+          <thead className="bg-base-200 text-neutral">
             <tr>
               <th className="p-3 text-left border-b">#</th>
               <th className="p-3 text-left border-b">User Email</th>
@@ -58,7 +57,7 @@ const EventMember = () => {
               <th className="p-3 text-left border-b">Registered At</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-neutral/90">
             <AnimatePresence>
               {filteredRegs.length === 0 ? (
                 <tr>
@@ -100,8 +99,7 @@ const EventMember = () => {
         </table>
       </div>
 
-      {/* Mobile Card View */}
-      <div className="md:hidden flex flex-col gap-4">
+      <div className="md:hidden flex flex-col gap-4 text-neutral">
         <AnimatePresence>
           {filteredRegs.length === 0 ? (
             <p className="text-center text-gray-500">No registrations found</p>
@@ -129,7 +127,8 @@ const EventMember = () => {
                 </div>
 
                 <p className="mb-1">
-                  <span className="font-medium">User Email:</span> {reg.userEmail}
+                  <span className="font-medium">User Email:</span>{" "}
+                  {reg.userEmail}
                 </p>
                 <p>
                   <span className="font-medium">Registered At:</span>{" "}

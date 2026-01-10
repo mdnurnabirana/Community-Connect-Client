@@ -92,12 +92,11 @@ const CreateClub = () => {
     <section className="min-h-screen py-10">
       <title>CC - Create Club</title>
       <div className="max-w-3xl mx-auto bg-base-100 border border-base-300 rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-primary mb-8 text-center">
+        <h2 className="text-3xl font-bold text-neutral mb-8">
           Create New Club
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Banner Image */}
           <div className="flex flex-col items-center">
             <div className="relative group w-full">
               {bannerPreview ? (
@@ -129,34 +128,31 @@ const CreateClub = () => {
               )}
             </div>
           </div>
-
-          {/* Club Name */}
+          
           <div>
             <input
               {...register("clubName", { required: "Club name is required" })}
               placeholder="Club Name"
-              className="w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
+              className="text-neutral w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
             />
             {errors.clubName && (
               <p className="text-error text-sm mt-1">{errors.clubName.message}</p>
             )}
           </div>
 
-          {/* Description */}
           <div>
             <textarea
               {...register("description", { required: true })}
               placeholder="Club Description"
               rows={4}
-              className="w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none resize-none"
+              className="text-neutral w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none resize-none"
             />
           </div>
 
-          {/* Category */}
           <div className="relative">
             <select
               {...register("category", { required: true })}
-              className="w-full appearance-none px-4 py-3 pr-12 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
+              className="text-neutral w-full appearance-none px-4 py-3 pr-12 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
             >
               <option value="">Select Category</option>
               <option>Photography</option>
@@ -168,19 +164,17 @@ const CreateClub = () => {
             </span>
           </div>
 
-          {/* Location */}
           <input
             {...register("location", { required: true })}
             placeholder="City / Area"
-            className="w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
+            className="text-neutral w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
           />
 
-          {/* Membership Fee */}
           <input
             type="number"
             {...register("membershipFee", { required: true })}
             placeholder="Membership Fee (0 for free)"
-            className="w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
+            className="text-neutral w-full px-4 py-3 rounded-lg bg-base-100 border border-base-300 focus:ring-2 focus:ring-primary outline-none"
           />
 
           <button

@@ -121,7 +121,7 @@ const Club = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 lg:p-0">
           {clubs.length === 0 ? (
-            <p className="text-center text-gray-500 col-span-full">
+            <p className="text-center text-neutral col-span-full">
               No clubs available at the moment.
             </p>
           ) : (

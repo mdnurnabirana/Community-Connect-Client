@@ -44,7 +44,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="pt-5">
+    <header className="sticky top-0 z-50">
       <Container>
         <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4 bg-base-100 rounded-full shadow-xl border border-base-200 relative">
           <Link to="/" className="lg:hidden">

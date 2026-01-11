@@ -21,8 +21,15 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    setValue, // ✅ added
     formState: { errors },
   } = useForm();
+
+  // ✅ demo credentials auto fill
+  const fillCredentials = (email, password) => {
+    setValue("email", email);
+    setValue("password", password);
+  };
 
   const saveUserToBackend = async (userObj) => {
     try {
@@ -71,13 +78,65 @@ const Login = () => {
     <section className="min-h-screen py-8">
       <title>CC - Login</title>
       <Container>
-        <div className="max-w-md mx-auto">
+        <div className="max-w-lg mx-auto">
           <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-8">
-            <div className="text-center mb-8">
+            <div className="text-center mb-6">
               <h1 className="text-4xl font-bold text-primary">Welcome Back!</h1>
               <p className="text-neutral mt-2">
                 Log in to manage your clubs and events
               </p>
+            </div>
+
+            <div className="mb-6 border border-base-300 rounded-xl bg-base-100/50 p-3">
+              <p className="text-xs text-neutral text-center mb-3 font-medium uppercase tracking-wide">
+                Quick Demo Login
+              </p>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div
+                  onClick={() => fillCredentials("user1@gmail.com", "User#1")}
+                  className="cursor-pointer group rounded-xl border border-base-300 bg-base-100 px-3 py-4 hover:border-primary hover:shadow transition-all"
+                >
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-bold">
+                      U
+                    </div>
+                    <span className="text-sm font-medium text-neutral">
+                      User
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  onClick={() =>
+                    fillCredentials("manager1@gmail.com", "Manager1")
+                  }
+                  className="cursor-pointer group rounded-xl border border-base-300 bg-base-100 px-3 py-4 hover:border-secondary hover:shadow transition-all"
+                >
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="w-9 h-9 rounded-full bg-secondary/10 text-secondary flex items-center justify-center text-sm font-bold">
+                      M
+                    </div>
+                    <span className="text-sm font-medium text-neutral">
+                      Manager
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  onClick={() => fillCredentials("admin1@gmail.com", "Admin1")}
+                  className="cursor-pointer group rounded-xl border border-base-300 bg-base-100 px-3 py-4 hover:border-error hover:shadow transition-all"
+                >
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="w-9 h-9 rounded-full bg-error/10 text-error flex items-center justify-center text-sm font-bold">
+                      A
+                    </div>
+                    <span className="text-sm font-medium text-neutral">
+                      Admin
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

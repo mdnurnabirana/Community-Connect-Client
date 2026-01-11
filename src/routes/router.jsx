@@ -31,6 +31,7 @@ import Payments from "../pages/Admin/Payment/Payments";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
 import Profile from "../pages/User/Profile/Profile";
 import About from "../pages/Public/About";
+import Contact from "../pages/Public/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: "clubs",
         element: <Club />,
+      },
+      {
+        path: "contact", 
+        element: <Contact />,
       },
       {
         path: "club/:id",

@@ -7,7 +7,7 @@ const About = () => {
   return (
     <Container>
       <title>CC - About us</title>
-      <section className="pt-20 pb-28 p-4">
+      <section className="my-12">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 50 }}

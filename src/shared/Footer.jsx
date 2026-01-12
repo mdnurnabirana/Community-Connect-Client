@@ -35,7 +35,7 @@ const Footer = () => {
                 About
               </Link>
               <Link
-                to="#"
+                to="/contact"
                 className="hover:text-primary transition-colors"
               >
                 Contact
@@ -57,9 +57,6 @@ const Footer = () => {
                 className="hover:text-primary transition-colors"
               >
                 Events
-              </Link>
-              <Link to="#" className="hover:text-primary transition-colors">
-                Blog
               </Link>
             </div>
           </div>

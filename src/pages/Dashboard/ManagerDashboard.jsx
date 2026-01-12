@@ -5,6 +5,8 @@ import { FiUsers, FiCalendar, FiDollarSign, FiHome } from "react-icons/fi";
 import {
   LineChart,
   Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -13,7 +15,13 @@ import {
 } from "recharts";
 import { motion } from "motion/react";
 
-const StatCard = ({ icon, label, value, accentBg = "bg-primary/10", iconColor = "text-primary" }) => (
+const StatCard = ({
+  icon,
+  label,
+  value,
+  accentBg = "bg-primary/10",
+  iconColor = "text-primary",
+}) => (
   <motion.div
     className="bg-base-100 p-6 rounded-xl flex items-center gap-4 shadow"
     initial={{ opacity: 0, y: 20 }}
@@ -21,7 +29,9 @@ const StatCard = ({ icon, label, value, accentBg = "bg-primary/10", iconColor = 
     viewport={{ once: true, amount: 0.3 }}
     transition={{ duration: 0.5 }}
   >
-    <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${accentBg}`}>
+    <div
+      className={`w-12 h-12 rounded-lg flex items-center justify-center ${accentBg}`}
+    >
       <div className={`${iconColor} text-2xl`}>{icon}</div>
     </div>
     <div>
@@ -41,12 +51,14 @@ const ManagerDashboard = () => {
 
   const { data: membersData = [], isLoading: membersLoading } = useQuery({
     queryKey: ["manager-members-over-time"],
-    queryFn: async () => (await axiosSecure.get("/manager/members-over-time")).data,
+    queryFn: async () =>
+      (await axiosSecure.get("/manager/members-over-time")).data,
   });
 
   const { data: revenueData = [], isLoading: revenueLoading } = useQuery({
     queryKey: ["manager-revenue-over-time"],
-    queryFn: async () => (await axiosSecure.get("/manager/revenue-over-time")).data,
+    queryFn: async () =>
+      (await axiosSecure.get("/manager/revenue-over-time")).data,
   });
 
   const loading = statsLoading || membersLoading || revenueLoading;
@@ -58,7 +70,12 @@ const ManagerDashboard = () => {
       </div>
     );
 
-  const { totalClubs = 0, totalMembers = 0, totalEvents = 0, totalRevenue = 0 } = stats;
+  const {
+    totalClubs = 0,
+    totalMembers = 0,
+    totalEvents = 0,
+    totalRevenue = 0,
+  } = stats;
 
   return (
     <div className="space-y-10">
@@ -66,51 +83,112 @@ const ManagerDashboard = () => {
       <h1 className="text-neutral text-3xl font-bold">Manager Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard icon={<FiHome />} label="Clubs Managed" value={totalClubs} accentBg="bg-accent/10" iconColor="text-accent" />
-        <StatCard icon={<FiUsers />} label="Total Members" value={totalMembers} accentBg="bg-primary/10" iconColor="text-primary" />
-        <StatCard icon={<FiCalendar />} label="Events Created" value={totalEvents} accentBg="bg-secondary/10" iconColor="text-secondary" />
-        <StatCard icon={<FiDollarSign />} label="Total Revenue" value={`$${totalRevenue}`} accentBg="bg-success/10" iconColor="text-success" />
+        <StatCard
+          icon={<FiHome />}
+          label="Clubs Managed"
+          value={totalClubs}
+          accentBg="bg-accent/10"
+          iconColor="text-accent"
+        />
+        <StatCard
+          icon={<FiUsers />}
+          label="Total Members"
+          value={totalMembers}
+          accentBg="bg-primary/10"
+          iconColor="text-primary"
+        />
+        <StatCard
+          icon={<FiCalendar />}
+          label="Events Created"
+          value={totalEvents}
+          accentBg="bg-secondary/10"
+          iconColor="text-secondary"
+        />
+        <StatCard
+          icon={<FiDollarSign />}
+          label="Total Revenue"
+          value={`$${totalRevenue}`}
+          accentBg="bg-success/10"
+          iconColor="text-success"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <motion.div
-          className="text-neutral bg-base-100 p-5 rounded-xl shadow"
+          className="bg-base-100 p-6 rounded-xl shadow"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-neutral text-xl font-semibold mb-4">Membership Growth</h2>
+          <h2 className="text-neutral text-xl font-semibold mb-4">
+            Membership Growth
+          </h2>
+
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart
-              data={Array.isArray(membersData) ? membersData.map(d => ({ month: d._id, count: d.count })) : []}
+            <AreaChart
+              data={membersData.map((d) => ({
+                month: d._id,
+                members: d.count,
+              }))}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <defs>
+                <linearGradient
+                  id="membersGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop offset="5%" stopColor="#0d9488" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#0d9488" stopOpacity={0.05} />
+                </linearGradient>
+              </defs>
+
+              <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
               <XAxis dataKey="month" />
-              <YAxis />
+              <YAxis allowDecimals={false} />
               <Tooltip />
-              <Line type="monotone" dataKey="count" stroke="#0D9488" />
-            </LineChart>
+              <Area
+                type="monotone"
+                dataKey="members"
+                stroke="#0d9488"
+                strokeWidth={3}
+                fill="url(#membersGradient)"
+              />
+            </AreaChart>
           </ResponsiveContainer>
         </motion.div>
 
         <motion.div
-          className="bg-base-100 p-5 rounded-xl shadow"
+          className="bg-base-100 p-6 rounded-xl shadow"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-neutral text-xl font-semibold mb-4">Revenue Growth</h2>
+          <h2 className="text-neutral text-xl font-semibold mb-4">
+            Revenue Growth
+          </h2>
+
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
-              data={Array.isArray(revenueData) ? revenueData.map(d => ({ month: d._id, total: d.total })) : []}
+              data={revenueData.map((d) => ({
+                month: d._id,
+                revenue: d.total,
+              }))}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip formatter={v => `$${v}`} />
-              <Line type="monotone" dataKey="total" stroke="#10B981" />
+              <Tooltip formatter={(v) => `$${v}`} />
+              <Line
+                type="monotone"
+                dataKey="revenue"
+                stroke="#10b981"
+                strokeWidth={3}
+                dot={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </motion.div>

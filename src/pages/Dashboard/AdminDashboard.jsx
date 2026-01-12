@@ -9,6 +9,10 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
 } from "recharts";
 import {
   FiUsers,
@@ -18,6 +22,8 @@ import {
   FiDollarSign,
 } from "react-icons/fi";
 import { motion } from "motion/react";
+
+const COLORS = ["#0d9488", "#f43f5e", "#fbbf24"];
 
 const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -29,8 +35,7 @@ const AdminDashboard = () => {
 
   const { data: usersData = [], isLoading: usersLoading } = useQuery({
     queryKey: ["users-over-time"],
-    queryFn: async () =>
-      (await axiosSecure.get("/admin/users-over-time")).data,
+    queryFn: async () => (await axiosSecure.get("/admin/users-over-time")).data,
   });
 
   const { data: revenueData = [], isLoading: revenueLoading } = useQuery({
@@ -68,12 +73,11 @@ const AdminDashboard = () => {
       label: "Total Clubs",
       value: clubs.total || 0,
       color: "text-accent",
-      extra: (
-        <div className="text-sm mt-2">
-          <span className="text-yellow-600">Pending: {clubs.pending || 0}</span>{" "}
-          |{" "}
-          <span className="text-green-600">Approved: {clubs.approved || 0}</span>{" "}
-          | <span className="text-red-600">Rejected: {clubs.rejected || 0}</span>
+      hoverContent: (
+        <div className="space-y-1 text-sm">
+          <p className="text-yellow-600">Pending: {clubs.pending || 0}</p>
+          <p className="text-green-600">Approved: {clubs.approved || 0}</p>
+          <p className="text-red-600">Rejected: {clubs.rejected || 0}</p>
         </div>
       ),
     },
@@ -97,6 +101,12 @@ const AdminDashboard = () => {
     },
   ];
 
+  const clubPieData = [
+    { name: "Approved", value: clubs.approved || 0 },
+    { name: "Pending", value: clubs.pending || 0 },
+    { name: "Rejected", value: clubs.rejected || 0 },
+  ];
+
   return (
     <div className="space-y-8">
       <title>Admin - Dashboard</title>
@@ -108,44 +118,56 @@ const AdminDashboard = () => {
           return (
             <motion.div
               key={i}
-              className="bg-base-100 p-6 rounded-xl text-center shadow"
+              className="relative group bg-base-100 p-6 rounded-xl text-center shadow hover:shadow-lg transition"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
             >
               <Icon className={`mx-auto text-5xl ${card.color} mb-4`} />
               <p className="text-lg text-neutral">{card.label}</p>
               <p className="text-3xl font-bold text-neutral">{card.value}</p>
-              {card.extra && card.extra}
+
+              {card.hoverContent && (
+                <div className="absolute left-1/2 top-full mt-3 w-44 -translate-x-1/2 bg-base-200 border border-base-300 rounded-lg p-3 shadow-lg opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition pointer-events-none z-20">
+                  {card.hoverContent}
+                </div>
+              )}
             </motion.div>
           );
         })}
       </div>
 
+      {/* ===== CHARTS ===== */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <motion.div
           className="bg-base-100 p-5 rounded-xl shadow"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
         >
-          <h2 className="text-neutral text-xl font-semibold mb-4">User Growth</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart
-              data={
-                Array.isArray(usersData)
-                  ? usersData.map((u) => ({ month: u._id, count: u.count }))
-                  : []
-              }
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
+          <h2 className="text-neutral text-xl font-semibold mb-4">
+            Club Status Distribution
+          </h2>
+
+          <ResponsiveContainer width="100%" height={320}>
+            <PieChart>
+              <Pie
+                data={clubPieData}
+                cx="50%"
+                cy="50%"
+                outerRadius={110}
+                dataKey="value"
+                label
+              >
+                {clubPieData.map((_, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
               <Tooltip />
-              <Line type="monotone" dataKey="count" stroke="#8884d8" />
-            </LineChart>
+              <Legend />
+            </PieChart>
           </ResponsiveContainer>
         </motion.div>
 
@@ -153,23 +175,32 @@ const AdminDashboard = () => {
           className="bg-base-100 p-5 rounded-xl shadow"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
         >
-          <h2 className="text-neutral text-xl font-semibold mb-4">Revenue Generation</h2>
-          <ResponsiveContainer width="100%" height={300}>
+          <h2 className="text-neutral text-xl font-semibold mb-4">
+            Users Over Time
+          </h2>
+
+          <ResponsiveContainer width="100%" height={320}>
             <LineChart
-              data={
-                Array.isArray(revenueData)
-                  ? revenueData.map((r) => ({ month: r._id, total: r.total }))
-                  : []
-              }
+              data={usersData.map((u) => ({
+                month: u._id,
+                users: u.count,
+              }))}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip formatter={(value) => `$${value}`} />
-              <Line type="monotone" dataKey="total" stroke="#82ca9d" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="users"
+                stroke="#0d9488"
+                strokeWidth={3}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
+              />
             </LineChart>
           </ResponsiveContainer>
         </motion.div>

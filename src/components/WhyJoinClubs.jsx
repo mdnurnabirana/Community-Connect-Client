@@ -34,8 +34,8 @@ const WhyJoinClubs = () => {
   return (
     <Container>
       <div className="my-20 text-center p-4">
-        <h2 className="text-neutral text-3xl font-bold mb-6">Why Join a Club?</h2>
-        <p className="text-neutral/95 mb-12 max-w-2xl mx-auto">
+        <h2 className="text-neutral text-3xl sm:text-4xl font-bold text-center mb-3">Why Join a Club?</h2>
+        <p className="text-center text-neutral/95 mb-10 max-w-2xl mx-auto">
           Joining a club can transform your learning, social life, and personal
           growth. Here are a few reasons why it’s worth it:
         </p>

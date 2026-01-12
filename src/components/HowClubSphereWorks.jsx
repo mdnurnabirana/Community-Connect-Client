@@ -34,8 +34,8 @@ const HowClubSphereWorks = () => {
   return (
     <Container>
       <div className="my-20 text-center p-4">
-        <h2 className="text-neutral text-3xl font-bold mb-6">How ClubSphere Works</h2>
-        <p className="text-neutral/95 mb-12 max-w-2xl mx-auto">
+        <h2 className="text-neutral text-3xl sm:text-4xl font-bold text-center mb-3">How ClubSphere Works</h2>
+        <p className="text-center text-neutral/95 mb-10 max-w-2xl mx-auto">
           Joining and participating in a club is simple. Follow these steps to
           get started.
         </p>

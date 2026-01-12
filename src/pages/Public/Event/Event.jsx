@@ -4,7 +4,14 @@ import axios from "axios";
 import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
 import { Link } from "react-router";
-import { FiSearch, FiChevronDown } from "react-icons/fi";
+import {
+  FiSearch,
+  FiChevronDown,
+  FiMapPin,
+  FiCalendar,
+  FiDollarSign,
+  FiUsers,
+} from "react-icons/fi";
 import { motion } from "motion/react";
 
 const Event = () => {
@@ -12,7 +19,7 @@ const Event = () => {
   const [category, setCategory] = useState("");
 
   const {
-    data: events = [],
+    data: eventsData = [],
     isLoading,
     refetch,
   } = useQuery({
@@ -26,7 +33,22 @@ const Event = () => {
         `${import.meta.env.VITE_API_URL}/all-events`,
         { params }
       );
-      return res.data;
+
+      const eventsWithClub = await Promise.all(
+        res.data.map(async (event) => {
+          if (!event.clubId) return { ...event, clubName: "Unknown Club" };
+          try {
+            const clubRes = await axios.get(
+              `${import.meta.env.VITE_API_URL}/club/${event.clubId}`
+            );
+            return { ...event, clubName: clubRes.data.clubName };
+          } catch {
+            return { ...event, clubName: "Unknown Club" };
+          }
+        })
+      );
+
+      return eventsWithClub;
     },
   });
 
@@ -42,7 +64,7 @@ const Event = () => {
 
   return (
     <Container>
-      <title>CC - Event</title>
+      <title>CC - Events</title>
       <div className="my-12">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral text-center mb-3">
           Explore Upcoming Events
@@ -96,39 +118,56 @@ const Event = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 lg:p-0">
-          {events.length === 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 p-4 lg:p-0">
+          {eventsData.length === 0 ? (
             <p className="text-center text-neutral col-span-full">
               No events available at the moment.
             </p>
           ) : (
-            events.map((event, index) => (
+            eventsData.map((event, index) => (
               <motion.div
                 key={event._id}
-                className="bg-base-100 border border-base-300 rounded-xl shadow hover:shadow-lg transition p-5 flex flex-col"
+                className="bg-base-100 border border-base-300 rounded-xl shadow hover:shadow-lg transition p-5 flex flex-col h-full"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.05,
+                  ease: "easeOut",
+                }}
               >
-                <h3 className="text-xl font-bold text-neutral mb-2">
+                <h3 className="text-lg font-bold text-neutral mb-1 min-h-14 line-clamp-2 overflow-hidden">
                   {event.title}
                 </h3>
 
-                <p className="text-sm text-neutral/70 mb-3 line-clamp-2">
+                <p className="text-sm text-neutral/70 mb-2 min-h-10 line-clamp-2 overflow-hidden">
                   {event.description}
                 </p>
 
-                <div className="text-sm text-neutral/80 space-y-1 mb-4">
-                  <p>📍 {event.location}</p>
-                  <p>📅 {new Date(event.eventDate).toLocaleDateString()}</p>
+                <p className="text-sm text-neutral/80 font-medium mb-3 flex items-center gap-2">
+                  <FiUsers size={14} /> {event.clubName}
+                </p>
 
+                <div className="text-sm text-neutral/80 space-y-1 mb-4">
+                  <p className="flex items-center gap-2">
+                    <FiMapPin />
+                    <span className="line-clamp-1 overflow-hidden flex-1">
+                      {event.location}
+                    </span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <FiCalendar />{" "}
+                    {new Date(event.eventDate).toLocaleDateString()}
+                  </p>
                   {event.isPaid ? (
-                    <p className="text-error font-medium">
-                      💰 Fee: ${event.eventFee}
+                    <p className="flex items-center gap-2 text-error font-medium">
+                      <FiDollarSign /> Fee: ${event.eventFee}
                     </p>
                   ) : (
-                    <p className="text-success font-medium">🎉 Free Event</p>
+                    <p className="flex items-center gap-2 text-success font-medium">
+                      <FiDollarSign /> Free Event
+                    </p>
                   )}
                 </div>
 

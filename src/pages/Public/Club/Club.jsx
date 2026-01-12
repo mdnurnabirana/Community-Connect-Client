@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { FiSearch, FiChevronDown } from "react-icons/fi";
 import Loading from "../../../shared/Loading";
 import Container from "../../../shared/Container";
@@ -132,7 +132,11 @@ const Club = () => {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1,
+                  ease: "easeOut",
+                }}
               >
                 <div className="relative aspect-4/3 overflow-hidden">
                   <img
